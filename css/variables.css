@@ -1,0 +1,48 @@
+:root{
+    --color-primary : #D04F4F;
+    --background-primary:#E7E7E7;
+    --background-img: #C7BEBE;
+    --font-family: "Lato", sans-serif;
+    --font-size : 36px;
+    
+}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: var(--font-family);
+    margin: 0 auto;
+}
+html,
+body {
+    height: 100%;
+}
+main{
+    margin: 0 100px;
+    width: 88%;
+    height: 100%;
+}
+
+.flex-column-center{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.flex-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.flex-between{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.flex-around{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
