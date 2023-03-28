@@ -1,8 +1,13 @@
 :root{
     --color-primary : #D04F4F;
+    --color-dark:#000000;
     --background-primary:#E7E7E7;
     --background-img: #C7BEBE;
-    --font-family: "Lato", sans-serif;
+    --background-btn-blue: #3282F7;
+    --background-btn-green : #68D9A4;
+    --background-btn-red:#ED6454;
+    --font-family-primary: "Lato", sans-serif;
+    --font-family-secondary: "Roboto", sans-serif;
     --font-size : 36px;
     
 }
@@ -12,7 +17,7 @@
     padding: 0;
 }
 body {
-    font-family: var(--font-family);
+    font-family: var(--font-family-primary);
     margin: 0 auto;
 }
 html,
@@ -39,10 +44,22 @@ main{
 .flex-between{
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    
 }
 .flex-around{
     display: flex;
     justify-content: space-around;
     align-items: center;
+}
+.flex-end{
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+.max-width-380 {
+    max-width: 380px;
+}
+
+.max-height-364 {
+    max-height: 364px;
 }

@@ -20,7 +20,7 @@ form{
     height: 69px;
     width: 1240px;
     border-radius: 5px;
-    font-family: var(--font-family);
+    font-family: var(--font-family-primary);
   
     background-color: var(--background-primary);
     border: none;
@@ -42,7 +42,7 @@ form{
 }
 section{
     position: absolute;
-    top: 20rem;
+    /* top: 20rem; */
     /* width: 94%; */
     /*
     display: grid;
@@ -55,30 +55,78 @@ section{
 
 
  article{
-    /* height: 364px;
-width: 380px; */
-margin-bottom: 5%;
+    max-width:380px;
+    max-height:364px;
+margin-bottom: 2%;
 border-radius: 5px;
 
 } 
-.article_img{
-     height: 178px;
-    /*width: 380px;
-    left: 0px;
-    top: 0px;        */
+.card-img-top{
+    height: 178px;
     background-color: var(--background-img);
+    object-fit: cover;
+    margin-bottom: 0;
 }
 section.row{
     margin-left: calc(var(--bs-gutter-x) * -1);
+    margin-top: 5%;
+}
+.card{
+    width: 380px;
+    height: 364px;
 }
 
-figcaption{
+.figure-caption{
     background-color: var(--background-primary);
+    overflow: hidden;
+    height: 186px;
+    color: var(--color-dark);
+    border-radius: 0 0 5px 5px;
+}
+figcaption img{
+    margin-right: 7px;
+    
+}
+ul{
+    padding-left: 0;
+    font-size: 12px;
 }
 li{
     list-style: none;
 }
-.card-title, .h2{
+.list-group-item{
+    background-color: transparent;
+    border: none;
+    line-height: 12px;
+    padding: 0 0.7rem;
+    width: 171px; 
+}
+.card-title, h3{
     font-weight: 400;
-    font-size: 1.1rem
+    font-size: 18px;
+}
+.card-text{
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 12px;
+    letter-spacing: 0em;
+    text-align: left;
+    
+}
+.card-text-recipe{
+    font-family: var(--font-family-secondary);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: fit-content;
+}
+
+.img-icon-card{
+    width: 20px;
+    height: 20px;
+}
+.contain-content{
+    contain: content;
+    white-space: break-spaces;
 }

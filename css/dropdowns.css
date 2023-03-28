@@ -1,0 +1,147 @@
+@import url("./variables.css");
+
+/* .section-buttons-tags {
+    position: relative;
+    top: 22%;
+    left: 1%;
+    display: flex;
+    flex-wrap: nowrap;
+} */
+
+.btn-primary {
+    position: relative;
+    height: 69px;
+    width: 170px;
+    left: 0px;
+    top: 0px;
+    border-radius: 5px;
+    border-color: transparent;
+    padding: 23px 72px 24px 22px;
+    justify-content: space-between;
+
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    border-color: transparent;
+
+}
+
+button {
+    margin-right: 3%;
+}
+
+.dropdown-toggle::after {
+    display: none;
+
+}
+
+.ingredient-tags {
+    background-color: var(--background-btn-blue);
+
+}
+
+.ingredient-tags:hover,
+.ingredient-tags:focus {
+    background-color: var(--background-btn-blue);
+
+}
+
+.ustensils-tags {
+    background-color: var(--background-btn-red);
+}
+
+
+
+.appliances-tags {
+    background-color: var(--background-btn-green);
+}
+
+
+
+.list-group {
+    height: 397px;
+    width: 667px;
+    left: 0px;
+    top: 0px;
+    border-radius: 5px;
+    flex-wrap: wrap;
+    overflow: hidden;
+}
+
+.arrow-down {
+    height: 9.880000114440955px;
+    width: 16.00000000000006px;
+    left: 24px;
+    top: 20.546630859375px;
+    border-radius: 0px;
+    position: absolute;
+    left: 75%;
+    right: -25%;
+    top: 47%;
+    bottom: 4.92%;
+    transform: rotate(-180deg);
+}
+
+.arrow-up {
+    height: 9.880000114440955px;
+    width: 16.00000000000006px;
+    left: 24px;
+    top: 20.546630859375px;
+    border-radius: 0px;
+    position: absolute;
+    left: 95%;
+    right: -35%;
+    top: 5%;
+    bottom: 4.92%;
+    transform: rotate(0deg);
+}
+
+.dropdown-form {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: none;
+
+}
+
+.form-control {
+    width: 100%;
+    background-color: transparent;
+    height: auto;
+    width: 45%;
+
+    border: none;
+    opacity: 0.5;
+    position:absolute;
+    top: 3%;
+    left: 0;
+
+}
+.dropdown{
+    position: relative;
+    TOP: 9%;
+    left: 1%;
+}
+.dropdown-menu {
+    appearance: none;
+    position: absolute;
+    left: -2%;
+    top: -4%;
+    background: var(--background-btn-blue);
+    color: white;
+}
+
+a.list-group-item {
+    font-size: 18px;
+    color: white;
+    line-height: 22px;
+}
+.dropdown-menu input[type="text"]::placeholder {
+    color: #fff;
+    font-size: 18px;
+  }
+  .mb-2 {
+    margin-bottom: 1.5rem!important;
+}

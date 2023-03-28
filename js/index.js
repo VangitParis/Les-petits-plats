@@ -1,39 +1,82 @@
 import { recipes } from "./recipes.js";
+import { filterRecipesByText } from "./algo1parboucles.js";
+import { createButtons} from "./dropdowns.js";
+const main = document.getElementById("main");
+const section = document.createElement("section");
+section.classList.add("container", "row");
 
-async function displayRecipes() {
-    const main = document.getElementById("main");
-    const section = document.createElement("section");
-    section.classList.add("container", "row");
-    // section.setAttribute("style", "--bs-gap: .25rem 1rem; --bs-columns:3;")
-    
-    recipes.forEach(recipe => {
-        const article = `
+// Fonction qui affiche toutes les recettes
+function displayRecipes(recipes) {
+  recipes.forEach((recipe) => {
+    const article = `
         <article class="container col-sm-4 col-lg-4 card-group">
-            <figure class="card">
-                <img class="card-img-top article_img" >
-                <figcaption class="card-body col">
-                    <div class="flex-between">
-                    <h2 class="card-title">${ recipe.name }</h2>
-                    <div class="container">
-                        <img src="../assets/clock.svg" alt=""></img> 
-                        <p class="card-text">${ recipe.time } min</p>
+            <figure class="figure">
+                <img class="card-img-top figure-img" >
+                <figcaption class="figure-caption">
+                    <div class="card-title d-flex bd-highlight align-items-center ">
+                        <h3 class="me-auto p-2 flex-grow-1 bd-highlight text-truncate">${recipe.name}</h3>
+                        <div class="d-flex p-2 bd-highlight align-items-center">
+                            <img class="img-icon-card "src="../assets/clock.svg" alt=""></img> 
+                            <p class="mb-0">${recipe.time} min</p>
+                        </div>
                     </div>
+                    <div class="d-flex card-text align-top mb-3 d-inline-block h-50">
+                        <ul "list-group">
+                            ${recipe.ingredients
+                              .map(
+                                (ingredient) => `
+                            <li class="list-group-item">
+                            <strong>${ingredient.ingredient}</strong>
+                            ${
+                              ingredient.quantity
+                                ? ` : ${ingredient.quantity}
+                            ${
+                              ingredient.unit === "grammes"
+                                ? "g"
+                                : ingredient.unit === "litres"
+                                ? "L"
+                                : ingredient.unit === "cuillères à soupe"
+                                ? "c. à soupe"
+                                : ingredient.unit
+                                ? ingredient.unit.replace(" ", "")
+                                : ""
+                            }`
+                                : ""
+                            }</li>`
+                              )
+                              .join("")}
+                        </ul>
+                        <p class="contain-content card-text-recipe">${
+                          recipe.description
+                        }</p>
                     </div>
-                    <div class="col flex-around">
-                    <ul "col list-group list-group-flush ">
-                        ${ recipe.ingredients.map(ingredient => `<li "list-group-item">${ ingredient.ingredient }</li>`).join("") }
-                    </ul>
-                    <p class="card-text">${ recipe.description }</p>
-                    </div>
-                    <p class="card-text">Pour ${ recipe.servings } personne(s)</p>
                 </figcaption>
             </figure>
         </article>
-        `
-        section.innerHTML += `${ article }`;
-        main.appendChild(section)
-
-       
-    });
+        `;
+    section.innerHTML += `${article}`;
+    main.appendChild(section);
+  });
 }
-displayRecipes();
+
+// Fonction qui gère la recherche et le filtre des recettes
+function handleSearch(event) {
+  event.preventDefault();
+
+  const searchInput = document.getElementById("searchInput");
+  const searchText = searchInput.value.toLowerCase().trim();
+  // appelle de la fonction qui effectue le tri
+  const filteredRecipes = filterRecipesByText(recipes, searchText);
+  // on vide la section pour ensuite afficher les recettes triées
+  section.innerHTML = "";
+  displayRecipes(filteredRecipes);
+  
+}
+
+// Afficher toutes les recettes initialement
+createButtons(recipes);
+displayRecipes(recipes);
+
+// Ajouter un événement de soumission sur le formulaire
+const searchForm = document.getElementById("searchForm");
+searchForm.addEventListener("submit", handleSearch);
