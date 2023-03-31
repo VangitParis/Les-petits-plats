@@ -1,5 +1,5 @@
 //methode filter
-function filterRecipesByText(recipes, searchText) {
+export function filterRecipesByText(recipes, searchText) {
     // Utiliser la méthode filter pour filtrer les recettes en fonction du texte de recherche
     const filteredRecipes = recipes.filter(recipe =>
       recipe.name.includes(searchText) ||
