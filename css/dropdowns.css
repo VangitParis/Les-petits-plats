@@ -1,12 +1,6 @@
 @import url("./variables.css");
 
-/* .section-buttons-tags {
-    position: relative;
-    top: 22%;
-    left: 1%;
-    display: flex;
-    flex-wrap: nowrap;
-} */
+
 
 .btn-primary {
     position: relative;
@@ -27,8 +21,8 @@
 
 }
 
-button {
-    margin-right: 3%;
+.btn {
+    margin-right: 2%;
 }
 
 .dropdown-toggle::after {
@@ -66,7 +60,7 @@ button {
     top: 0px;
     border-radius: 5px;
     flex-wrap: wrap;
-    overflow: hidden;
+    overflow-x: scroll;
 }
 
 .arrow-down {
@@ -116,13 +110,14 @@ button {
     opacity: 0.5;
     position:absolute;
     top: 3%;
-    left: 0;
+    left: -5px;
 
 }
 .dropdown{
     position: relative;
-    TOP: 9%;
+    top: 9%;
     left: 1%;
+    width: 98%;
 }
 .dropdown-menu {
     appearance: none;
@@ -136,7 +131,11 @@ button {
 a.list-group-item {
     font-size: 18px;
     color: white;
-    line-height: 22px;
+    line-height: 2.4rem;
+    padding: 0;
+    text-overflow: ellipsis;
+    white-space: break-spaces;
+
 }
 .dropdown-menu input[type="text"]::placeholder {
     color: #fff;
@@ -145,3 +144,26 @@ a.list-group-item {
   .mb-2 {
     margin-bottom: 1.5rem!important;
 }
+.dropdown-menu-sm-size{
+    height: 97px;
+width: 223px;
+left: 0px;
+top: 0px;
+border-radius: 5px;
+
+}
+
+input#inputButton {
+    position: relative;
+    background: transparent;
+    border: none;
+    color: white;
+    width: 100%;
+}
+input#inputButton:visited, input#inputButton:focus-visible{
+    text-decoration: none;
+    outline: none;
+}
+input#inputButton[type="text"]::placeholder {
+    color: #fff;
+  }

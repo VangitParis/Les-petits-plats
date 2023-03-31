@@ -2,7 +2,7 @@
 function filterRecipesByText(recipes, searchText) {
     // Utiliser la méthode filter pour filtrer les recettes en fonction du texte de recherche
     const filteredRecipes = recipes.filter(recipe =>
-      recipe.title.includes(searchText) ||
+      recipe.name.includes(searchText) ||
       recipe.ingredients.includes(searchText) ||
       recipe.description.includes(searchText)
     );

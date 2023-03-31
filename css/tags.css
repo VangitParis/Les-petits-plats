@@ -1,0 +1,36 @@
+@import url("./variables.css");
+
+
+#section-tag{
+    position: relative;
+    top: 10%;
+    display: flex;
+    flex-wrap: wrap;
+    max-height: 300px;
+}
+.icon-close-tag{
+    width: 20px;
+    height: 20px;
+}
+
+
+.btn-sm{
+    height: 37px;
+    width: 12%;
+    left: 0px;
+    top: 0px;
+    border-radius: 5px;
+    justify-content: space-between;
+    align-items:center;
+    color: white;
+                    
+}
+.tag-ingredient{
+    background-color: var(--background-btn-blue);
+}
+.tag-appliance{
+    background-color: var(--background-btn-green);
+}
+.tag-ustensil{
+    background-color: var(--background-btn-red);
+}

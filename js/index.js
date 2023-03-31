@@ -1,9 +1,9 @@
 import { recipes } from "./recipes.js";
-import { filterRecipesByText } from "./algo1parboucles.js";
-import { createButtons} from "./dropdowns.js";
+import { filterRecipesByText } from "./algorithms.js";
+import { Dropdown } from "./dropdowns.js";
+
 const main = document.getElementById("main");
-const section = document.createElement("section");
-section.classList.add("container", "row");
+const section = document.getElementById("cards");
 
 // Fonction qui affiche toutes les recettes
 function displayRecipes(recipes) {
@@ -14,7 +14,9 @@ function displayRecipes(recipes) {
                 <img class="card-img-top figure-img" >
                 <figcaption class="figure-caption">
                     <div class="card-title d-flex bd-highlight align-items-center ">
-                        <h3 class="me-auto p-2 flex-grow-1 bd-highlight text-truncate">${recipe.name}</h3>
+                        <h3 class="me-auto p-2 flex-grow-1 bd-highlight text-truncate">${
+                          recipe.name
+                        }</h3>
                         <div class="d-flex p-2 bd-highlight align-items-center">
                             <img class="img-icon-card "src="../assets/clock.svg" alt=""></img> 
                             <p class="mb-0">${recipe.time} min</p>
@@ -70,13 +72,13 @@ function handleSearch(event) {
   // on vide la section pour ensuite afficher les recettes triées
   section.innerHTML = "";
   displayRecipes(filteredRecipes);
-  
 }
-
-// Afficher toutes les recettes initialement
-createButtons(recipes);
-displayRecipes(recipes);
 
 // Ajouter un événement de soumission sur le formulaire
 const searchForm = document.getElementById("searchForm");
 searchForm.addEventListener("submit", handleSearch);
+
+// Afficher toutes les recettes initialement
+new Dropdown(recipes);
+
+displayRecipes(recipes);
