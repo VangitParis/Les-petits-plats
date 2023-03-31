@@ -1,4 +1,4 @@
-//methode filter
+//méthode filter
 function filterRecipesByText(recipes, searchText) {
     // Utiliser la méthode filter pour filtrer les recettes en fonction du texte de recherche
     const filteredRecipes = recipes.filter(recipe =>
@@ -23,5 +23,4 @@ function filterRecipesByText(recipes, searchText) {
     return filteredRecipes;
   }
 
-  
   
