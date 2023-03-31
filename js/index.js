@@ -1,5 +1,5 @@
 import { recipes } from "./recipes.js";
-import { filterRecipesByText } from "./algorithms.js";
+import { filterRecipesByText } from "./algorithmSearchBar.js";
 import { Dropdown } from "./dropdowns.js";
 
 const main = document.getElementById("main");
