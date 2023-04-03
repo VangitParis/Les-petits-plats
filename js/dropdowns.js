@@ -103,7 +103,8 @@ export class Dropdown {
     });
 
     const ingredientsLinks = Array.from(document.getElementsByClassName("list-group-item"));
-    new Tags(ingredientsLinks);
+    const filteredByTags = new Tags(ingredientsLinks, this.recipes);
+    const filtered = filteredByTags.displayTags();
   }
 
   getAppliances() {
@@ -135,9 +136,9 @@ export class Dropdown {
           this.appliancesList.appendChild(listItem);
           listItem.appendChild(link);
         });
-        
         const appliancesLinks = Array.from(document.getElementsByClassName("list-group-item"));
-        new Tags(appliancesLinks);
+        const filteredByTags = new Tags(appliancesLinks, this.recipes);
+        const filtered = filteredByTags.displayTags();
       }
       getUstensils() {
         // Récupérer tous les ustensiles à partir des recettes
@@ -173,7 +174,8 @@ export class Dropdown {
           listItem.appendChild(link);
         });
         const ustensilsLinks = Array.from(document.getElementsByClassName("list-group-item"));
-        new Tags(ustensilsLinks);
+        const filteredByTags = new Tags(ustensilsLinks, this.recipes);
+        const filtered = filteredByTags.displayTags();
       }
   
   
