@@ -9,7 +9,8 @@
     --font-family-primary: "Lato", sans-serif;
     --font-family-secondary: "Roboto", sans-serif;
     --font-size : 36px;
-    --hover-color: lighten(var(--color-dark), 20%);
+  
+
 
 }
 * {

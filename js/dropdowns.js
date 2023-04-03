@@ -263,64 +263,7 @@ export class Dropdown {
         });
       });
     });
-    // searchInDropdown() {
-    //   this.searchInput.addEventListener("input", () => {
-    //     let searchTerm = this.searchInput.value.trim().toLowerCase();
-
-    //     // on vide la liste des ingrédients et on affiche les ingrédients dès 3 caractères saisis dans le champ
-    //     if (searchTerm.length < 3) {
-    //       this.ingredientsList.innerHTML = "";
-    //       return;
-    //     }
-    //     // Réinitialiser la liste des ingrédients uniques
-    //     this.uniqueIngredientSet = new Set();
-
-    //     // Obtenir la liste des ingrédients dans le dropdown
-    //     // et Parcourir chaque ingredient et le cacher si il ne correspond pas à la recherche
-    //     this.uniqueIngredients.forEach(ingredient => {
-
-    //       // let text = ingredient.textContent;
-    //       // Vérifier si le texte de l'ingrédient contient la recherche exacte
-    //         if (ingredient.textContent === searchTerm) {
-    //           // Si la recherche correspond à l'ingrédient, afficher l'ingrédient
-    //           ingredient.textContent.style.display = "";
-    //         }
-    //         // Ajouter l'ingrédient à l'ensemble des ingrédients uniques
-    //         let ingredientUnique = ingredient.trim();
-    //         if (!this.uniqueIngredientSet.has(ingredientUnique)) {
-    //           this.uniqueIngredientSet.add(ingredientUnique);
-
-    //       } else {
-    //         // Sinon, masquer l'ingrédient
-    //         ingredient.style.display = "none";
-    //       }
-    //     });
-
-    //     // Afficher la liste des ingrédients uniques dans le dropdown
-    //     this.ingredientsList.innerHTML = "";
-    //     this.uniqueIngredientSet.forEach(ingredient => {
-    //       // Vérifier si le texte de l'ingrédient contient la recherche exacte
-    //       for (let i = 0; i < ingredient.length; i++) {
-    //         const ingredientSearch = ingredient.textContent[i];
-    //         // Vérifier si le texte de l'ingrédient est égal au terme de recherche
-    //         if (ingredientSearch.textContent === searchTerm) {
-    //           // Si la recherche correspond à l'ingrédient, afficher l'ingrédient
-    //           return ingredientSearch
-    //         }
-
-    //         const listItem = document.createElement("li");
-    //         listItem.classList.add("list-item");
-    //         const link = document.createElement("a");
-    //         link.classList.add("list-group-item");
-    //         link.textContent = ingredientSearch.textContent;
-    //         console.log(link.textContent);
-    //         this.ingredientsList.appendChild(listItem);
-    //         listItem.appendChild(link);
-
-    //       }
-    //     });
-    //   });
-    // }
+   
   }
 
   closeDropdown() {
