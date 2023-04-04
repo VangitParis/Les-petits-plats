@@ -29,10 +29,10 @@ export class filterRecipes {
         .replace(/[éèêë]/g, "e").replace(/[îï]/g, "i").replace(/[ôö]/g, "o")
         .replace(/[ùûü]/g, "u").replace(/[ç]/g, "c");
 
-        if (name.indexOf(searchTerm) !== -1 || description.split(' ').some(word => word === searchTerm)) {
-          filteredRecipes.push(recipe);
-          continue;
-         // Passer à la recette suivante si le terme de recherche est déjà trouvé dans le nom ou la description
+      if (name.indexOf(searchTerm) !== -1 || description.split(' ').some(word => word === searchTerm)) {
+        filteredRecipes.push(recipe);
+        continue;
+        // Passer à la recette suivante si le terme de recherche est déjà trouvé dans le nom ou la description
       }
 
       // Vérifier si le terme de recherche est présent dans le nom d'un ingrédient
@@ -47,11 +47,21 @@ export class filterRecipes {
         }
       }
     }
-
+    // si aucun résultat n'est trouvé, afficher un message
+    if (filteredRecipes.length === 0) {
+      console.log(filteredRecipes);
+      const section = document.getElementById("cards");
+      // const message = document.createElement("p");
+      // const divMessage = document.createElement("div");
+      section.innerHTML  = `<p>Aucune recette ne correspond à votre critère... vous pouvez chercher \"tarte aux pommes\", \"poisson\", etc</p> `
+      // message.classList.add("error");
+      // console.log(message);
+      // = message
+      // divMessage.innerHTML= message;
+    } 
     return filteredRecipes;
-  }
 
-  
+  }
 
 
   // Filtrage par mots clés

@@ -3,7 +3,6 @@
 
 #section-tag{
     position: relative;
-    top: 10%;
     display: flex;
     flex-wrap: wrap;
     max-height: 300px;

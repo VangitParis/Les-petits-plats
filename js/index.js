@@ -74,12 +74,14 @@ function handleSearch(event) {
     // on vide la section pour ensuite afficher les recettes triées
     section.innerHTML = "";
     displayRecipes(filteredRecipesByText, filteredRecipesByKeyword);
+
 }
 
 // Ajouter un événement de saisie sur la barre de recherche
 const searchInput = document.getElementById("searchInput");
+const searchButton = document.getElementById("searchBtn");
 searchInput.addEventListener("input", handleSearch);
-
+searchButton.addEventListener("submit", handleSearch);
 // Afficher toutes les recettes initialement
 new Dropdown(recipes);
 displayRecipes(recipes);
