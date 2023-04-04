@@ -1,5 +1,12 @@
-//méthode filter
-export function filterRecipesByText(recipes, searchText) {
+export class filterRecipes {
+  constructor(recipes, searchText, keyword) {
+    this.recipes = recipes;
+
+    this.filterRecipesByText(recipes, searchText);
+    this.filterRecipesByKeywords(recipes, keyword);
+  }
+  //méthode filter
+  filterRecipesByText(recipes, searchText) {
     // Utiliser la méthode filter pour filtrer les recettes en fonction du texte de recherche
     const filteredRecipes = recipes.filter(recipe =>
       recipe.name.includes(searchText) ||
@@ -10,8 +17,7 @@ export function filterRecipesByText(recipes, searchText) {
     // Retourner la liste de recettes filtrées
     return filteredRecipes;
   }
-  
-  function filterRecipesByKeywords(recipes, keyword) {
+  filterRecipesByKeywords(recipes, keyword) {
     // Utiliser la méthode filter pour filtrer les recettes en fonction des mots clés de recherche
     const filteredRecipes = recipes.filter(recipe =>
       recipe.ingredients.includes(keyword) ||
@@ -23,4 +29,4 @@ export function filterRecipesByText(recipes, searchText) {
     return filteredRecipes;
   }
 
-  
+}
