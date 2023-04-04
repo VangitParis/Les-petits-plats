@@ -31,7 +31,7 @@
       </a>
     </nav>
   </header>
-  <main id="main" class="container d-grid gap-3">
+  <main id="main" class="container gap-3">
     <form class="row container mt-5 mb-5 p-2 d-flex" action="#" method="GET" id="searchForm">
       <input type="text" placeholder="Rechercher une recette" name="search" id="searchInput" class="search-input"
         value="">
@@ -54,7 +54,7 @@
             <img src="../assets/arrowbtn.svg" class="arrow-up" alt="">
           </div>
           <div class="ingredients-list mx-sm-1">
-            <ul id="ingredientsList" class="list-group p-1" aria-labelledby="dropdownButtonIngredients"></ul>
+            <ul id="ingredientsList" class="list-group list-ingredients p-1" aria-labelledby="dropdownButtonIngredients"></ul>
           </div>
         </div>
       </button>
@@ -69,11 +69,12 @@
               aria-label="Rechercher un appareil" id="inputSearch">
             <img src="../assets/arrowbtn.svg" class="arrow-up" alt="">
           </div>
-          <div class="appliances-list">
-            <ul id="appliancesList" class="list-group" aria-labelledby="dropdownButtonAppliances"></ul>
+          <div class="appliances-list mx-sm-1">
+            <ul id="appliancesList" class="list-group list-appliances p-1" aria-labelledby="dropdownButtonAppliances"></ul>
           </div>
       </button>
-      <button class="btn btn-primary dropdown-toggle ustensils-tags" id="dropdownButtonUstensils" type="button">
+      <button class="btn btn-primary dropdown-toggle ustensils-tags" id="dropdownButtonUstensils" type="button"
+        data-toggle="dropdown" aria-expanded="false">
         <span>Ustensiles</span>
         <img src="../assets/arrowbtn.svg" alt="" class="arrow-down">
         <div class="dropdown-menu dropdown-ustensils">
@@ -83,8 +84,8 @@
               aria-label="Rechercher un ustensile" id="inputSearch">
             <img src="../assets/arrowbtn.svg" class="arrow-up" alt="">
           </div>
-          <div class="ustensils-list">
-            <ul id="ustensilsList" class="list-group" aria-labelledby="dropdownButtonUstensils"></ul>
+          <div class="ustensils-list mx-sm-1">
+            <ul id="ustensilsList" class="list-group list-ustensils p-1" aria-labelledby="dropdownButtonUstensils"></ul>
           </div>
       </button>
     </section>
