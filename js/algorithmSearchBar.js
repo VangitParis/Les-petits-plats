@@ -9,9 +9,7 @@ export class filterRecipes {
   filterRecipesByText(recipes, searchText) {
     const filteredRecipes = [];
 
-    const searchTerm = searchText.trim().toLowerCase().replace(/[àáâä]/g, "a")
-      .replace(/[éèêë]/g, "e").replace(/[îï]/g, "i").replace(/[ôö]/g, "o")
-      .replace(/[ùûü]/g, "u").replace(/[ç]/g, "c");
+    const searchTerm = searchText.trim().toLowerCase().normalize("NFD").replace(/p{Diacritic}/g, "");
 
     // Vérifier si le terme de recherche contient un pluriel
     const pluralSearchTerm = searchTerm.endsWith("s");
@@ -21,13 +19,9 @@ export class filterRecipes {
       const recipe = recipes[i];
 
       // Vérifier si le terme de recherche est présent dans le nom de la recette ou dans la description
-      const name = recipe.name.trim().toLowerCase().replace(/[àáâä]/g, "a")
-        .replace(/[éèêë]/g, "e").replace(/[îï]/g, "i").replace(/[ôö]/g, "o")
-        .replace(/[ùûü]/g, "u").replace(/[ç]/g, "c");
+      const name = recipe.name.trim().toLowerCase().normalize("NFD").replace(/p{Diacritic}/g, "");
 
-      const description = recipe.description.trim().toLowerCase().replace(/[àáâä]/g, "a")
-        .replace(/[éèêë]/g, "e").replace(/[îï]/g, "i").replace(/[ôö]/g, "o")
-        .replace(/[ùûü]/g, "u").replace(/[ç]/g, "c");
+      const description = recipe.description.trim().normalize("NFD").replace(/p{Diacritic}/g, "");
 
       if (name.indexOf(searchTerm) !== -1 || description.split(' ').some(word => word === searchTerm)) {
         filteredRecipes.push(recipe);
@@ -38,8 +32,7 @@ export class filterRecipes {
       // Vérifier si le terme de recherche est présent dans le nom d'un ingrédient
       for (let j = 0; j < recipe.ingredients.length; j++) {
         const ingredientName = recipe.ingredients[j].ingredient.trim().toLowerCase()
-          .replace(/[àáâä]/g, "a").replace(/[éèêë]/g, "e").replace(/[îï]/g, "i")
-          .replace(/[ôö]/g, "o").replace(/[ùûü]/g, "u").replace(/[ç]/g, "c");
+        .normalize("NFD").replace(/p{Diacritic}/g, "");
         const pluralIngredientName = ingredientName.endsWith("s");
         if (ingredientName.includes(searchTerm) || (pluralSearchTerm && pluralIngredientName && searchTerm === ingredientName.slice(0, -1))) {
           filteredRecipes.push(recipe);
