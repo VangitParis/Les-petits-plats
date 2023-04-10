@@ -17,7 +17,7 @@
     width: 170px;
     left: 0px;
     top: 0px;
-    margin-right: 1%;
+    display: inline-table;
   
 }
 .btn-primary:active {
@@ -71,7 +71,7 @@
 
 .btn-group.ingredients.active+.btn-group
 {
-    margin-left: 31.6rem;
+    margin-left: 30.6rem;
 }
 
 .btn-group.appliances.active+.btn-group{
