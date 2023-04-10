@@ -4,16 +4,16 @@ export class Dropdown {
   constructor(recipes) {
     this.recipes = recipes;
 
-    this.dropdownButtonIngredients = document.getElementById("dropdownButtonIngredients");
-    this.dropdownButtonAppliances = document.getElementById("dropdownButtonAppliances");
-    this.dropdownButtonUstensils = document.getElementById("dropdownButtonUstensils");
+    this.buttonGroupIngredients = document.getElementsByClassName("btn-group ingredients")[0];
+    this.buttonGroupAppliances = document.getElementsByClassName("btn-group appliances")[0];
+    this.buttonGroupUstensils = document.getElementsByClassName("btn-group ustensils")[0]
 
     this.ingredientsList = document.getElementById("ingredientsList");
     this.appliancesList = document.getElementById("appliancesList");
     this.ustensilsList = document.getElementById("ustensilsList");
 
     this.dropdownMenu = document.querySelectorAll(".dropdown-menu");
-    this.searchInput = document.getElementById("inputSearch");
+    this.searchInput = document.getElementById("inputSearchIngredients");
     this.ingredientsList = document.getElementsByClassName("list-group")[0];
    
     this.addDropdownButtonListener();
@@ -23,12 +23,12 @@ export class Dropdown {
   }
 
   addDropdownButtonListener() {
-    this.dropdownButtonIngredients.addEventListener("click", (e) => {
+    this.buttonGroupIngredients.addEventListener("click", (e) => {
       e.preventDefault();
-      this.dropdownButtonIngredients.classList.toggle("active");
+      this.buttonGroupIngredients.classList.toggle("active");
      
 
-      if (this.dropdownButtonIngredients.classList.contains("active")) {
+      if (this.buttonGroupIngredients.classList.contains("active")) {
         const dropdownMenu = document.getElementsByClassName("dropdown-ingredients")[0];
         dropdownMenu.style.display = "block";
 
@@ -39,10 +39,10 @@ export class Dropdown {
     });
   
 
-    this.dropdownButtonAppliances.addEventListener("click", (e) => {
+    this.buttonGroupAppliances.addEventListener("click", (e) => {
       e.preventDefault();
-      this.dropdownButtonAppliances.classList.toggle("active");
-      if (this.dropdownButtonAppliances.classList.contains("active")) {
+      this.buttonGroupAppliances.classList.toggle("active");
+      if (this.buttonGroupAppliances.classList.contains("active")) {
        const dropdownMenu = document.getElementsByClassName("dropdown-appliances")[0];
         dropdownMenu.style.display = "block";
 
@@ -53,10 +53,10 @@ export class Dropdown {
     
     });
 
-    this.dropdownButtonUstensils.addEventListener("click", (e) => {
+    this.buttonGroupUstensils.addEventListener("click", (e) => {
       e.preventDefault();
-      this.dropdownButtonUstensils.classList.toggle("active");
-      if (this.dropdownButtonUstensils.classList.contains("active")) {
+      this.buttonGroupUstensils.classList.toggle("active");
+      if (this.buttonGroupUstensils.classList.contains("active")) {
         const dropdownMenu = document.getElementsByClassName("dropdown-ustensils")[0];
         dropdownMenu.style.display = "block";
 
@@ -269,9 +269,9 @@ export class Dropdown {
         !e.target.matches(".dropdown-toggle") &&
         !e.target.matches("#inputSearch")
       ) {
-        this.dropdownButtonIngredients.classList.remove("active");
-        this.dropdownButtonAppliances.classList.remove("active");
-        this.dropdownButtonUstensils.classList.remove("active");
+        this.buttonGroupIngredients.classList.remove("active");
+        this.buttonGroupAppliances.classList.remove("active");
+        this.buttonGroupUstensils.classList.remove("active");
         this.dropdownMenu.forEach(menu => {
           if (menu.style.display === "block") {
             menu.style.display = "none";
