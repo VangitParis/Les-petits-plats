@@ -1,4 +1,5 @@
 import { recipes } from "./recipes.js";
+import { filterRecipes } from "./algorithmSearchBar.js";
 import { Dropdown } from "./dropdowns.js";
 
 const main = document.getElementById("main");
