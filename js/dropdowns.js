@@ -242,24 +242,18 @@ export class Dropdown {
             if (matches.length > 0) {
               for (let j = 0; j < matches.length; j++) {
                 searchResults.push(matches[j]); // stocke tous les résultats dans le tableau
-              }
+              
 
-              if (searchResults.length > 0) {
-                console.log("Résultats de la recherche : ");
-                for (let i = 0; i < searchResults.length; i++) {
-                  console.log(searchResults[i]);
-                }
-              } else {
-                console.log("Aucun résultat trouvé.");
+              
+                //Ajouter une classe à l'élément li pour faciliter la recherche ultérieure
+                const listItem = document.createElement("li");
+                const link = document.createElement("a");
+                listItem.classList.add("list-item");
+                link.classList.add("list-group-item");
+                link.textContent = searchResults;
+                this.ingredientsList.appendChild(listItem);
+                listItem.appendChild(link);
               }
-              //Ajouter une classe à l'élément li pour faciliter la recherche ultérieure
-              const listItem = document.createElement("li");
-              const link = document.createElement("a");
-              listItem.classList.add("list-item");
-              link.classList.add("list-group-item");
-              link.textContent = searchResults;
-              this.ingredientsList.appendChild(listItem);
-              listItem.appendChild(link);
             }
           }
         });
