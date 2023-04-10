@@ -18,10 +18,7 @@
     left: 0px;
     top: 0px;
     margin-right: 1%;
-    display: block;
-}.btn-group{
-    height: 69px;
-    width: 170px;
+  
 }
 .btn-primary:active {
     border-color: transparent;
@@ -34,9 +31,7 @@
     background-color: inherit;
 }
 
-.btn {
-    margin-right: 2%;
-}
+
 
 .dropdown-toggle::after {
     display: none;
@@ -147,8 +142,6 @@ button span{
     width: 100%;
     background-color: transparent;
     height: auto;
-  
-
     border: none;
     opacity: 0.5;
     position: absolute;

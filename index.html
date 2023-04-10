@@ -41,11 +41,12 @@
     </form>
     <div id="section-tag" class="p2 mb-0 mt-1"></div>
     <section class="container dropdown row p-2 mt-1">
-      <button class="btn btn-primary dropdown-toggle ingredients-tags d-flex" id="dropdownButtonIngredients"
-        type="button" data-toggle="dropdown" aria-expanded="false">
-        <input type="text" name="search" id="inputButton" class="search-input-button" placeholder="Ingrédients"
-          value="">
-        <img src="../assets/arrowbtn.svg" alt="" class="arrow-down">
+      <div class="btn-group ingredients">
+        <button class="btn btn-primary dropdown-toggle ingredients-tags d-flex" id="dropdownButtonIngredients"
+          type="button" data-toggle="dropdown" aria-expanded="false">
+          <span>Ingrédients</span>
+          <img src="../assets/arrowbtn.svg" alt="" class="arrow-down">
+        </button>
         <div class="dropdown-menu dropdown-ingredients">
           <div class="form-group mx-sm-1 mb-2">
             <label for="inputSearchIngredients"></label>
@@ -58,11 +59,13 @@
               aria-labelledby="dropdownButtonIngredients"></ul>
           </div>
         </div>
-      </button>
-      <button class="btn btn-primary dropdown-toggle appliances-tags" id="dropdownButtonAppliances" type="button"
-        data-toggle="dropdown" aria-expanded="false">
-        <span>Appareils</span>
-        <img src="../assets/arrowbtn.svg" alt="" class="arrow-down">
+      </div>
+      <div class="btn-group appliances">
+        <button class="btn btn-primary dropdown-toggle appliances-tags" id="dropdownButtonAppliances" type="button"
+          data-toggle="dropdown" aria-expanded="false">
+          <span>Appareils</span>
+          <img src="../assets/arrowbtn.svg" alt="" class="arrow-down">
+        </button>
         <div class="dropdown-menu dropdown-appliances">
           <div class="form-group mx-sm-3 mb-2">
             <label for="inputSearchAppliances"></label>
@@ -93,14 +96,17 @@
             <ul id="ustensilsList" class="list-group list-ustensils p-1" aria-labelledby="dropdownButtonUstensils">
             </ul>
           </div>
-      </button>
+        </div>
+      </div>
+
     </section>
     <section id="cards" class="container row p-2 mt-2"></section>
   </main>
   <!-- Bootstrap JS bundle →-->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-    crossorigin="anonymous"></script>
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+    <script type="module" src="./js/index.js"></script>
 </body>
 
 
