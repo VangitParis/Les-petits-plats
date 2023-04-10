@@ -15,6 +15,13 @@
 .btn-group{
     height: 69px;
     width: 170px;
+    left: 0px;
+    top: 0px;
+    margin-right: 1%;
+    display: block;
+}.btn-group{
+    height: 69px;
+    width: 170px;
 }
 .btn-primary:active {
     border-color: transparent;
@@ -38,9 +45,6 @@
 
 .ingredients-tags {
     background-color: var(--background-btn-blue);
-    
-
-
 }
 
 .ingredients-tags:hover,
@@ -70,12 +74,12 @@
 
 }
 
-.ingredients-tags.active+.appliances-tags
+.btn-group.ingredients.active+.btn-group
 {
     margin-left: 31.6rem;
 }
 
-.appliances-tags.active+.ustensils-tags{
+.btn-group.appliances.active+.btn-group{
     margin-left: 10.6rem;
 }
 .list-group{
@@ -95,17 +99,23 @@
 .list-ustensils{
     width: 323px;
 }
-
+.form-group label{
+    height: 22px;
+    width: 76px;
+}
+button span{
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 22px;
+}
 .arrow-down {
     height: 9.880000114440955px;
     width: 16.00000000000006px;
-    left: 24px;
-    top: 20.546630859375px;
     border-radius: 0px;
     position: absolute;
     left: 75%;
     right: -25%;
-    top: 47%;
+    top: 45%;
     bottom: 4.92%;
     transform: rotate(-180deg);
 }
@@ -137,7 +147,7 @@
     width: 100%;
     background-color: transparent;
     height: auto;
-    width: 45%;
+  
 
     border: none;
     opacity: 0.5;
@@ -149,15 +159,13 @@
 
 .dropdown {
     position: relative;
-    left: 1%;
-    width: 98%;
+    width: 99%;
     flex-wrap: nowrap;
 }
 
 .dropdown-menu {
     appearance: none;
     position: absolute;
-    left: -2%;
     top: -4%;
     color: white;
    
