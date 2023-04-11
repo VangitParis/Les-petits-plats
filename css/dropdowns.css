@@ -31,7 +31,12 @@
     background-color: inherit;
 }
 
-
+.btn:focus{
+    box-shadow: none;
+}
+.btn:hover{
+    color: #fff;
+}
 
 .dropdown-toggle::after {
     display: none;
@@ -71,11 +76,11 @@
 
 .btn-group.ingredients.active+.btn-group
 {
-    margin-left: 30.6rem;
+    margin-left: 19.8rem;
 }
 
 .btn-group.appliances.active+.btn-group{
-    margin-left: 10.6rem;
+    margin-left: 11.3rem;
 }
 .list-group{
     height: 397px;
@@ -86,13 +91,13 @@
     overflow-x: scroll;
 }
 .list-ingredients{
-    width: 667px;
+    width: 490px;
 }
 .list-appliances{
-    width: 323px;
+    width: 340px;
 }
 .list-ustensils{
-    width: 323px;
+    width: 340px;
 }
 .form-group label{
     height: 22px;
@@ -122,9 +127,9 @@ button span{
     top: 20.546630859375px;
     border-radius: 0px;
     position: absolute;
-    left: 95%;
+    left: 93%;
     right: -35%;
-    top: 5%;
+    top: 7%;
     bottom: 4.92%;
     transform: rotate(0deg);
 }
@@ -139,14 +144,15 @@ button span{
 }
 
 .form-control {
-    width: 100%;
+    width: 90%;
     background-color: transparent;
     height: auto;
     border: none;
     opacity: 0.5;
     position: absolute;
-    top: 3%;
-    left: -5px;
+    top: 6%;
+    left: 7px;
+    padding: 0;
 
 }
 
