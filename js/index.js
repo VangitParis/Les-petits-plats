@@ -1,4 +1,7 @@
-import { recipes } from "./mock/recipes.js";
+import { recipes } from "./recipes.js";
+
+import { filterRecipes } from "./algorithmSearchBar.js";
+
 import { Dropdown } from "./Dropdowns.js";
 
 const main = document.getElementById("main");
@@ -60,7 +63,27 @@ function displayRecipes(recipes) {
   });
 }
 
+// Fonction qui gère la recherche et le filtre des recettes
+function handleSearch(event) {
+    event.preventDefault();
+    const searchInput = document.getElementById("searchInput");
 
+    const searchText = searchInput.value.toLowerCase().trim();
+    const filterInSearchBar = new filterRecipes(recipes,searchText);
+    const filteredRecipesByText = filterInSearchBar.filterRecipesByText(recipes, searchText);
+    const filteredRecipesByKeyword = filterInSearchBar.filterRecipesByKeywords(recipes);
+
+    // on vide la section pour ensuite afficher les recettes triées
+    section.innerHTML = "";
+    displayRecipes(filteredRecipesByText, filteredRecipesByKeyword);
+
+}
+
+// Ajouter un événement de saisie sur la barre de recherche
+const searchInput = document.getElementById("searchInput");
+const searchButton = document.getElementById("searchBtn");
+searchInput.addEventListener("input", handleSearch);
+searchButton.addEventListener("submit", handleSearch);
 // Afficher toutes les recettes initialement
 new Dropdown(recipes);
 displayRecipes(recipes);
