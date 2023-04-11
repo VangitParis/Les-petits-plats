@@ -1,4 +1,4 @@
-import { recipes } from "./recipes.js";
+import { recipes } from "./mock/recipes.js";
 
 import { filterRecipes } from "./algorithmSearchBar.js";
 
