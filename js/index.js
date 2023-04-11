@@ -1,5 +1,5 @@
-import { recipes } from "./recipes.js";
-import { Dropdown } from "./dropdowns.js";
+import { recipes } from "./mock/recipes.js";
+import { Dropdown } from "./Dropdowns.js";
 
 const main = document.getElementById("main");
 const section = document.getElementById("cards");
