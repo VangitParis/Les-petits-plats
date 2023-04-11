@@ -66,10 +66,9 @@ section.row{
     margin-left: calc(var(--bs-gutter-x) * -1);
     position: relative;
 }
-/* .card{
+.figure{
     width: 380px;
-    height: 364px;
-} */
+}
 
 .figure-caption{
     background-color: var(--background-primary);
