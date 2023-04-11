@@ -1,5 +1,5 @@
 import { recipes } from "./mock/recipes.js";
-import { filterRecipes } from "./algorithmSearchBar.js";
+import { FilterRecipes } from "./algorithmSearchBar.js";
 import { Dropdown } from "./Dropdowns.js";
 
 const main = document.getElementById("main");
@@ -67,13 +67,14 @@ function handleSearch(event) {
     const searchInput = document.getElementById("searchInput");
 
     const searchText = searchInput.value.toLowerCase().trim();
-    const filterInSearchBar = new filterRecipes(recipes,searchText);
+    const filterInSearchBar = new FilterRecipes(recipes,searchText);
     const filteredRecipesByText = filterInSearchBar.filterRecipesByText(recipes, searchText);
-    const filteredRecipesByKeyword = filterInSearchBar.filterRecipesByKeywords(recipes);
-
+    const filteredRecipesByKeyword = filterInSearchBar.filterRecipesByKeywords(recipes,searchText);
+  // Fusionner les résultats des deux filtres en une seule liste de recettes uniques
+  const uniqueRecipes = [...new Set([...filteredRecipesByText, ...filteredRecipesByKeyword])];
     // on vide la section pour ensuite afficher les recettes triées
     section.innerHTML = "";
-    displayRecipes(filteredRecipesByText, filteredRecipesByKeyword);
+    displayRecipes(uniqueRecipes);
 
 }
 

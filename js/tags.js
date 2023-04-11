@@ -2,9 +2,10 @@ export class Tags {
   constructor(tagLinks, recipes) {
     this.tagLinks = tagLinks;
     this.recipes = recipes;
-
+   
     this.sectionTag = document.getElementById("section-tag");
     this.displayTags();
+    
   }
 
   displayTags() {
@@ -26,7 +27,6 @@ export class Tags {
           const recipeList = Array.from(
             document.getElementsByClassName("list-group-item")
           );
-          
 
           // Trouver l'élément de la liste correspondant à l'élément de tag
           let matchingLink = null;
@@ -43,7 +43,7 @@ export class Tags {
             const index = recipeList.indexOf(matchingLink);
             recipeList.splice(index, 1);
           }
-          
+
           return;
         }
 
@@ -86,4 +86,5 @@ export class Tags {
       });
     });
   }
+
 }

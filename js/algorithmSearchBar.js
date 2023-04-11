@@ -1,4 +1,5 @@
-export class filterRecipes {
+
+export class FilterRecipes {
     constructor(recipes, searchText, keyword) {
       this.recipes = recipes;
   

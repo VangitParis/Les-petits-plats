@@ -195,16 +195,11 @@ export class Dropdown {
       // on vide la liste dès 3 caractères saisis dans le champ
       if (searchTerm.length < 3) {
         this.ingredientsList.innerHTML = "";
-        this.dropdownMenu.classList.add("dropdown-menu-sm-size");
+  
         return;
       }
       // Attention particulière à la saisie des accents
-      searchTerm.replace(/[àáâä]/g, "a")
-      .replace(/[éèêë]/g, "e")
-      .replace(/[îï]/g, "i")
-      .replace(/[ôö]/g, "o")
-      .replace(/[ùûü]/g, "u")
-      .replace(/[ç]/g, "c");
+      searchTerm.normalize("NFD").replace(/p{Diacritic}/g, "")
 
       // Attention particulière à la saisie des pluriels
       const pluralSearchTerm = searchTerm.endsWith("s");
@@ -217,12 +212,7 @@ export class Dropdown {
         return recipe.ingredients.some((ingredient) => {
           let ingredientName = ingredient.ingredient
             .toLowerCase()
-            .replace(/[àáâä]/g, "a")
-            .replace(/[éèêë]/g, "e")
-            .replace(/[îï]/g, "i")
-            .replace(/[ôö]/g, "o")
-            .replace(/[ùûü]/g, "u")
-            .replace(/[ç]/g, "c");
+            .normalize("NFD").replace(/p{Diacritic}/g, "")
 
           // Filter en fonction de la recherche avec des pluriels
           const pluralIngredientName = ingredientName.endsWith("s");
@@ -274,7 +264,9 @@ export class Dropdown {
     document.addEventListener("click", (e) => {
       if (
         !e.target.matches(".dropdown-toggle") &&
-        !e.target.matches("#inputSearch")
+        !e.target.matches("#inputSearchIngredients") &&
+        !e.target.matches("#inputSearchAppliances") &&
+        !e.target.matches("#inputSearchUstensils")
       ) {
         this.buttonGroupIngredients.classList.remove("active");
         this.buttonGroupAppliances.classList.remove("active");
@@ -282,7 +274,7 @@ export class Dropdown {
         this.dropdownMenu.forEach((menu) => {
           if (menu.style.display === "block") {
             menu.style.display = "none";
-            menu.classList.remove("dropdown-menu-sm-size");
+           
           }
         });
         this.searchInput.value = "";
