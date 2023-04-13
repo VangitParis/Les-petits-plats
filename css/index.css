@@ -95,6 +95,9 @@ li{
     padding: 0 0.7rem;
     width: 171px; 
 }
+.card-group{
+    justify-content: center;
+}
 .card-title, h3{
     font-weight: 400;
     font-size: 18px;
@@ -107,6 +110,7 @@ li{
     text-align: left;
     
 }
+
 .card-text-recipe{
     font-family: var(--font-family-secondary);
     display: -webkit-box;
