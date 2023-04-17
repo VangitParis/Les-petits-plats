@@ -83,7 +83,8 @@ function handleSearch(event) {
 const searchInput = document.getElementById("searchInput");
 const searchButton = document.getElementById("searchBtn");
 searchInput.addEventListener("input", handleSearch);
-searchButton.addEventListener("submit", handleSearch);
+searchButton.addEventListener("click", handleSearch);
+
 // Afficher toutes les recettes initialement
 new Dropdown(recipes);
 displayRecipes(recipes);
