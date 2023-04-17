@@ -4,7 +4,13 @@ export const getElementWithoutDiacritics = element => {
       throw new TypeError("il faut une string");
     }
   
-    return element.trim().toLowerCase().normalize("NFD").replace(/p{Diacritics}/g, "");
+    return element.trim().toLowerCase()
+    .replace(/[àáâä]/g, "a")
+    .replace(/[éèêë]/g, "e")
+    .replace(/[îï]/g, "i")
+    .replace(/[ôö]/g, "o")
+    .replace(/[ùûü]/g, "u")
+    .replace(/[ç]/g, "c");
   }
 
 
