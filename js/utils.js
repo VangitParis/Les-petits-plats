@@ -6,3 +6,5 @@ export const getElementWithoutDiacritics = element => {
   
     return element.trim().toLowerCase().normalize("NFD").replace(/p{Diacritics}/g, "");
   }
+
+

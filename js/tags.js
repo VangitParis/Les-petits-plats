@@ -2,10 +2,10 @@ export class Tags {
   constructor(tagLinks, recipes) {
     this.tagLinks = tagLinks;
     this.recipes = recipes;
-   
+
     this.sectionTag = document.getElementById("section-tag");
     this.displayTags();
-    
+
   }
 
   displayTags() {
@@ -21,36 +21,14 @@ export class Tags {
 
         // Vérifier si le tag existe déjà dans le DOM
         const tagIsCreate = document.getElementById("tag-id-" + currentTag);
-
         if (tagIsCreate) {
-          // Supprimer le lien du tableau des ingredients, appareils, ustensiles
-          const recipeList = Array.from(
-            document.getElementsByClassName("list-group-item")
-          );
-
-          // Trouver l'élément de la liste correspondant à l'élément de tag
-          let matchingLink = null;
-          recipeList.forEach((link) => {
-            if (link.innerText === currentTag) {
-              matchingLink = link;
-              console.log(matchingLink);
-              return;
-            }
-          });
-
-          // Supprimer l'élément de la liste s'il existe
-          if (matchingLink) {
-            const index = recipeList.indexOf(matchingLink);
-            recipeList.splice(index, 1);
-          }
-
           return;
         }
 
         // Le tag n'existe pas encore, alors on le créé
         const tag = document.createElement("ul");
         tag.classList.add("btn", "btn-sm", "d-flex", "mt-n1", "tag");
-        tag.id = `tag-id-${currentTag}`;
+        tag.id = `tag-id-${ currentTag }`;
 
         // Ajouter une classe au tag en fonction de son type
         if (tagLink.classList.contains("tag-ingredient")) {
@@ -82,9 +60,10 @@ export class Tags {
 
           // Ajouter le tag au tableau des tags sélectionnés
           selectedTags.push(currentTag);
+          
         });
       });
     });
+    
   }
-
 }
