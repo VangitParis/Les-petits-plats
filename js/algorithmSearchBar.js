@@ -1,4 +1,4 @@
-import { getElementWithoutDiacritics } from "./utils.js";
+import { normalize } from "./utils.js";
 
 export class FilterRecipesWithLoop {
   constructor(recipes, searchText, keyword, tagsLinks) {
@@ -17,7 +17,7 @@ export class FilterRecipesWithLoop {
     const filteredRecipes = [];
 
     // on déclare le résultat de la recherche après avoir supprimé les diacritics
-    const searchResult = getElementWithoutDiacritics(searchText);
+    const searchResult = normalize(searchText);
     if (searchResult.length < 3) {
       return this.recipes;
     }
@@ -29,9 +29,9 @@ export class FilterRecipesWithLoop {
     for (let i = 0; i < recipes.length; i++) {
       const recipe = recipes[i];
       // Vérifier si le terme de recherche est présent dans le nom de la recette ou dans la description
-      const name = getElementWithoutDiacritics(recipe.name);
+      const name = normalize(recipe.name);
 
-      const description = getElementWithoutDiacritics(recipe.description);
+      const description = normalize(recipe.description);
 
       // Vérifier si le terme de recherche est présent dans le nom de la recette
       if (name.includes(searchResult)) {
@@ -47,16 +47,13 @@ export class FilterRecipesWithLoop {
 
       // Vérifier si le terme de recherche est présent dans le nom d'un ingrédient
       for (let j = 0; j < recipe.ingredients.length; j++) {
-        const ingredientName = getElementWithoutDiacritics(
-          recipe.ingredients[j].ingredient
-        );
+        const ingredientName = normalize(recipe.ingredients[j].ingredient);
         const pluralIngredientName = ingredientName.endsWith("s");
         if (
           ingredientName.includes(searchResult) ||
           (pluralSearchResult &&
             pluralIngredientName &&
-            searchResult ===
-              getElementWithoutDiacritics(ingredientName.slice(0, -1)))
+            searchResult === normalize(ingredientName.slice(0, -1)))
         ) {
           filteredRecipes.push(recipe);
           break; // Passer à la recette suivante si le terme de recherche est trouvé dans le nom d'un ingrédient
