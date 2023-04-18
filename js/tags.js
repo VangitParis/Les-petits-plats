@@ -7,7 +7,6 @@ export class Tags {
     this.displayTags();
 
   }
-
   displayTags() {
     // Tableau pour stocker les tags sélectionnés
     const selectedTags = [];
