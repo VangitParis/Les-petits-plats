@@ -6,7 +6,6 @@ export class Tags {
     this.sectionTag = document.getElementById("section-tag");
     this.displayTags();
   }
-
   displayTags() {
     // Tableau pour stocker les tags sélectionnés
     const selectedTags = [];
