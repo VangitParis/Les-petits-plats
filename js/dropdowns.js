@@ -1,4 +1,4 @@
-import { Tags } from "./tags.js";
+import { Tags } from "./Tags.js";
 import { getElementWithoutDiacritics } from "./utils.js";
 
 export class Dropdown {
