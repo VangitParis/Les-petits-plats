@@ -1,5 +1,5 @@
 import { getElementWithoutDiacritics } from "./utils.js";
-export class filterRecipes {
+export class FilterRecipes {
     constructor(recipes, searchText, keyword) {
       this.recipes = recipes;
       this.searchText = searchText;

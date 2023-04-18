@@ -1,6 +1,6 @@
 import { recipes } from "./mock/recipes.js";
 
-import { filterRecipes } from "./algorithmSearchBar.js";
+import { FilterRecipes } from "./algorithmSearchBar.js";
 
 import { Dropdown } from "./Dropdowns.js";
 
@@ -65,20 +65,38 @@ function displayRecipes(recipes) {
 
 // Fonction qui gère la recherche et le filtre des recettes
 function handleSearch(event) {
-    event.preventDefault();
-    const searchInput = document.getElementById("searchInput");
+  event.preventDefault();
+  const searchInput = document.getElementById("searchInput");
 
-    const searchText = searchInput.value.toLowerCase().trim();
-    const filterInSearchBar = new filterRecipes(recipes,searchText);
-    const filteredRecipesByText = filterInSearchBar.filterRecipesByText(recipes, searchText);
-    const filteredRecipesByKeyword = filterInSearchBar.filterRecipesByKeywords(recipes);
+  const searchText = searchInput.value.toLowerCase().trim();
+  const filterInSearchBar = new FilterRecipes(recipes, searchText);
+  const filteredRecipesByText = filterInSearchBar.filterRecipesByText(recipes, searchText);
+  const filteredRecipesByKeyword = filterInSearchBar.filterRecipesByKeywords(recipes);
 
-    // on vide la section pour ensuite afficher les recettes triées
-    section.innerHTML = "";
-    displayRecipes(filteredRecipesByText, filteredRecipesByKeyword);
+  // on vide la section pour ensuite afficher les recettes triées
+  section.innerHTML = "";
+  displayRecipes(filteredRecipesByText, filteredRecipesByKeyword);
 
+
+  // Fusionner les résultats des deux filtres en une seule liste de recettes uniques
+  const uniqueRecipes = [
+    ...new Set([...filteredRecipesByText, ...filteredRecipesByKeyword]),
+  ];
+
+  section.innerHTML = "";
+
+  if (uniqueRecipes.length === 0) {
+    const divMessage = document.createElement("div");
+    const message = document.createElement("p");
+    message.textContent =
+      'Aucune recette ne correspond à votre critère... vous pouvez chercher "tarte aux pommes", "poisson", etc';
+    message.classList.add("error");
+    divMessage.appendChild(message);
+    section.appendChild(divMessage);
+  } else {
+    displayRecipes(uniqueRecipes);
+  }
 }
-
 // Ajouter un événement de saisie sur la barre de recherche
 const searchInput = document.getElementById("searchInput");
 const searchButton = document.getElementById("searchBtn");
