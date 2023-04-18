@@ -1,6 +1,6 @@
 import { recipes } from "./mock/recipes.js";
 
-import { FilterRecipes } from "./algorithmSearchBar.js";
+import { FilterRecipesWithFilter } from "./algorithmSearchBar.js";
 
 import { Dropdown } from "./Dropdowns.js";
 
@@ -72,7 +72,7 @@ function handleSearch(event) {
   const searchInput = document.getElementById("searchInput");
 
   const searchText = searchInput.value.toLowerCase().trim();
-  const filterInSearchBar = new FilterRecipes(recipes, searchText);
+  const filterInSearchBar = new FilterRecipesWithFilter(recipes, searchText);
   const filteredRecipesByText = filterInSearchBar.filterRecipesByText(
     recipes,
     searchText
