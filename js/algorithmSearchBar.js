@@ -1,6 +1,6 @@
 import { getElementWithoutDiacritics } from "./utils.js";
 
-export class FilterRecipesByLoop {
+export class FilterRecipesWithLoop {
   constructor(recipes, searchText, keyword, tagsLinks) {
     this.recipes = recipes;
     this.searchText = searchText;

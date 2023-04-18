@@ -1,5 +1,5 @@
 import { recipes } from "./mock/recipes.js";
-import { FilterRecipesByLoop } from "./algorithmSearchBar.js";
+import { FilterRecipesWithLoop } from "./algorithmSearchBar.js";
 import { Dropdown } from "./Dropdowns.js";
 
 const main = document.getElementById("main");
@@ -66,7 +66,7 @@ function handleSearch(event) {
   event.preventDefault();
   const searchInput = document.getElementById("searchInput");
   const searchText = searchInput.value.toLowerCase().trim();
-  const filterInSearchBar = new FilterRecipesByLoop(recipes, searchText);
+  const filterInSearchBar = new FilterRecipesWithLoop(recipes, searchText);
   const filteredRecipesByText = filterInSearchBar.filterRecipesByText(
     recipes,
     searchText
