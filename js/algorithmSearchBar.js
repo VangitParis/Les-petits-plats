@@ -1,7 +1,7 @@
 import { getElementWithoutDiacritics } from "./utils.js";
 
-export class FilterRecipes {
-  constructor(recipes, searchText, keyword,tagsLinks) {
+export class FilterRecipesByLoop {
+  constructor(recipes, searchText, keyword, tagsLinks) {
     this.recipes = recipes;
     this.searchText = searchText;
     this.keyword = keyword;
@@ -44,7 +44,7 @@ export class FilterRecipes {
         filteredRecipes.push(recipe);
         continue;
       }
-     
+
       // Vérifier si le terme de recherche est présent dans le nom d'un ingrédient
       for (let j = 0; j < recipe.ingredients.length; j++) {
         const ingredientName = getElementWithoutDiacritics(
@@ -133,6 +133,4 @@ export class FilterRecipes {
     }
     return true;
   }
-
- 
 }

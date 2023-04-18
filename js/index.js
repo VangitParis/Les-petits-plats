@@ -1,8 +1,6 @@
 import { recipes } from "./mock/recipes.js";
-import { FilterRecipes } from "./algorithmSearchBar.js";
+import { FilterRecipesByLoop } from "./algorithmSearchBar.js";
 import { Dropdown } from "./Dropdowns.js";
-
-
 
 const main = document.getElementById("main");
 const section = document.getElementById("cards");
@@ -68,16 +66,20 @@ function handleSearch(event) {
   event.preventDefault();
   const searchInput = document.getElementById("searchInput");
   const searchText = searchInput.value.toLowerCase().trim();
-  const filterInSearchBar = new FilterRecipes(recipes, searchText);
-  const filteredRecipesByText = filterInSearchBar.filterRecipesByText(recipes,searchText);
-  const filteredRecipesByKeyword = filterInSearchBar.filterRecipesByKeywords(recipes, searchText);
-  
+  const filterInSearchBar = new FilterRecipesByLoop(recipes, searchText);
+  const filteredRecipesByText = filterInSearchBar.filterRecipesByText(
+    recipes,
+    searchText
+  );
+  const filteredRecipesByKeyword = filterInSearchBar.filterRecipesByKeywords(
+    recipes,
+    searchText
+  );
 
   // Fusionner les résultats des deux filtres en une seule liste de recettes uniques
   const uniqueRecipes = [
     ...new Set([...filteredRecipesByText, ...filteredRecipesByKeyword]),
   ];
-  
 
   const section = document.getElementById("cards");
   section.innerHTML = "";
@@ -105,4 +107,3 @@ new Dropdown(recipes);
 const filterByTags = new Dropdown(recipes);
 const tagsSearch = filterByTags.filterRecipes();
 displayRecipes(recipes);
-
