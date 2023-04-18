@@ -25,31 +25,34 @@ function displayRecipes(recipes) {
                         </div>
                     </div>
                     <div class="d-flex card-text align-top mb-3 d-inline-block h-50">
-                        <ul "list-group">
-                            ${recipe.ingredients
-                              .map(
-                                (ingredient) => `
-                            <li class="list-group-item">
+                    <ul>
+                    ${recipe.ingredients
+                      .map(
+                        (ingredient) => `
+                        <li class="list-group-item">
                             <strong>${ingredient.ingredient}</strong>
                             ${
                               ingredient.quantity
-                                ? ` : ${ingredient.quantity}
-                            ${
-                              ingredient.unit === "grammes"
-                                ? "g"
-                                : ingredient.unit === "litres"
-                                ? "L"
-                                : ingredient.unit === "cuillères à soupe"
-                                ? "c. à soupe"
-                                : ingredient.unit
-                                ? ingredient.unit.replace(" ", "")
+                                ? `: ${ingredient.quantity}${
+                                    ingredient.unit
+                                      ? " " +
+                                        (ingredient.unit === "grammes"
+                                          ? "g"
+                                          : ingredient.unit === "litres"
+                                          ? "L"
+                                          : ingredient.unit ===
+                                            "cuillères à soupe"
+                                          ? "c. à soupe"
+                                          : ingredient.unit)
+                                      : ""
+                                  }`
                                 : ""
-                            }`
-                                : ""
-                            }</li>`
-                              )
-                              .join("")}
-                        </ul>
+                            }
+                        </li>
+                    `
+                      )
+                      .join("")}
+                </ul>
                         <p class="contain-content card-text-recipe">${
                           recipe.description
                         }</p>
@@ -70,13 +73,16 @@ function handleSearch(event) {
 
   const searchText = searchInput.value.toLowerCase().trim();
   const filterInSearchBar = new FilterRecipes(recipes, searchText);
-  const filteredRecipesByText = filterInSearchBar.filterRecipesByText(recipes, searchText);
-  const filteredRecipesByKeyword = filterInSearchBar.filterRecipesByKeywords(recipes);
+  const filteredRecipesByText = filterInSearchBar.filterRecipesByText(
+    recipes,
+    searchText
+  );
+  const filteredRecipesByKeyword =
+    filterInSearchBar.filterRecipesByKeywords(recipes);
 
   // on vide la section pour ensuite afficher les recettes triées
   section.innerHTML = "";
   displayRecipes(filteredRecipesByText, filteredRecipesByKeyword);
-
 
   // Fusionner les résultats des deux filtres en une seule liste de recettes uniques
   const uniqueRecipes = [
@@ -106,4 +112,3 @@ searchButton.addEventListener("click", handleSearch);
 // Afficher toutes les recettes initialement
 new Dropdown(recipes);
 displayRecipes(recipes);
-

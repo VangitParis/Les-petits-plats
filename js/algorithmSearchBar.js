@@ -7,26 +7,36 @@ export class FilterRecipes {
       this.filterRecipesByKeywords(recipes, keyword);
     }
     //méthode filter
-    filterRecipesByText(recipes, searchText) {
+  filterRecipesByText(recipes, searchText) {
+    
+    // on déclare le résultat de la recherche après avoir supprimé les diacritics
+    const searchResult = getElementWithoutDiacritics(searchText);
+ 
+    if (searchResult.length < 3) {
+      return this.recipes;
+    }
+
       // Utiliser la méthode filter pour filtrer les recettes en fonction du texte de recherche
       const filteredRecipes = recipes.filter(recipe =>
-        recipe.name.includes(searchText) ||
-        recipe.ingredients.map(ingredient => ingredient.ingredient.includes(searchText))||
-        recipe.description.includes(searchText)
+        recipe.name.includes(searchResult) ||
+        recipe.ingredients.some(ingredient => ingredient.ingredient.includes(searchResult))||
+        recipe.description.includes(searchResult)
       );
+    
     
       // Retourner la liste de recettes filtrées
       return filteredRecipes;
-    }
+  }
+  
     filterRecipesByKeywords(recipes, keyword) {
-      // Utiliser la méthode filter pour filtrer les recettes en fonction des mots clés de recherche
+      //Utiliser la méthode filter pour filtrer les recettes en fonction des mots clés de recherche
       const filteredRecipes = recipes.filter(recipe =>
-        recipe.ingredients.map(ingredient => ingredient.ingredient.includes(keyword)) ||
+        recipe.ingredients.some(ingredient => ingredient.ingredient.includes(keyword)) ||
         recipe.ustensils.includes(keyword) ||
-        recipe.appliances.includes(keyword)
+        recipe.appliance.includes(keyword)
       );
     
-      // Retourner la liste de recettes filtrées
+      //Retourner la liste de recettes filtrées
       return filteredRecipes;
     }
   
