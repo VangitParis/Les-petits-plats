@@ -1,10 +1,10 @@
 import { Tags } from "./Tags.js";
-import { getElementWithoutDiacritics } from "./utils.js";
+import { normalize } from "./utils.js";
 
 export class Dropdown {
-  constructor(recipes) {
+  constructor(recipes, uniqueRecipes) {
     this.recipes = recipes;
-
+this.uniqueRecipes = uniqueRecipes
     this.buttonGroupIngredients = document.getElementsByClassName(
       "btn-group ingredients"
     )[0];
@@ -24,7 +24,7 @@ export class Dropdown {
 
     this.addDropdownButtonListener();
 
-    this.searchInDropdown();
+ 
     this.closeDropdown();
   }
 
@@ -42,7 +42,6 @@ export class Dropdown {
         // Appeler les méthodes de recherche et de récupération de la liste d'ingrédients
         this.searchInDropdown();
         this.getIngredients();
-        
       }
     });
 
@@ -58,7 +57,6 @@ export class Dropdown {
         // Appeler les méthodes de recherche et de récupération de la liste d'ingrédients
         this.searchInDropdown();
         this.getAppliances();
-       
       }
     });
 
@@ -73,12 +71,13 @@ export class Dropdown {
         // Appeler les méthodes de recherche et de récupération de la liste d'ingrédients
         this.searchInDropdown();
         this.getUstensils();
-      
       }
     });
   }
 
   getIngredients() {
+    //Appeler uniqueRecipes ici a la place this.recipes
+
     // Récupérer tous les ingrédients à partir des recettes
     const allIngredients = this.recipes.reduce((acc, recipe) => {
       let recipeIngredients = recipe.ingredients.map((item) =>
@@ -108,7 +107,6 @@ export class Dropdown {
       );
 
       if (existingTag) {
-       
         return;
       }
 
@@ -199,7 +197,6 @@ export class Dropdown {
         `tag-id-${capitalizedUstensil}`
       );
       if (existingTag) {
-
         return;
       }
       const listItem = document.createElement("li");
@@ -217,31 +214,23 @@ export class Dropdown {
     );
     const addTag = new Tags(recipeList, this.recipes);
     const addTagInDOM = addTag.displayTags(this.recipes);
-   
-   
   }
   // Fonction de filtrage des recettes en fonction des ingrédients sélectionnés
   filterRecipes(tagLinks) {
-   
-  const filteredRecipes = [];
+    const filteredRecipes = [];
 
-  for (let i = 0; i < this.recipes.length; i++) {
-    const recipe = this.recipes[i];
+    for (let i = 0; i < this.recipes.length; i++) {
+      const recipe = this.recipes[i];
 
-    let containsAllTagsLinks = true;
-   
-   
+      let containsAllTagsLinks = true;
 
-    if (containsAllTagsLinks) {
-      filteredRecipes.push(recipe);
+      if (containsAllTagsLinks) {
+        filteredRecipes.push(recipe);
+      }
     }
+
+    return filteredRecipes;
   }
-
-  return filteredRecipes;
-}
-
-    
-
 
   searchInDropdown() {
     this.searchInput.addEventListener("input", () => {
@@ -253,7 +242,7 @@ export class Dropdown {
         return;
       }
       // Attention particulière à la saisie des accents
-      getElementWithoutDiacritics(searchTerm);
+      normalize(searchTerm);
 
       // Attention particulière à la saisie des pluriels
       const pluralSearchTerm = searchTerm.endsWith("s");
@@ -264,7 +253,7 @@ export class Dropdown {
       const filteredIngredients = this.recipes.filter((recipe) => {
         return recipe.ingredients.some((ingredient) => {
           let ingredientName = ingredient.ingredient;
-          getElementWithoutDiacritics(ingredientName);
+          normalize(ingredientName);
 
           // Filter en fonction de la recherche avec des pluriels
           const pluralIngredientName = ingredientName.endsWith("s");
@@ -294,7 +283,7 @@ export class Dropdown {
         !e.target.matches("#inputSearchUstensils")
       ) {
         this.buttonGroupIngredients.classList.remove("active");
-          this.buttonGroupAppliances.classList.remove("active");
+        this.buttonGroupAppliances.classList.remove("active");
         this.buttonGroupUstensils.classList.remove("active");
         this.dropdownMenu.forEach((menu) => {
           if (menu.style.display === "block") {

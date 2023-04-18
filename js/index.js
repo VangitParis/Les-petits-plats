@@ -82,6 +82,7 @@ function handleSearch(event) {
 
   // on vide la section pour ensuite afficher les recettes triées
   section.innerHTML = "";
+  
   displayRecipes(filteredRecipesByText, filteredRecipesByKeyword);
 
   // Fusionner les résultats des deux filtres en une seule liste de recettes uniques
@@ -100,8 +101,10 @@ function handleSearch(event) {
     divMessage.appendChild(message);
     section.appendChild(divMessage);
   } else {
+    new Dropdown(uniqueRecipes);
     displayRecipes(uniqueRecipes);
   }
+  
 }
 // Ajouter un événement de saisie sur la barre de recherche
 const searchInput = document.getElementById("searchInput");

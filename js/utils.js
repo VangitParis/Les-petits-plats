@@ -1,4 +1,5 @@
-export const getElementWithoutDiacritics = element => {
+
+export const normalize = element => {
     if (typeof element !== "string") {
       throw new TypeError("il faut une string");
     }
@@ -11,3 +12,5 @@ export const getElementWithoutDiacritics = element => {
     .replace(/[ùûü]/g, "u")
     .replace(/[ç]/g, "c");
   }
+
+

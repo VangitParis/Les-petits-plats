@@ -75,7 +75,7 @@ export class Tags {
           tag.remove();
           // Réinitialiser le tag s'il est supprimé
           const index = selectedTags.indexOf(currentTag);
-          if (index > -1) {
+          if (index !== -1) {
             selectedTags.splice(index, 1);
           }
 

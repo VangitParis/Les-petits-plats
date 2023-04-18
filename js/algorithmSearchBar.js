@@ -1,4 +1,4 @@
-import { getElementWithoutDiacritics } from "./utils.js";
+import { normalize } from "./utils.js";
 export class FilterRecipesWithFilter {
   constructor(recipes, searchText, keyword) {
     this.recipes = recipes;
@@ -9,7 +9,7 @@ export class FilterRecipesWithFilter {
   //méthode filter
   filterRecipesByText(recipes, searchText) {
     // on déclare le résultat de la recherche après avoir supprimé les diacritics
-    const searchResult = getElementWithoutDiacritics(searchText);
+    const searchResult = normalize(searchText);
 
     if (searchResult.length < 3) {
       return this.recipes;
@@ -18,12 +18,15 @@ export class FilterRecipesWithFilter {
     // Utiliser la méthode filter pour filtrer les recettes en fonction du texte de recherche
     const filteredRecipes = recipes.filter(
       (recipe) =>
-        recipe.name.includes(searchResult) ||
+        recipe.name.includes(searchResult)
+        ||
         recipe.ingredients.some((ingredient) =>
           ingredient.ingredient.includes(searchResult)
         ) ||
         recipe.description.includes(searchResult)
     );
+
+    
 
     // Retourner la liste de recettes filtrées
     return filteredRecipes;
