@@ -155,7 +155,10 @@ button span{
     padding: 0;
 
 }
-
+.form-control:focus{
+    outline: 1px solid blue;
+    color: #fff;
+}
 .dropdown {
     position: relative;
     width: 99%;
