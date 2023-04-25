@@ -70,29 +70,26 @@ function displayRecipes(recipes) {
 function handleSearch(event) {
   event.preventDefault();
   const searchInput = document.getElementById("searchInput");
-
   const searchText = searchInput.value.toLowerCase().trim();
   const filterInSearchBar = new FilterRecipesWithFilter(recipes, searchText);
   const filteredRecipesByText = filterInSearchBar.filterRecipesByText(
     recipes,
     searchText
   );
-  const filteredRecipesByKeyword =
-    filterInSearchBar.filterRecipesByKeywords(recipes);
-
-  // on vide la section pour ensuite afficher les recettes triées
-  section.innerHTML = "";
-  
-  displayRecipes(filteredRecipesByText, filteredRecipesByKeyword);
+  const filteredRecipesByKeyword = filterInSearchBar.filterRecipesByKeywords(
+    recipes,
+    searchText
+  );
 
   // Fusionner les résultats des deux filtres en une seule liste de recettes uniques
-  const uniqueRecipes = [
+  const filterUniqueRecipes = [
     ...new Set([...filteredRecipesByText, ...filteredRecipesByKeyword]),
   ];
 
+  const section = document.getElementById("cards");
   section.innerHTML = "";
 
-  if (uniqueRecipes.length === 0) {
+  if (filterUniqueRecipes.length === 0) {
     const divMessage = document.createElement("div");
     const message = document.createElement("p");
     message.textContent =
@@ -101,10 +98,10 @@ function handleSearch(event) {
     divMessage.appendChild(message);
     section.appendChild(divMessage);
   } else {
-    new Dropdown(uniqueRecipes);
-    displayRecipes(uniqueRecipes);
+    new Dropdown(filterUniqueRecipes);
+    displayRecipes(filterUniqueRecipes);
+   
   }
-  
 }
 // Ajouter un événement de saisie sur la barre de recherche
 const searchInput = document.getElementById("searchInput");
