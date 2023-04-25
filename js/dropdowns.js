@@ -1,5 +1,6 @@
 import { Tags } from "./tags.js";
 import { normalize } from "./utils.js";
+import { FilterRecipesWithLoop } from "./algorithmSearchBar.js";
 
 export class Dropdown {
   constructor(recipes, filterUniqueRecipes) {
@@ -228,10 +229,11 @@ export class Dropdown {
   // Fonction de filtrage des recettes en fonction des ingrédients sélectionnés
   filterRecipesByTags() {
     const filteredRecipes = [];
-
-    for (let i = 0; i < this.ingredientsList.length; i++) {
-      const uniqueRecipe = this.ingredientsList[i];
-      console.log(uniqueRecipe);
+    // console.log(recipes);
+    for (let i = 0; i < recipes.length; i++) {
+   
+      const uniqueRecipe = recipes[i];
+      // console.log(uniqueRecipe);
       let containsAllTagsLinks = true;
 
       if (containsAllTagsLinks) {
@@ -240,6 +242,7 @@ export class Dropdown {
     }
 
     return filteredRecipes;
+  
   }
 
   searchInDropdown() {

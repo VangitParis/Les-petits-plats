@@ -121,7 +121,7 @@ function manageAdvancedSearch() {
   const filterUniqueRecipes = [
     ...new Set([...filterRecipes, ...searchInDropdown]),
   ];
-  const dropdown = new Dropdown(filterUniqueRecipes);
+  new Dropdown(filterUniqueRecipes);
  displayRecipes(filterUniqueRecipes)
   
 }
@@ -131,7 +131,7 @@ const advancedSearchIngredients = document.getElementById("inputSearchIngredient
 advancedSearchIngredients.addEventListener("input", manageAdvancedSearch);
 
 
-
 // Afficher toutes les recettes initialement
-new Dropdown(recipes);
-displayRecipes(recipes);
+const dropdown = new Dropdown(recipes);
+const filterByTags = dropdown.filterRecipesByTags(recipes);
+displayRecipes(recipes, dropdown,filterByTags);
