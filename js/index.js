@@ -95,7 +95,6 @@ function handleSearch(event) {
   } else {
     new Dropdown(filterUniqueRecipes);
     displayRecipes(filterUniqueRecipes);
-   
   }
 }
 // Ajouter un événement de saisie sur la barre de recherche
@@ -105,33 +104,30 @@ searchInput.addEventListener("input", handleSearch);
 searchButton.addEventListener("click", handleSearch);
 
 function manageAdvancedSearch() {
-  const searchInputIngredients = document.getElementById("inputSearchIngredients");
+  const searchInputIngredients = document.getElementById(
+    "inputSearchIngredients"
+  );
   const searchText = searchInputIngredients.value.toLowerCase().trim();
   const filterRecipes = new Dropdown(searchText);
-  filterRecipes.filterRecipesByTags(
-    
-    searchText
-  );
-  const searchInDropdown = filterRecipes.searchInDropdown(
-  
-    searchText
-  );
+  filterRecipes.filterRecipesByTags(searchText);
+  const searchInDropdown = filterRecipes.searchInDropdown(searchText, recipes);
 
   // Fusionner les résultats des deux filtres en une seule liste de recettes uniques
   const filterUniqueRecipes = [
     ...new Set([...filterRecipes, ...searchInDropdown]),
   ];
   new Dropdown(filterUniqueRecipes);
- displayRecipes(filterUniqueRecipes)
-  
+  displayRecipes(filterUniqueRecipes);
 }
 
 //Ajouter un évènement de saisie sur la la recherche avancée
-const advancedSearchIngredients = document.getElementById("inputSearchIngredients");
+const advancedSearchIngredients = document.getElementById(
+  "inputSearchIngredients"
+);
 advancedSearchIngredients.addEventListener("input", manageAdvancedSearch);
-
 
 // Afficher toutes les recettes initialement
 const dropdown = new Dropdown(recipes);
 const filterByTags = dropdown.filterRecipesByTags(recipes);
-displayRecipes(recipes, dropdown,filterByTags);
+
+displayRecipes(recipes, dropdown, filterByTags);

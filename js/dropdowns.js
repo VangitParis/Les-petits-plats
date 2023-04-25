@@ -227,7 +227,7 @@ export class Dropdown {
   }
 
   // Fonction de filtrage des recettes en fonction des ingrédients sélectionnés
-  filterRecipesByTags() {
+  filterRecipesByTags(recipes) {
     const filteredRecipes = [];
     // console.log(recipes);
     for (let i = 0; i < recipes.length; i++) {
@@ -270,7 +270,7 @@ export class Dropdown {
       const filteredIngredients = recipeList
         .filter((ingredients) => {
           let ingredientName = ingredients.textContent;
-          console.log(ingredientName);
+    
           normalize(ingredientName);
 
           // Filter en fonction de la recherche avec des pluriels
