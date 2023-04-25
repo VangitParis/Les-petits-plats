@@ -1,6 +1,6 @@
 import { recipes } from "./mock/recipes.js";
 import { FilterRecipesWithLoop } from "./algorithmSearchBar.js";
-import { Dropdown } from "./Dropdowns.js";
+import { Dropdown } from "./dropdowns.js";
 
 const main = document.getElementById("main");
 const section = document.getElementById("cards");
@@ -77,14 +77,14 @@ function handleSearch(event) {
   );
 
   // Fusionner les résultats des deux filtres en une seule liste de recettes uniques
-  const uniqueRecipes = [
+  const filterUniqueRecipes = [
     ...new Set([...filteredRecipesByText, ...filteredRecipesByKeyword]),
   ];
 
   const section = document.getElementById("cards");
   section.innerHTML = "";
 
-  if (uniqueRecipes.length === 0) {
+  if (filterUniqueRecipes.length === 0) {
     const divMessage = document.createElement("div");
     const message = document.createElement("p");
     message.textContent =
@@ -93,17 +93,45 @@ function handleSearch(event) {
     divMessage.appendChild(message);
     section.appendChild(divMessage);
   } else {
-    displayRecipes(uniqueRecipes);
+    new Dropdown(filterUniqueRecipes);
+    displayRecipes(filterUniqueRecipes);
+   
   }
 }
-
 // Ajouter un événement de saisie sur la barre de recherche
 const searchInput = document.getElementById("searchInput");
 const searchButton = document.getElementById("searchBtn");
 searchInput.addEventListener("input", handleSearch);
 searchButton.addEventListener("click", handleSearch);
+
+function manageAdvancedSearch() {
+  const searchInputIngredients = document.getElementById("inputSearchIngredients");
+  const searchText = searchInputIngredients.value.toLowerCase().trim();
+  const filterRecipes = new Dropdown(searchText);
+  filterRecipes.filterRecipesByTags(
+    
+    searchText
+  );
+  const searchInDropdown = filterRecipes.searchInDropdown(
+  
+    searchText
+  );
+
+  // Fusionner les résultats des deux filtres en une seule liste de recettes uniques
+  const filterUniqueRecipes = [
+    ...new Set([...filterRecipes, ...searchInDropdown]),
+  ];
+  const dropdown = new Dropdown(filterUniqueRecipes);
+ displayRecipes(filterUniqueRecipes)
+  
+}
+
+//Ajouter un évènement de saisie sur la la recherche avancée
+const advancedSearchIngredients = document.getElementById("inputSearchIngredients");
+advancedSearchIngredients.addEventListener("input", manageAdvancedSearch);
+
+
+
 // Afficher toutes les recettes initialement
 new Dropdown(recipes);
-const filterByTags = new Dropdown(recipes);
-const tagsSearch = filterByTags.filterRecipes();
 displayRecipes(recipes);

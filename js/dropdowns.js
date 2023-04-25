@@ -1,9 +1,10 @@
-import { Tags } from "./Tags.js";
+import { Tags } from "./tags.js";
 import { normalize } from "./utils.js";
 
 export class Dropdown {
-  constructor(recipes) {
+  constructor(recipes, filterUniqueRecipes) {
     this.recipes = recipes;
+    this.filterUniqueRecipes = filterUniqueRecipes;
 
     this.buttonGroupIngredients = document.getElementsByClassName(
       "btn-group ingredients"
@@ -20,12 +21,12 @@ export class Dropdown {
     this.ustensilsList = document.getElementById("ustensilsList");
 
     this.dropdownMenu = document.querySelectorAll(".dropdown-menu");
-    this.searchInput = document.getElementById("inputSearchIngredients");
+    this.searchIngredient = document.getElementById("inputSearchIngredients");
+    this.searchAppliance = document.getElementById("inputSearchAppliance");
+    this.searchUstensil = document.getElementById("inputSearchUstensils");
 
     this.addDropdownButtonListener();
-
     this.searchInDropdown();
-    this.closeDropdown();
   }
 
   addDropdownButtonListener() {
@@ -40,14 +41,15 @@ export class Dropdown {
         dropdownMenu.style.display = "block";
 
         // Appeler les méthodes de recherche et de récupération de la liste d'ingrédients
-        this.searchInDropdown();
         this.getIngredients();
       }
+      this.closeDropdown();
     });
 
     this.buttonGroupAppliances.addEventListener("click", (e) => {
       e.preventDefault();
       this.buttonGroupAppliances.classList.toggle("active");
+
       if (this.buttonGroupAppliances.classList.contains("active")) {
         const dropdownMenu = document.getElementsByClassName(
           "dropdown-appliances"
@@ -55,14 +57,17 @@ export class Dropdown {
         dropdownMenu.style.display = "block";
 
         // Appeler les méthodes de recherche et de récupération de la liste d'ingrédients
-        this.searchInDropdown();
         this.getAppliances();
+        this.searchInDropdown();
+        this.closeDropdown();
       }
     });
 
     this.buttonGroupUstensils.addEventListener("click", (e) => {
       e.preventDefault();
       this.buttonGroupUstensils.classList.toggle("active");
+
+      this.closeDropdown();
       if (this.buttonGroupUstensils.classList.contains("active")) {
         const dropdownMenu =
           document.getElementsByClassName("dropdown-ustensils")[0];
@@ -71,6 +76,7 @@ export class Dropdown {
         // Appeler les méthodes de recherche et de récupération de la liste d'ingrédients
         this.searchInDropdown();
         this.getUstensils();
+        this.filterRecipesByTags();
       }
     });
   }
@@ -99,15 +105,21 @@ export class Dropdown {
     // Créer un élément de liste pour chaque ingrédient
     capitalizedIngredients.forEach((capitalizedIngredient) => {
       // Ne pas afficher l'ingrédient de la liste si il est deja sélectionné dans les tags
+
       // Vérifier si l'ingrédient existe déjà dans les tags
       const existingTag = document.getElementById(
         `tag-id-${capitalizedIngredient}`
       );
-
       if (existingTag) {
         return;
-      }
-
+      } else {
+        const recipeList = Array.from(
+        document.getElementsByClassName("list-group-item")
+      );
+      //Créer un nouveau tag et l'ajouter a la section tags
+      new Tags(recipeList, this.recipes);}
+     
+     // On peut créer et afficher la liste des ingrédients quand toutes les conditions sont vérifiées
       const listItem = document.createElement("li");
       listItem.classList.add("list-item");
       const link = document.createElement("a");
@@ -118,17 +130,11 @@ export class Dropdown {
       this.ingredientsList.appendChild(listItem);
       listItem.appendChild(link);
     });
-
-    const recipeList = Array.from(
-      document.getElementsByClassName("list-group-item")
-    );
-
-    const addTags = new Tags(recipeList, this.recipes);
-    const addTagsInDOM = addTags.displayTags();
   }
 
   getAppliances() {
     // Récupérer tous les appareils à partir des recettes
+
     const allAppliances = this.recipes.reduce((acc, recipe) => {
       return acc.concat(recipe.appliance.toLowerCase());
     }, []);
@@ -152,6 +158,11 @@ export class Dropdown {
       );
       if (existingTag) {
         return;
+      } else {
+        const recipeList = Array.from(
+          document.getElementsByClassName("list-group-item")
+        );
+        new Tags(recipeList, this.recipes);
       }
       const listItem = document.createElement("li");
       listItem.classList.add("list-item");
@@ -163,11 +174,8 @@ export class Dropdown {
       this.appliancesList.appendChild(listItem);
       listItem.appendChild(link);
     });
-    const recipeList = Array.from(
-      document.getElementsByClassName("list-group-item")
-    );
-    const filteredByTags = new Tags(recipeList, this.recipes);
-    const filtered = filteredByTags.displayTags();
+   
+    
   }
   getUstensils() {
     // Récupérer tous les ustensiles à partir des recettes
@@ -196,7 +204,13 @@ export class Dropdown {
       );
       if (existingTag) {
         return;
+      } else {
+        const recipeList = Array.from(
+          document.getElementsByClassName("list-group-item")
+        );
+        new Tags(recipeList, this.recipes);
       }
+      
       const listItem = document.createElement("li");
       listItem.classList.add("list-item");
       const link = document.createElement("a");
@@ -207,23 +221,21 @@ export class Dropdown {
       this.ustensilsList.appendChild(listItem);
       listItem.appendChild(link);
     });
-    const recipeList = Array.from(
-      document.getElementsByClassName("list-group-item")
-    );
-    const addTag = new Tags(recipeList, this.recipes);
-    const addTagInDOM = addTag.displayTags(this.recipes);
+   
+   
   }
+
   // Fonction de filtrage des recettes en fonction des ingrédients sélectionnés
-  filterRecipes(tagLinks) {
+  filterRecipesByTags() {
     const filteredRecipes = [];
 
-    for (let i = 0; i < this.recipes.length; i++) {
-      const recipe = this.recipes[i];
-
+    for (let i = 0; i < this.ingredientsList.length; i++) {
+      const uniqueRecipe = this.ingredientsList[i];
+      console.log(uniqueRecipe);
       let containsAllTagsLinks = true;
 
       if (containsAllTagsLinks) {
-        filteredRecipes.push(recipe);
+        filteredRecipes.push(uniqueRecipe);
       }
     }
 
@@ -231,12 +243,11 @@ export class Dropdown {
   }
 
   searchInDropdown() {
-    this.searchInput.addEventListener("input", () => {
-      let searchTerm = this.searchInput.value.trim().toLowerCase();
+    this.searchIngredient.addEventListener("input", () => {
+      const searchTerm = this.searchIngredient.value.trim().toLowerCase();
+
       // on vide la liste dès 3 caractères saisis dans le champ
       if (searchTerm.length < 3) {
-        this.ingredientsList.innerHTML = "";
-
         return;
       }
       // Attention particulière à la saisie des accents
@@ -247,10 +258,16 @@ export class Dropdown {
       if (pluralSearchTerm) {
         searchTerm = searchTerm.slice(0, -1); // Effacer le s à la fin
       }
+      const recipeList = Array.from(
+        document.getElementsByClassName("list-group-item")
+      );
+
       // Filtrer les ingrédients en fonction de la recherche saisie
-      const filteredIngredients = this.recipes.filter((recipe) => {
-        return recipe.ingredients.some((ingredient) => {
-          let ingredientName = ingredient.ingredient;
+
+      const filteredIngredients = recipeList
+        .filter((ingredients) => {
+          let ingredientName = ingredients.textContent;
+          console.log(ingredientName);
           normalize(ingredientName);
 
           // Filter en fonction de la recherche avec des pluriels
@@ -259,15 +276,34 @@ export class Dropdown {
             ingredientName = ingredientName.slice(0, -1);
           }
 
-          // Recherche matche avec le nom de l'ingrédient ?
+          // La recherche correspond-elle au nom de l'ingrédient?
           return (
             ingredientName.includes(searchTerm) ||
             (pluralSearchTerm && ingredientName.includes(searchTerm + "s"))
           );
+        })
+        .map((ingredient) => {
+          const ingredientText = ingredient.textContent;
+          const matches = ingredientText.match(/^([^:]+)/);
+          return matches ? matches[1].trim() : ingredientText.trim();
         });
-      });
+
       // Vider la liste existante d'ingrédients
       this.ingredientsList.innerHTML = "";
+      // Supprimer les doublons
+      const uniqueIngredients = [...new Set(filteredIngredients)];
+      // Créer les éléments HTML pour chaque ingrédient filtré
+      uniqueIngredients.forEach((ingredient) => {
+        const listItem = document.createElement("li");
+        listItem.classList.add("list-item");
+        const link = document.createElement("a");
+        link.classList.add("list-group-item", "tag-ingredient");
+        link.innerText = ingredient;
+
+        // Ajouter l'élément de liste à la liste des ingrédients
+        this.ingredientsList.appendChild(listItem);
+        listItem.appendChild(link);
+      });
     });
   }
 
@@ -288,7 +324,7 @@ export class Dropdown {
             menu.style.display = "none";
           }
         });
-        this.searchInput.value = "";
+        this.searchIngredient.value = "";
       }
     });
   }
