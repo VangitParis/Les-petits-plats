@@ -219,7 +219,7 @@ export class Dropdown {
       document.getElementsByClassName("list-group-item")
     );
     const addTag = new Tags(recipeList, this.recipes);
-    const addTagInDOM = addTag.displayTags(this.recipes);
+    addTag.displayTags(this.recipes);
   }
   // Fonction de filtrage des recettes en fonction des ingrédients sélectionnés
   filterRecipes(tagLinks) {
