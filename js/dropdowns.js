@@ -1,4 +1,5 @@
 import { Tags } from "./Tags.js";
+import { normalize } from "./utils.js";
 
 export class Dropdown {
   constructor(recipes, uniqueRecipes) {
