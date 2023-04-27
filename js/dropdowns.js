@@ -109,7 +109,7 @@ export class Dropdown {
       // Ne pas afficher l'ingrédient de la liste si il est deja sélectionné dans les tags
       // Vérifier si l'ingrédient existe déjà dans les tags
       const existingTag = document.getElementById(
-        `tag-id-${ capitalizedIngredient }`
+        `tag-id-${capitalizedIngredient}`
       );
 
       if (existingTag) {
@@ -156,7 +156,7 @@ export class Dropdown {
     capitalizedAppliances.forEach((capitalizedAppliance) => {
       // Vérifier si l'ingrédient existe déjà dans les tags
       const existingTag = document.getElementById(
-        `tag-id-${ capitalizedAppliance }`
+        `tag-id-${capitalizedAppliance}`
       );
       if (existingTag) {
         return;
@@ -200,7 +200,7 @@ export class Dropdown {
     capitalizedUstensils.forEach((capitalizedUstensil) => {
       // Vérifier si l'ingrédient existe déjà dans les tags
       const existingTag = document.getElementById(
-        `tag-id-${ capitalizedUstensil }`
+        `tag-id-${capitalizedUstensil}`
       );
       if (existingTag) {
         return;
@@ -279,83 +279,59 @@ export class Dropdown {
     });
   }
 
+  // Ajouter un écouteur d'événement pour chaque bouton de la dropdown et la fermer
+  closeDropdown() {
+    const toggleMenus = (menu) => {
+      this.dropdownMenuIngredients.style.display =
+        menu === "ingredients" ? "block" : "none";
+      this.dropdownMenuAppliances.style.display =
+        menu === "appliances" ? "block" : "none";
+      this.dropdownMenuUstensils.style.display =
+        menu === "ustensils" ? "block" : "none";
+    };
 
-    // Ajouter un écouteur d'événement pour chaque bouton de la dropdown
-    closeDropdown() {
-      const toggleMenus = (menu) => {
-        this.dropdownMenuIngredients.style.display = (menu === "ingredients") ? "block" : "none";
-        this.dropdownMenuAppliances.style.display = (menu === "appliances") ? "block" : "none";
-        this.dropdownMenuUstensils.style.display = (menu === "ustensils") ? "block" : "none";
-      }
-    
-      // Ajouter un écouteur d'événement pour chaque bouton de la dropdown
-      this.buttonGroupIngredients.addEventListener("click", () => {
-        toggleMenus("ingredients");
-        this.buttonGroupIngredients.classList.add("active");
-        this.buttonGroupAppliances.classList.remove("active");
-        this.buttonGroupUstensils.classList.remove("active");
-      });
-    
-      this.buttonGroupAppliances.addEventListener("click", () => {
-        toggleMenus("appliances");
-        this.buttonGroupAppliances.classList.add("active");
-        this.buttonGroupIngredients.classList.remove("active");
-        this.buttonGroupUstensils.classList.remove("active");
-      });
-    
-      this.buttonGroupUstensils.addEventListener("click", () => {
-        toggleMenus("ustensils");
-        this.buttonGroupUstensils.classList.add("active");
-        this.buttonGroupIngredients.classList.remove("active");
-        this.buttonGroupAppliances.classList.remove("active");
-      });
-    
-      // Ajouter un écouteur d'événement pour fermer la dropdown
-      document.addEventListener("click", (e) => {
-        // Vérifier si l'élément sur lequel l'événement a été déclenché est dans la dropdown
-        const isDropdownElement = !e.target.matches(".dropdown-toggle") &&
-          !e.target.matches("#inputSearchIngredients") &&
-          !e.target.matches("#inputSearchAppliances") &&
-          !e.target.matches("#inputSearchUstensils");
-        
-        // Vérifier si l'élément sur lequel l'événement a été déclenché est l'input
-        const isInputElement = !e.target.matches("#searchInput");
-        
-        // Vérifier si les boutons de la dropdown sont déjà actifs
-        const isDropdownActive = this.buttonGroupIngredients.classList.contains("active") ||
-          this.buttonGroupAppliances.classList.contains("active") ||
-          this.buttonGroupUstensils.classList.contains("active");
-        
-        // Si l'élément sur lequel l'événement a été déclenché est dans la dropdown, ne rien faire
-        if (isDropdownElement) {
+    // Si on clique sur une autre dropdown on enlève la classe "active" pour afficher que celle qui est cliquée
+    this.buttonGroupIngredients.addEventListener("click", () => {
+      toggleMenus("ingredients");
+      this.buttonGroupIngredients.classList.add("active");
+      this.buttonGroupAppliances.classList.remove("active");
+      this.buttonGroupUstensils.classList.remove("active");
+    });
+
+    this.buttonGroupAppliances.addEventListener("click", () => {
+      toggleMenus("appliances");
+      this.buttonGroupAppliances.classList.add("active");
+      this.buttonGroupIngredients.classList.remove("active");
+      this.buttonGroupUstensils.classList.remove("active");
+    });
+
+    this.buttonGroupUstensils.addEventListener("click", () => {
+      toggleMenus("ustensils");
+      this.buttonGroupUstensils.classList.add("active");
+      this.buttonGroupIngredients.classList.remove("active");
+      this.buttonGroupAppliances.classList.remove("active");
+    });
+
+    // Ajouter un écouteur d'événement pour fermer la dropdown affichée
+    document.addEventListener("click", (e) => {
+      //seulement si on ne clique pas sur dropdown-toggle ou dans le champ des input des dropdowns
+      if (!e.target.matches(".dropdown-toggle")) {
+        if (
+          e.target.matches("#inputSearchIngredients") ||
+          e.target.matches("#inputSearchAppliances") ||
+          e.target.matches("#inputSearchUstensils")
+        ) {
           return;
         }
-        
-        // Si l'élément sur lequel l'événement a été déclenché est l'input, et les boutons de la dropdown sont déjà actifs, ne rien faire
-        if (isInputElement && isDropdownActive) {
-          return;
-        }
-        
-        // Si les boutons de la dropdown sont déjà actifs, les désactiver et fermer la dropdown
-        if (isDropdownActive) {
-          this.buttonGroupIngredients.classList.remove("active");
-          this.buttonGroupAppliances.classList.remove("active");
-          this.buttonGroupUstensils.classList.remove("active");
-      
-          this.dropdownMenu.forEach((menu) => {
-            if (menu.style.display === "block") {
-              menu.style.display = "none";
-            }
-          });
-          this.searchInput.value = "";
-        } else {
-          // Sinon, activer les boutons
-          this.buttonGroupIngredients.classList.add("active");
-          this.buttonGroupAppliances.classList.add("active");
-    
-        this.buttonGroupUstensils.classList.add("active");
+        this.buttonGroupIngredients.classList.remove("active");
+        this.buttonGroupAppliances.classList.remove("active");
+        this.buttonGroupUstensils.classList.remove("active");
+        this.dropdownMenu.forEach((menu) => {
+          if (menu.style.display === "block") {
+            menu.style.display = "none";
+          }
+        });
       }
     });
-    
   }
 }
