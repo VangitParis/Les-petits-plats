@@ -1,6 +1,5 @@
 import { Tags } from "./Tags.js";
 
-
 export class Dropdown {
   constructor(recipes, uniqueRecipes) {
     this.recipes = recipes;
@@ -19,11 +18,18 @@ export class Dropdown {
     this.ustensilsList = document.getElementById("ustensilsList");
 
     this.dropdownMenu = document.querySelectorAll(".dropdown-menu");
+    this.dropdownMenuIngredients = document.getElementsByClassName(
+      "dropdown-ingredients"
+    )[0];
+    this.dropdownMenuAppliances = document.getElementsByClassName(
+      "dropdown-appliances"
+    )[0];
+    this.dropdownMenuUstensils =
+      document.getElementsByClassName("dropdown-ustensils")[0];
     this.searchInput = document.getElementById("inputSearchIngredients");
 
     this.addDropdownButtonListener();
 
- 
     this.closeDropdown();
   }
 
@@ -91,7 +97,7 @@ export class Dropdown {
 
     // Effacer la liste existante d'ingrédients
     this.ingredientsList.innerHTML = "";
-    
+
     // Mettre la première lettre de chaque ingrédient en majuscule
     let capitalizedIngredients = uniqueIngredients.map((ingredient) => {
       return ingredient.charAt(0).toUpperCase() + ingredient.slice(1);
@@ -102,7 +108,7 @@ export class Dropdown {
       // Ne pas afficher l'ingrédient de la liste si il est deja sélectionné dans les tags
       // Vérifier si l'ingrédient existe déjà dans les tags
       const existingTag = document.getElementById(
-        `tag-id-${capitalizedIngredient}`
+        `tag-id-${ capitalizedIngredient }`
       );
 
       if (existingTag) {
@@ -149,7 +155,7 @@ export class Dropdown {
     capitalizedAppliances.forEach((capitalizedAppliance) => {
       // Vérifier si l'ingrédient existe déjà dans les tags
       const existingTag = document.getElementById(
-        `tag-id-${capitalizedAppliance}`
+        `tag-id-${ capitalizedAppliance }`
       );
       if (existingTag) {
         return;
@@ -193,7 +199,7 @@ export class Dropdown {
     capitalizedUstensils.forEach((capitalizedUstensil) => {
       // Vérifier si l'ingrédient existe déjà dans les tags
       const existingTag = document.getElementById(
-        `tag-id-${capitalizedUstensil}`
+        `tag-id-${ capitalizedUstensil }`
       );
       if (existingTag) {
         return;
@@ -272,25 +278,83 @@ export class Dropdown {
     });
   }
 
-  closeDropdown() {
-    // Ajouter un écouteur d'événement pour fermer la dropdown
-    document.addEventListener("click", (e) => {
-      if (
-        !e.target.matches(".dropdown-toggle") &&
-        !e.target.matches("#inputSearchIngredients") &&
-        !e.target.matches("#inputSearchAppliances") &&
-        !e.target.matches("#inputSearchUstensils")
-      ) {
-        this.buttonGroupIngredients.classList.remove("active");
+
+    // Ajouter un écouteur d'événement pour chaque bouton de la dropdown
+    closeDropdown() {
+      const toggleMenus = (menu) => {
+        this.dropdownMenuIngredients.style.display = (menu === "ingredients") ? "block" : "none";
+        this.dropdownMenuAppliances.style.display = (menu === "appliances") ? "block" : "none";
+        this.dropdownMenuUstensils.style.display = (menu === "ustensils") ? "block" : "none";
+      }
+    
+      // Ajouter un écouteur d'événement pour chaque bouton de la dropdown
+      this.buttonGroupIngredients.addEventListener("click", () => {
+        toggleMenus("ingredients");
+        this.buttonGroupIngredients.classList.add("active");
         this.buttonGroupAppliances.classList.remove("active");
         this.buttonGroupUstensils.classList.remove("active");
-        this.dropdownMenu.forEach((menu) => {
-          if (menu.style.display === "block") {
-            menu.style.display = "none";
-          }
-        });
-        this.searchInput.value = "";
+      });
+    
+      this.buttonGroupAppliances.addEventListener("click", () => {
+        toggleMenus("appliances");
+        this.buttonGroupAppliances.classList.add("active");
+        this.buttonGroupIngredients.classList.remove("active");
+        this.buttonGroupUstensils.classList.remove("active");
+      });
+    
+      this.buttonGroupUstensils.addEventListener("click", () => {
+        toggleMenus("ustensils");
+        this.buttonGroupUstensils.classList.add("active");
+        this.buttonGroupIngredients.classList.remove("active");
+        this.buttonGroupAppliances.classList.remove("active");
+      });
+    
+      // Ajouter un écouteur d'événement pour fermer la dropdown
+      document.addEventListener("click", (e) => {
+        // Vérifier si l'élément sur lequel l'événement a été déclenché est dans la dropdown
+        const isDropdownElement = e.target.matches(".dropdown-toggle") ||
+          e.target.matches("#inputSearchIngredients") ||
+          e.target.matches("#inputSearchAppliances") ||
+          e.target.matches("#inputSearchUstensils");
+        
+        // Vérifier si l'élément sur lequel l'événement a été déclenché est l'input
+        const isInputElement = e.target.matches("#searchInput");
+        
+        // Vérifier si les boutons de la dropdown sont déjà actifs
+        const isDropdownActive = this.buttonGroupIngredients.classList.contains("active") ||
+          this.buttonGroupAppliances.classList.contains("active") ||
+          this.buttonGroupUstensils.classList.contains("active");
+        
+        // Si l'élément sur lequel l'événement a été déclenché est dans la dropdown, ne rien faire
+        if (isDropdownElement) {
+          return;
+        }
+        
+        // Si l'élément sur lequel l'événement a été déclenché est l'input, et les boutons de la dropdown sont déjà actifs, ne rien faire
+        if (isInputElement && isDropdownActive) {
+          return;
+        }
+        
+        // Si les boutons de la dropdown sont déjà actifs, les désactiver et fermer la dropdown
+        if (isDropdownActive) {
+          this.buttonGroupIngredients.classList.remove("active");
+          this.buttonGroupAppliances.classList.remove("active");
+          this.buttonGroupUstensils.classList.remove("active");
+      
+          this.dropdownMenu.forEach((menu) => {
+            if (menu.style.display === "block") {
+              menu.style.display = "none";
+            }
+          });
+          this.searchInput.value = "";
+        } else {
+          // Sinon, activer les boutons
+          this.buttonGroupIngredients.classList.add("active");
+          this.buttonGroupAppliances.classList.add("active");
+    
+        this.buttonGroupUstensils.classList.add("active");
       }
     });
+    
   }
 }
