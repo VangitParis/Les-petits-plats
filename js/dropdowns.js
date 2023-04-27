@@ -313,13 +313,13 @@ export class Dropdown {
       // Ajouter un écouteur d'événement pour fermer la dropdown
       document.addEventListener("click", (e) => {
         // Vérifier si l'élément sur lequel l'événement a été déclenché est dans la dropdown
-        const isDropdownElement = e.target.matches(".dropdown-toggle") ||
-          e.target.matches("#inputSearchIngredients") ||
-          e.target.matches("#inputSearchAppliances") ||
-          e.target.matches("#inputSearchUstensils");
+        const isDropdownElement = !e.target.matches(".dropdown-toggle") &&
+          !e.target.matches("#inputSearchIngredients") &&
+          !e.target.matches("#inputSearchAppliances") &&
+          !e.target.matches("#inputSearchUstensils");
         
         // Vérifier si l'élément sur lequel l'événement a été déclenché est l'input
-        const isInputElement = e.target.matches("#searchInput");
+        const isInputElement = !e.target.matches("#searchInput");
         
         // Vérifier si les boutons de la dropdown sont déjà actifs
         const isDropdownActive = this.buttonGroupIngredients.classList.contains("active") ||
