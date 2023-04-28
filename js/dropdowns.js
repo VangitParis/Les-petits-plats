@@ -46,8 +46,9 @@ export class Dropdown {
         dropdownMenu.style.display = "block";
 
         // Appeler les méthodes de recherche et de récupération de la liste d'ingrédients
-        this.searchInDropdown();
         this.getIngredients();
+        this.searchInDropdown();
+       
       }
     });
 
@@ -61,8 +62,9 @@ export class Dropdown {
         dropdownMenu.style.display = "block";
 
         // Appeler les méthodes de recherche et de récupération de la liste d'ingrédients
-        this.searchInDropdown();
         this.getAppliances();
+        this.searchInDropdown();
+        
       }
     });
 
@@ -75,8 +77,9 @@ export class Dropdown {
         dropdownMenu.style.display = "block";
 
         // Appeler les méthodes de recherche et de récupération de la liste d'ingrédients
-        this.searchInDropdown();
         this.getUstensils();
+        this.searchInDropdown();
+        
       }
     });
   }
