@@ -1,4 +1,4 @@
-export const normalize = (element) => {
+export const removeDiacritics = (element) => {
   if (typeof element !== "string") {
     throw new TypeError("il faut une string");
   }
@@ -6,10 +6,6 @@ export const normalize = (element) => {
   return element
     .trim()
     .toLowerCase()
-    .replace(/[àáâä]/g, "a")
-    .replace(/[éèêë]/g, "e")
-    .replace(/[îï]/g, "i")
-    .replace(/[ôö]/g, "o")
-    .replace(/[ùûü]/g, "u")
-    .replace(/[ç]/g, "c");
+    .normalize("NFD")
+    .replace(/Diacritics/g, "");
 };

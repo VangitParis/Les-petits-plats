@@ -1,9 +1,10 @@
-import { Tags } from "./Tags.js";
-import { normalize } from "./utils.js";
+import { Tags } from "./tags.js";
+import { removeDiacritics } from "./utils.js";
 
 export class Dropdown {
-  constructor(recipes, uniqueRecipes) {
+  constructor(recipes, uniqueRecipes,searchText) {
     this.recipes = recipes;
+    this.searchText = searchText;
     this.buttonGroupIngredients = document.getElementsByClassName(
       "btn-group ingredients"
     )[0];
@@ -30,7 +31,7 @@ export class Dropdown {
     this.searchIngredients = document.getElementById("inputSearchIngredients");
 
     this.addDropdownButtonListener();
-
+    this.searchInDropdown();
     this.closeDropdown();
   }
 
@@ -47,8 +48,7 @@ export class Dropdown {
 
         // Appeler les méthodes de recherche et de récupération de la liste d'ingrédients
         this.getIngredients();
-        this.searchInDropdown();
-       
+        // this.searchInDropdown();
       }
     });
 
@@ -63,8 +63,7 @@ export class Dropdown {
 
         // Appeler les méthodes de recherche et de récupération de la liste d'ingrédients
         this.getAppliances();
-        this.searchInDropdown();
-        
+        // this.searchInDropdown();
       }
     });
 
@@ -78,10 +77,27 @@ export class Dropdown {
 
         // Appeler les méthodes de recherche et de récupération de la liste d'ingrédients
         this.getUstensils();
-        this.searchInDropdown();
-        
+        // this.searchInDropdown();
       }
     });
+  }
+  createListItem(list, text, className) {
+    // Ne pas afficher l'ingrédient de la liste si il est deja sélectionné dans les tags
+    // Vérifier si l'ingrédient existe déjà dans les tags
+    // Vérifier si l'élément existe déjà dans la liste
+    const existingTag = document.getElementById(`tag-id-${text}`);
+    if (existingTag) {
+      return;
+    }
+    const listItem = document.createElement("li");
+    listItem.classList.add("list-item");
+    const link = document.createElement("a");
+    link.classList.add("list-group-item", className);
+    link.innerText = text;
+
+    // Ajouter l'élément de liste à la liste
+    list.appendChild(listItem);
+    listItem.appendChild(link);
   }
 
   getIngredients() {
@@ -109,33 +125,18 @@ export class Dropdown {
 
     // Créer un élément de liste pour chaque ingrédient
     capitalizedIngredients.forEach((capitalizedIngredient) => {
-      // Ne pas afficher l'ingrédient de la liste si il est deja sélectionné dans les tags
-      // Vérifier si l'ingrédient existe déjà dans les tags
-      const existingTag = document.getElementById(
-        `tag-id-${capitalizedIngredient}`
+      this.createListItem(
+        this.ingredientsList,
+        capitalizedIngredient,
+        "tag-ingredient"
       );
-
-      if (existingTag) {
-        return;
-      }
-
-      const listItem = document.createElement("li");
-      listItem.classList.add("list-item");
-      const link = document.createElement("a");
-      link.classList.add("list-group-item", "tag-ingredient");
-      link.innerText = capitalizedIngredient;
-
-      // Ajouter l'élément de liste à la liste des ingrédients
-      this.ingredientsList.appendChild(listItem);
-      listItem.appendChild(link);
     });
 
-    const recipeList = Array.from(
+    const tagLinks = Array.from(
       document.getElementsByClassName("list-group-item")
     );
-
-    const addTags = new Tags(recipeList, this.recipes);
-    const addTagsInDOM = addTags.displayTags();
+    const addTags = new Tags(tagLinks, this.recipes);
+    addTags.displayTags();
   }
 
   getAppliances() {
@@ -158,27 +159,17 @@ export class Dropdown {
     // Créer un élément de liste pour chaque appareil
     capitalizedAppliances.forEach((capitalizedAppliance) => {
       // Vérifier si l'ingrédient existe déjà dans les tags
-      const existingTag = document.getElementById(
-        `tag-id-${capitalizedAppliance}`
+      this.createListItem(
+        this.appliancesList,
+        capitalizedAppliance,
+        "tag-appliance"
       );
-      if (existingTag) {
-        return;
-      }
-      const listItem = document.createElement("li");
-      listItem.classList.add("list-item");
-      const link = document.createElement("a");
-      link.classList.add("list-group-item", "tag-appliance");
-      link.innerText = capitalizedAppliance;
-
-      // Ajouter l'élément de liste à la liste des appareils
-      this.appliancesList.appendChild(listItem);
-      listItem.appendChild(link);
     });
-    const recipeList = Array.from(
+    const tagLinks = Array.from(
       document.getElementsByClassName("list-group-item")
     );
-    const filteredByTags = new Tags(recipeList, this.recipes);
-    const filtered = filteredByTags.displayTags();
+    const addTags = new Tags(tagLinks, this.recipes);
+    addTags.displayTags();
   }
   getUstensils() {
     // Récupérer tous les ustensiles à partir des recettes
@@ -202,26 +193,16 @@ export class Dropdown {
     // Créer un élément de liste pour chaque ustensile
     capitalizedUstensils.forEach((capitalizedUstensil) => {
       // Vérifier si l'ingrédient existe déjà dans les tags
-      const existingTag = document.getElementById(
-        `tag-id-${capitalizedUstensil}`
+      this.createListItem(
+        this.ustensilsList,
+        capitalizedUstensil,
+        "tag-ustensil"
       );
-      if (existingTag) {
-        return;
-      }
-      const listItem = document.createElement("li");
-      listItem.classList.add("list-item");
-      const link = document.createElement("a");
-      link.classList.add("list-group-item", "tag-ustensil");
-      link.innerText = capitalizedUstensil;
-
-      // Ajouter l'élément de liste à la liste des ustensiles
-      this.ustensilsList.appendChild(listItem);
-      listItem.appendChild(link);
     });
-    const recipeList = Array.from(
+    const tagLinks = Array.from(
       document.getElementsByClassName("list-group-item")
     );
-    const addTag = new Tags(recipeList, this.recipes);
+    const addTag = new Tags(tagLinks, this.recipes);
     addTag.displayTags(this.recipes);
   }
   // Fonction de filtrage des recettes en fonction des ingrédients sélectionnés
@@ -250,41 +231,42 @@ export class Dropdown {
         return;
       }
       // Attention particulière à la saisie des accents
-      normalize(searchTerm);
+      removeDiacritics(searchTerm);
 
       // Attention particulière à la saisie des pluriels
       const pluralSearchTerm = searchTerm.endsWith("s");
       if (pluralSearchTerm) {
         searchTerm = searchTerm.slice(0, -1); // Effacer le s à la fin
       }
-      const recipeList = Array.from(
+      const ingredientsListLinks = Array.from(
         document.getElementsByClassName("list-group-item")
       );
 
       // Filtrer les ingrédients en fonction de la recherche saisie
-
-      const filteredIngredients = recipeList
+      const filteredIngredients = ingredientsListLinks
         .filter((ingredients) => {
           let ingredientName = ingredients.textContent;
-    
-          normalize(ingredientName);
 
-          // Filter en fonction de la recherche avec des pluriels
-          const pluralIngredientName = ingredientName.endsWith("s");
-          if (pluralIngredientName) {
-            ingredientName = ingredientName.slice(0, -1);
-          }
+          removeDiacritics(ingredientName);
+
+          // // Filter en fonction de la recherche avec des pluriels
+          // const pluralIngredientName = ingredientName.endsWith("s");
+          // if (pluralIngredientName) {
+          //   ingredientName = ingredientName.slice(0, -1);
+          // }
 
           // La recherche correspond-elle au nom de l'ingrédient?
           return (
-            ingredientName.includes(searchTerm) ||
-            (pluralSearchTerm && ingredientName.includes(searchTerm + "s"))
+            ingredientName.indexOf(searchTerm) !== -1 ||
+            (pluralSearchTerm &&
+              ingredientName.indexOf(searchTerm + "s") !== -1)
           );
         })
         .map((ingredient) => {
-          const ingredientText = ingredient.textContent;
+          console.log(ingredient.textContent.trim());
+          const ingredientText = ingredient.textContent.trim();
           const matches = ingredientText.match(/^([^:]+)/);
-          return matches ? matches[1].trim() : ingredientText.trim();
+          return matches ? matches[1].trim() : ingredientText;
         });
 
       // Vider la liste existante d'ingrédients
@@ -293,18 +275,15 @@ export class Dropdown {
       const uniqueIngredients = [...new Set(filteredIngredients)];
       // Créer les éléments HTML pour chaque ingrédient filtré
       uniqueIngredients.forEach((ingredient) => {
-        const listItem = document.createElement("li");
-        listItem.classList.add("list-item");
-        const link = document.createElement("a");
-        link.classList.add("list-group-item", "tag-ingredient");
-        link.innerText = ingredient;
-
-        // Ajouter l'élément de liste à la liste des ingrédients
-        this.ingredientsList.appendChild(listItem);
-        listItem.appendChild(link);
+        this.createListItem(this.ingredientsList, ingredient, "tag-ingredient");
       });
+
+      const tagLinks = Array.from(
+        document.getElementsByClassName("list-group-item")
+      );
+      const addTag = new Tags(tagLinks, this.recipes);
+      addTag.displayTags(uniqueIngredients);
     });
-  
   }
 
   // Ajouter un écouteur d'événement pour chaque bouton de la dropdown et la fermer
@@ -340,7 +319,7 @@ export class Dropdown {
       this.buttonGroupIngredients.classList.remove("active");
       this.buttonGroupAppliances.classList.remove("active");
     });
-   
+
     // Ajouter un écouteur d'événement pour fermer la dropdown affichée
     document.addEventListener("click", (e) => {
       //seulement si on ne clique pas sur dropdown-toggle ou dans le champ des input des dropdowns
@@ -360,9 +339,7 @@ export class Dropdown {
             menu.style.display = "none";
           }
         });
-       
       }
     });
-    
   }
 }
