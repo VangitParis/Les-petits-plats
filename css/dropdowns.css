@@ -157,8 +157,10 @@ button span{
 
 }
 .form-control:focus{
-    outline: 1px solid blue;
+    outline: 1px solid transparent;
     color: #fff;
+    background-color: transparent;
+    opacity: 1;
 }
 .dropdown {
     position: relative;

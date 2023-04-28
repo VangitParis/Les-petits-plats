@@ -27,7 +27,7 @@ export class Dropdown {
     )[0];
     this.dropdownMenuUstensils =
       document.getElementsByClassName("dropdown-ustensils")[0];
-    this.searchInput = document.getElementById("inputSearchIngredients");
+    this.searchIngredients = document.getElementById("inputSearchIngredients");
 
     this.addDropdownButtonListener();
 
@@ -242,12 +242,11 @@ export class Dropdown {
   }
 
   searchInDropdown() {
-    this.searchInput.addEventListener("input", () => {
-      let searchTerm = this.searchInput.value.trim().toLowerCase();
+    this.searchIngredients.addEventListener("input", () => {
+      let searchTerm = this.searchIngredients.value.trim().toLowerCase();
       // on vide la liste dès 3 caractères saisis dans le champ
       if (searchTerm.length < 3) {
         this.ingredientsList.innerHTML = "";
-
         return;
       }
       // Attention particulière à la saisie des accents
