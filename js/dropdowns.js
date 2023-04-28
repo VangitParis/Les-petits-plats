@@ -243,10 +243,10 @@ export class Dropdown {
 
   searchInDropdown() {
     this.searchIngredients.addEventListener("input", () => {
-      let searchTerm = this.searchIngredients.value.trim().toLowerCase();
+      const searchTerm = this.searchIngredients.value.trim().toLowerCase();
+
       // on vide la liste dès 3 caractères saisis dans le champ
       if (searchTerm.length < 3) {
-        this.ingredientsList.innerHTML = "";
         return;
       }
       // Attention particulière à la saisie des accents
@@ -257,10 +257,16 @@ export class Dropdown {
       if (pluralSearchTerm) {
         searchTerm = searchTerm.slice(0, -1); // Effacer le s à la fin
       }
+      const recipeList = Array.from(
+        document.getElementsByClassName("list-group-item")
+      );
+
       // Filtrer les ingrédients en fonction de la recherche saisie
-      const filteredIngredients = this.recipes.filter((recipe) => {
-        return recipe.ingredients.some((ingredient) => {
-          let ingredientName = ingredient.ingredient;
+
+      const filteredIngredients = recipeList
+        .filter((ingredients) => {
+          let ingredientName = ingredients.textContent;
+    
           normalize(ingredientName);
 
           // Filter en fonction de la recherche avec des pluriels
@@ -269,15 +275,34 @@ export class Dropdown {
             ingredientName = ingredientName.slice(0, -1);
           }
 
-          // Recherche matche avec le nom de l'ingrédient ?
+          // La recherche correspond-elle au nom de l'ingrédient?
           return (
             ingredientName.includes(searchTerm) ||
             (pluralSearchTerm && ingredientName.includes(searchTerm + "s"))
           );
+        })
+        .map((ingredient) => {
+          const ingredientText = ingredient.textContent;
+          const matches = ingredientText.match(/^([^:]+)/);
+          return matches ? matches[1].trim() : ingredientText.trim();
         });
-      });
+
       // Vider la liste existante d'ingrédients
       this.ingredientsList.innerHTML = "";
+      // Supprimer les doublons
+      const uniqueIngredients = [...new Set(filteredIngredients)];
+      // Créer les éléments HTML pour chaque ingrédient filtré
+      uniqueIngredients.forEach((ingredient) => {
+        const listItem = document.createElement("li");
+        listItem.classList.add("list-item");
+        const link = document.createElement("a");
+        link.classList.add("list-group-item", "tag-ingredient");
+        link.innerText = ingredient;
+
+        // Ajouter l'élément de liste à la liste des ingrédients
+        this.ingredientsList.appendChild(listItem);
+        listItem.appendChild(link);
+      });
     });
   }
 
