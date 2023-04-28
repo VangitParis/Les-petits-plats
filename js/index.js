@@ -60,7 +60,20 @@ function displayRecipes(recipes) {
   });
 }
 
+function manageAdvancedSearch() {
+  const searchInputIngredients = document.getElementById(
+    "inputSearchIngredients"
+  );
+  const searchText = searchInputIngredients.value.toLowerCase().trim();
 
+ 
+}
+
+//Ajouter un évènement de saisie sur la la recherche avancée
+const advancedSearchIngredients = document.getElementById(
+  "inputSearchIngredients"
+);
+advancedSearchIngredients.addEventListener("input", manageAdvancedSearch);
 // Afficher toutes les recettes initialement
 new Dropdown(recipes);
 displayRecipes(recipes);

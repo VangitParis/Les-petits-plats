@@ -304,6 +304,7 @@ export class Dropdown {
         listItem.appendChild(link);
       });
     });
+  
   }
 
   // Ajouter un écouteur d'événement pour chaque bouton de la dropdown et la fermer
@@ -323,6 +324,7 @@ export class Dropdown {
       this.buttonGroupIngredients.classList.add("active");
       this.buttonGroupAppliances.classList.remove("active");
       this.buttonGroupUstensils.classList.remove("active");
+      this.searchInDropdown();
     });
 
     this.buttonGroupAppliances.addEventListener("click", () => {
@@ -338,7 +340,7 @@ export class Dropdown {
       this.buttonGroupIngredients.classList.remove("active");
       this.buttonGroupAppliances.classList.remove("active");
     });
-
+   
     // Ajouter un écouteur d'événement pour fermer la dropdown affichée
     document.addEventListener("click", (e) => {
       //seulement si on ne clique pas sur dropdown-toggle ou dans le champ des input des dropdowns
@@ -358,7 +360,9 @@ export class Dropdown {
             menu.style.display = "none";
           }
         });
+       
       }
     });
+    
   }
 }
