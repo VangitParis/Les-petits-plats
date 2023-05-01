@@ -4,8 +4,7 @@ export const removeDiacritics = (element) => {
   }
 
   return element
-    .trim()
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/Diacritics/g, "");
+  .normalize("NFD") // Normaliser avec la forme NFD
+  .replace(/\p{Diacritic}/gu, ""); // Retirer les diacritiques avec une expression régulière
 };
+

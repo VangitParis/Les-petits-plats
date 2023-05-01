@@ -3,7 +3,7 @@ import { Tags } from "./tags.js";
 import { removeDiacritics } from "./utils.js";
 
 export class Dropdown {
-  constructor(recipes, searchText = "",displayRecipes) {
+  constructor(recipes, searchText = "", displayRecipes) {
     this.recipes = recipes;
     this.searchText = searchText;
     this.displayRecipes = displayRecipes;
@@ -34,7 +34,10 @@ export class Dropdown {
     )[0];
     this.dropdownMenuUstensils =
       document.getElementsByClassName("dropdown-ustensils")[0];
+
     this.searchIngredients = document.getElementById("inputSearchIngredients");
+    this.searchAppliances = document.getElementById("inputSearchAppliances");
+    this.searchUstensils = document.getElementById("inputSearchUstensils");
 
     this.addDropdownButtonListener();
     this.searchInDropdown();
@@ -228,96 +231,154 @@ export class Dropdown {
     return filteredRecipes;
   }
 
+  // const list = document.getElementsByClassName("list-group")[0];
+  createFilter(list) {
+    const searchTerm = list.searchInput.value.trim().toLowerCase();
+
+    // on vide la liste dès 3 caractères saisis dans le champ
+    if (searchTerm.length < 3) {
+      return;
+    }
+
+    // Recherche d'ingrédients avec ou sans accents
+    const normalizedSearchTerm = removeDiacritics(searchTerm.toLowerCase());
+
+    // Attention particulière à la saisie des pluriels
+    const pluralSearchTerm = normalizedSearchTerm.endsWith("s");
+    const searchTermWithoutPlural = pluralSearchTerm
+      ? normalizedSearchTerm.slice(0, -1)
+      : normalizedSearchTerm;
+
+    // Stockage des ingrédients filtrés uniques dans un objet Set
+    const uniqueItems = new Set();
+    recipes.forEach((recipe) => {
+      if (list.property === "appliance") {
+        let itemName = removeDiacritics(recipe[list.property]).toLowerCase();
+        const itemWithoutPlural = itemName.endsWith("s")
+          ? itemName.slice(0, -1)
+          : itemName;
+        if (itemName.includes(searchTermWithoutPlural)) {
+          uniqueItems.add(itemName);
+        }
+      } else {
+        recipe[list.property].forEach((item) => {
+          let itemName;
+          if (list.property === "ingredients") {
+            itemName = removeDiacritics(item[list.argument]).toLowerCase();
+          } else {
+            itemName = removeDiacritics(item).toLowerCase();
+          }
+          const itemWithoutPlural = itemName.endsWith("s")
+            ? itemName.slice(0, -1)
+            : itemName;
+          if (itemName.includes(searchTermWithoutPlural)) {
+            uniqueItems.add(itemName);
+          }
+        });
+      }
+    });
+    
+
+    // Conversion de l'objet Set en tableau pour l'affichage
+    const uniqueItemsArray = Array.from(uniqueItems);
+
+    // Vider la liste existante d'ingrédients
+    list.list.innerHTML = "";
+
+    // Créer les éléments HTML pour chaque ingrédient filtré
+    uniqueItemsArray.forEach((item) => {
+      const capitalizedItem = item.charAt(0).toUpperCase() + item.slice(1);
+
+      this.createListItem(list.list, capitalizedItem, list.tagClass);
+      // Afficher les ingrédients filtrés
+      return uniqueItemsArray;
+    });
+    const tagLinks = Array.from(
+      document.getElementsByClassName("list-group-item")
+    );
+    const addTag = new Tags(tagLinks, this.recipes);
+    addTag.displayTags(uniqueItemsArray);
+  }
+
   searchInDropdown() {
-    if (this.searchIngredients) {
+   
+    const ingredientFilter = this.createFilter({
+      list: this.ingredientsList,
+      searchInput: this.searchIngredients,
+      property: "ingredients",
+      argument: "ingredient",
+      tagClass: "tag-ingredient",
+    });
+
+    const applianceFilter = this.createFilter({
+      list: this.appliancesList,
+      searchInput: this.searchAppliances,
+      property: "appliance",
+      tagClass: "tag-appliance",
+    });
+
+    const ustensilFilter = this.createFilter({
+      list: this.ustensilsList,
+      searchInput: this.searchUstensils,
+      property: "ustensils",
+      tagClass: "tag-ustensil",
+    }); 
+
+    //écoute du champ ingredient
+    if (this.dropdownMenuIngredients) {
       this.searchIngredients.addEventListener("input", () => {
-        // modifier la hauteur et la taille de la dropdown quand on saisi une recherche
-        if(this.dropdownMenuIngredients){
-          this.dropdownMenuIngredients.classList.add("dropdown-sm-size");
-          this.searchIngredients.classList.add("input-resize");
-          const arrowUp = document.getElementsByClassName("arrow-up")[0];
-          arrowUp.classList.add("arrow-up-resize");
-          const section = document.getElementsByClassName("dropdown")[0];
-          section.classList.add("mb-4");
-          if (this.buttonGroupIngredients.classList.contains("active")) {
-            this.buttonGroupAppliances.style.marginLeft = "2.4rem"
-          } else if (this.buttonGroupAppliances.style.marginLeft = "2.4rem") {
-            this.buttonGroupAppliances.style.marginLeft = "0rem"
-          } 
-        };
-
-        let searchTerm = this.searchIngredients.value.trim().toLowerCase();
-
-        // on vide la liste dès 3 caractères saisis dans le champ
-        if (searchTerm.length < 3) {
-          return;
-        }
-        // Attention particulière à la saisie des accents
-        removeDiacritics(searchTerm);
-
-        // Attention particulière à la saisie des pluriels
-        const pluralSearchTerm = searchTerm.endsWith("s");
-        if (pluralSearchTerm) {
-          searchTerm = searchTerm.slice(0, -1); // Effacer le s à la fin
-        }
-        const ingredientsListLinks = Array.from(
-          document.getElementsByClassName("list-group-item")
+        ingredientFilter;
+        const filteredRecipes = recipes.filter((recipe) =>
+          recipe.ingredients.some((ingredient) =>
+            ingredient.ingredient
+              .toLowerCase()
+              .includes(this.searchIngredients.value.toLowerCase())
+          )
         );
-
-        // Filtrer les ingrédients en fonction de la recherche saisie
-        const filteredIngredients = recipes.forEach((recipe) => {
-          recipe.ingredients.filter((ingredient) => {
-            let ingredientName = ingredient.ingredient;
-            
-            removeDiacritics(ingredientName);
-
-            // Filter en fonction de la recherche avec des pluriels
-            const pluralIngredientName = ingredientName.endsWith("s");
-            if (pluralIngredientName) {
-              ingredientName = ingredientName.slice(0, -1);
-            }
-
-            // La recherche correspond-elle au nom de l'ingrédient?
-            return (
-              ingredientName.includes(searchTerm) ||
-              (pluralSearchTerm &&
-                ingredientName.includes(searchTerm + "s"))
-            );
-          })
-            .map((ingredient) => {
-              const ingredientText = ingredient.ingredient;
-              const matches = ingredientText.match(/^([^:]+)/);
-              return matches ? matches[1].trim() : ingredientText.trim();
-            });
-
-        });
-        // Vider la liste existante d'ingrédients
-        this.ingredientsList.innerHTML = "";
-        // Supprimer les doublons
-        const uniqueIngredients = [...new Set(filteredIngredients)];
-        // Créer les éléments HTML pour chaque ingrédient filtré
-        uniqueIngredients.forEach((ingredient) => {
-          this.createListItem(
-            this.ingredientsList,
-            ingredient,
-            "tag-ingredient"
-          );
-          
-        });
-
-        const tagLinks = Array.from(
-          document.getElementsByClassName("list-group-item")
-        );
-        const addTag = new Tags(tagLinks, this.recipes);
-        addTag.displayTags(uniqueIngredients);
-
-        // Afficher les recettes filtrées
-        this.ingredientsList.innerHTML = uniqueIngredients;
-       debugger
-     
+        this.displayRecipes = filteredRecipes;
       });
-    } 
- 
+      // modifier la hauteur et la taille de la dropdown quand on saisi une recherche
+      // this.dropdownMenuIngredients.classList.add("dropdown-sm-size");
+      // this.searchIngredients.classList.add("input-resize");
+      // const arrowUp = document.getElementsByClassName("arrow-up")[0];
+      // arrowUp.classList.add("arrow-up-resize");
+      // const section = document.getElementsByClassName("dropdown")[0];
+      // section.classList.add("mb-4");
+      // if (this.buttonGroupIngredients.classList.contains("active")) {
+      //   this.buttonGroupAppliances.style.marginLeft = "2.4rem";
+      // } else if ((this.buttonGroupAppliances.style.marginLeft = "2.4rem")) {
+      //   this.buttonGroupAppliances.style.marginLeft = "0rem";
+      // }
+    }
+
+    if (this.dropdownMenuAppliances) {
+      this.searchAppliances.addEventListener("input", (e) => {
+        e.preventDefault();
+        // console.log(e.target.value)
+        applianceFilter;
+        const filteredRecipes = recipes.filter((recipe) =>
+          recipe.appliance
+            .toLowerCase()
+            .includes(this.searchAppliances.value.toLowerCase())
+        );
+
+        this.displayRecipes = filteredRecipes;
+      });
+    }
+    if (this.dropdownMenuUstensils) {
+      this.searchUstensils.addEventListener("input", () => {
+        ustensilFilter;
+        const filteredRecipes = recipes.filter((recipe) =>
+          recipe.ustensils.some((ustensil) =>
+            ustensil
+              .toLowerCase()
+              .includes(this.searchUstensils.value.toLowerCase())
+          )
+        );
+
+        this.displayRecipes = filteredRecipes;
+      });
+    }
   }
 
   // Ajouter un écouteur d'événement pour chaque bouton de la dropdown et la fermer
@@ -335,9 +396,9 @@ export class Dropdown {
     this.buttonGroupIngredients.addEventListener("click", () => {
       toggleMenus("ingredients");
       this.buttonGroupIngredients.classList.add("active");
-     
+
       this.buttonGroupAppliances.classList.remove("active");
-   
+
       this.buttonGroupUstensils.classList.remove("active");
       this.searchInDropdown();
     });
@@ -345,7 +406,7 @@ export class Dropdown {
     this.buttonGroupAppliances.addEventListener("click", () => {
       toggleMenus("appliances");
       this.buttonGroupAppliances.classList.add("active");
-      
+
       this.buttonGroupIngredients.classList.remove("active");
       this.buttonGroupUstensils.classList.remove("active");
     });
@@ -355,7 +416,6 @@ export class Dropdown {
       this.buttonGroupUstensils.classList.add("active");
       this.buttonGroupIngredients.classList.remove("active");
       this.buttonGroupAppliances.classList.remove("active");
-      
     });
 
     // Ajouter un écouteur d'événement pour fermer la dropdown affichée
@@ -370,17 +430,15 @@ export class Dropdown {
           return;
         }
         this.buttonGroupIngredients.classList.remove("active");
-       
+
         this.buttonGroupAppliances.classList.remove("active");
         this.buttonGroupUstensils.classList.remove("active");
-       
+
         this.dropdownMenu.forEach((menu) => {
           if (menu.style.display === "block") {
             menu.style.display = "none";
-            
           }
         });
-
       }
     });
   }

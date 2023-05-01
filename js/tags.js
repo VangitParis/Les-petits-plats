@@ -33,7 +33,6 @@ export class Tags {
           recipeList.forEach((link) => {
             if (link.innerText === currentTag) {
               matchingLink = link;
-              console.log(matchingLink);
               return;
             }
           });

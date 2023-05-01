@@ -60,18 +60,24 @@ function displayRecipes(recipes) {
   });
 }
 
-// Afficher toutes les recettes initialement
-const dropdown = new Dropdown(recipes, "", displayRecipes);
-dropdown.searchInDropdown();
+
+
 
 //Ajouter un évènement de saisie sur la la recherche avancée
-const advancedSearchIngredients = document.getElementById(
-  "inputSearchIngredients"
-);
-advancedSearchIngredients.addEventListener("input", function () {
-  const searchText = advancedSearchIngredients.value.toLowerCase().trim();
-  dropdown.searchText = searchText;
-  dropdown.searchInDropdown();
+const advancedSearchInputs = Array.from(document.getElementsByClassName("form-control"));
+console.log(advancedSearchInputs);
+advancedSearchInputs.forEach((advancedSearch) => {
+  advancedSearch.addEventListener("input", function () {
+    const searchText = advancedSearch.value.toLowerCase().trim();
+    const dropdown = new Dropdown(recipes, searchText);
+    const search = dropdown.searchInDropdown();
+    const filteredRecipes = dropdown.filterRecipes();
+    displayRecipes(filteredRecipes)
+  })
+  
 });
+ 
+// Afficher toutes les recettes initialement
+new Dropdown(recipes);
 
 displayRecipes(recipes);
