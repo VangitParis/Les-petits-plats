@@ -62,7 +62,6 @@ function displayRecipes(recipes) {
     main.appendChild(section);
   });
 }
-
 // Fonction qui gère la recherche et le filtre des recettes
 function handleSearch(event) {
   event.preventDefault();
@@ -105,7 +104,10 @@ const searchButton = document.getElementById("searchBtn");
 searchInput.addEventListener("input", handleSearch);
 searchButton.addEventListener("click", handleSearch);
 
-
+//Ajouter un évènement de saisie sur la la recherche avancée
+const advancedSearchInputs = Array.from(
+  document.getElementsByClassName("form-control")
+);
 
 function searchHandler() {
   const searchText = this.value.toLowerCase().trim();

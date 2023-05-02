@@ -71,18 +71,18 @@ export class Dropdown {
         )[0];
         dropdownMenu.style.display = "block";
 
-        // Appeler les méthodes de recherche et de récupération de la liste d'ingrédients
+        // Appeler les méthodes de recherche et de récupération de la liste d'appareils
         this.getAppliances();
-        this.searchInDropdown();
-        this.closeDropdown();
+        
       }
+      this.closeDropdown();
     });
 
     this.buttonGroupUstensils.addEventListener("click", (e) => {
       e.preventDefault();
       this.buttonGroupUstensils.classList.toggle("active");
 
-      this.closeDropdown();
+      
       if (this.buttonGroupUstensils.classList.contains("active")) {
         const dropdownMenu =
           document.getElementsByClassName("dropdown-ustensils")[0];
@@ -90,8 +90,9 @@ export class Dropdown {
 
         // Appeler les méthodes de recherche et de récupération de la liste d'ingrédients
         this.getUstensils();
-        this.filterRecipesByTags();
+       
       }
+      this.closeDropdown();
     });
   }
   createListItem(list, text, className) {
