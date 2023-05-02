@@ -1,8 +1,8 @@
 export class Tags {
-  constructor(tagLinks, recipes) {
+  constructor(tagLinks, recipes,uniqueIngredients) {
     this.tagLinks = tagLinks;
     this.recipes = recipes;
-
+    this.uniqueIngredients = uniqueIngredients;
     this.sectionTag = document.getElementById("section-tag");
     this.displayTags();
   }
@@ -32,7 +32,6 @@ export class Tags {
           recipeList.forEach((link) => {
             if (link.innerText === currentTag) {
               matchingLink = link;
-              console.log(matchingLink);
               return;
             }
           });

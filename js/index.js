@@ -13,14 +13,16 @@ function displayRecipes(recipes) {
     const article = `
         <article class="container col-sm-4 col-lg-4 card-group">
             <figure class="figure">
-                <img class="card-img-top figure-img" >
+                <img class="card-img-top figure-img src="${
+                  recipe.image
+                }" alt="">
                 <figcaption class="figure-caption">
                     <div class="card-title d-flex bd-highlight align-items-center ">
                         <h3 class="me-auto p-2 flex-grow-1 bd-highlight text-truncate">${
                           recipe.name
                         }</h3>
                         <div class="d-flex p-2 bd-highlight align-items-center">
-                            <img class="img-icon-card "src="../assets/clock.svg" alt=""></img> 
+                            <img class="img-icon-card" src="../assets/clock.svg" alt=""></img> 
                             <p class="mb-0">${recipe.time} min</p>
                         </div>
                     </div>
@@ -111,4 +113,27 @@ searchButton.addEventListener("click", handleSearch);
 
 // Afficher toutes les recettes initialement
 new Dropdown(recipes);
+//Ajouter un évènement de saisie sur la la recherche avancée
+const advancedSearchInputs = Array.from(
+  document.getElementsByClassName("form-control")
+);
+
+function searchHandler() {
+  const searchText = this.value.toLowerCase().trim();
+  const dropdown = new Dropdown(recipes, searchText);
+  dropdown.searchObjectInDropdown();
+  const filterRecipes = dropdown.filterRecipes();
+  const updateFilters = dropdown.updateFilters();
+  
+  section.innerHTML = "";
+  displayRecipes(filterRecipes, updateFilters);
+}
+
+advancedSearchInputs.forEach((advancedSearch) => {
+  advancedSearch.addEventListener("input", searchHandler);
+});
+
+// Afficher toutes les recettes initialement
+new Dropdown(recipes);
+
 displayRecipes(recipes);
