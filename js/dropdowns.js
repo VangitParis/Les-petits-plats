@@ -315,8 +315,6 @@ export class Dropdown {
       this.createListItem(list.list, capitalizedItem, list.tagClass);
 
       // Afficher les ingrédients filtrés
-      this.updateFilters();
-
       return uniqueItemsArray;
     });
 
