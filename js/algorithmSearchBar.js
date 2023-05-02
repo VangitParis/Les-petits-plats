@@ -1,4 +1,4 @@
-import { normalize } from "./utils.js";
+import { removeDiacritics } from "./utils.js";
 export class FilterRecipesWithFilter {
   constructor(recipes, searchText, keyword) {
     this.recipes = recipes;
@@ -9,7 +9,7 @@ export class FilterRecipesWithFilter {
   //méthode filter
   filterRecipesByText(recipes, searchText) {
     // on déclare le résultat de la recherche après avoir supprimé les diacritics
-    const searchResult = normalize(searchText);
+    const searchResult = removeDiacritics(searchText);
 
     if (searchResult.length < 3) {
       return this.recipes;
