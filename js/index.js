@@ -117,7 +117,8 @@ function searchHandler() {
   const updateFilters = dropdown.updateFilters();
   
   section.innerHTML = "";
-  displayRecipes(filterRecipes, updateFilters);
+  
+  displayRecipes(filterRecipes,updateFilters);
 }
 
 advancedSearchInputs.forEach((advancedSearch) => {

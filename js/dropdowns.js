@@ -58,7 +58,6 @@ export class Dropdown {
         // Appeler les méthodes de recherche et de récupération de la liste d'ingrédients
         this.getIngredients();
       }
-      this.closeDropdown();
     });
 
     this.buttonGroupAppliances.addEventListener("click", (e) => {
@@ -75,7 +74,6 @@ export class Dropdown {
         this.getAppliances();
         
       }
-      this.closeDropdown();
     });
 
     this.buttonGroupUstensils.addEventListener("click", (e) => {
@@ -92,7 +90,6 @@ export class Dropdown {
         this.getUstensils();
        
       }
-      this.closeDropdown();
     });
   }
   createListItem(list, text, className) {
@@ -223,7 +220,7 @@ export class Dropdown {
     addTag.displayTags(this.recipes);
   }
   // Fonction de filtrage des recettes en fonction des ingrédients sélectionnés
-  filterRecipes(tagLink) {
+  filterRecipes() {
     const filteredRecipes = [];
 
     for (let i = 0; i < this.recipes.length; i++) {
@@ -251,9 +248,9 @@ export class Dropdown {
       // si tout correspond on affiche les recettes filtrées
       if (ingredientMatch && applianceMatch && ustensilMatch) {
         filteredRecipes.push(recipe);
-       
-      }
      
+      }
+    
     }
 
     return filteredRecipes;
@@ -382,7 +379,7 @@ export class Dropdown {
       ...applianceFilters,
       ...ustensilFilters,
     ].map((filter) => filter.textContent.trim().toLowerCase());
-    console.log(searchTerms);
+    
 
     const filteredRecipes = this.filterRecipes(searchTerms);
   }
