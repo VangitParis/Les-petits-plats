@@ -18,7 +18,7 @@
     left: 0px;
     top: 0px;
     display: inline-table;
-  
+   
 }
 .btn-primary:active {
     border-color: transparent;
@@ -76,28 +76,34 @@
 
 .btn-group.ingredients.active+.btn-group
 {
-    margin-left: 19.8rem;
+    margin-left: 30.5rem;
+}
+.btn-group.appliances.active+.btn-group
+{
+    margin-left: 31.5rem;
+}
+.btn-group.active +.btn-group {
+    margin-left: 0;
 }
 
-.btn-group.appliances.active+.btn-group{
-    margin-left: 11.3rem;
-}
 .list-group{
+    position: relative;
+    width: 667px;
     height: 397px;
     left: 0px;
     top: 0px;
     border-radius: 5px;
+    left: 5px;
     flex-wrap: wrap;
     overflow-x: scroll;
+    
 }
-.list-ingredients{
-    width: 490px;
-}
-.list-appliances{
-    width: 340px;
-}
-.list-ustensils{
-    width: 340px;
+/* .list-group-sm-size{
+    height: inherit;
+} */
+.list-item{
+    width: calc(37.33% - 10px);
+    margin-bottom: 0px;
 }
 .form-group label{
     height: 22px;
@@ -132,6 +138,7 @@ button span{
     top: 7%;
     bottom: 4.92%;
     transform: rotate(0deg);
+    cursor: pointer;
 }
 
 .dropdown-form {
@@ -151,11 +158,19 @@ button span{
     opacity: 0.5;
     position: absolute;
     top: 6%;
-    left: 7px;
+    left: 2%;
     padding: 0;
-
+    color: #fff;
+    font-weight: 700;
+    font-size: 18px;
 }
-
+.form-control:focus{
+    outline: 1px solid transparent;
+    color: #fff;
+    background-color: transparent;
+    opacity: 1;
+    box-shadow: none;
+}
 .dropdown {
     position: relative;
     width: 99%;
@@ -165,11 +180,27 @@ button span{
 .dropdown-menu {
     appearance: none;
     position: absolute;
-    top: -4%;
+    top: 0%;
     color: white;
    
 }
+.dropdown-sm-size{
+    height: 97px;
+    width: 223px;
+    overflow: auto;
+    padding: 0;
 
+
+}
+.input-resize {
+    line-height: 22px;
+    top: 26%;
+    left: 6%;
+}
+.arrow-up-resize{
+    top: 35%;
+    left: 86%;
+}
 .dropdown-ingredients {
     background: var(--background-btn-blue);
 }
@@ -193,7 +224,7 @@ a.list-group-item {
     padding: 0;
     text-overflow: ellipsis;
     white-space: break-spaces;
-
+    cursor: pointer;
 }
 
 .dropdown-menu input[type="text"]::placeholder {
@@ -205,14 +236,6 @@ a.list-group-item {
     margin-bottom: 1.5rem !important;
 }
 
-.dropdown-menu-sm-size {
-    height: 97px;
-    width: 223px;
-    left: 0px;
-    top: 0px;
-    border-radius: 5px;
-
-}
 
 input#inputButton {
     position: relative;

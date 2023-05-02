@@ -1,8 +1,8 @@
 export class Tags {
-  constructor(tagLinks, recipes) {
+  constructor(tagLinks, recipes,uniqueIngredients) {
     this.tagLinks = tagLinks;
     this.recipes = recipes;
-
+    this.uniqueIngredients = uniqueIngredients;
     this.sectionTag = document.getElementById("section-tag");
     this.displayTags();
 
@@ -21,6 +21,27 @@ export class Tags {
         // Vérifier si le tag existe déjà dans le DOM
         const tagIsCreate = document.getElementById("tag-id-" + currentTag);
         if (tagIsCreate) {
+          // Supprimer le lien du tableau des ingredients, appareils, ustensiles
+          const recipeList = Array.from(
+            document.getElementsByClassName("list-group-item")
+          );
+          
+
+          // Trouver l'élément de la liste correspondant à l'élément de tag
+          let matchingLink = null;
+          recipeList.forEach((link) => {
+            if (link.innerText === currentTag) {
+              matchingLink = link;
+              return;
+            }
+          });
+
+          // Supprimer l'élément de la liste s'il existe
+          if (matchingLink) {
+            const index = recipeList.indexOf(matchingLink);
+            recipeList.splice(index, 1);
+          }
+          
           return;
         }
 
