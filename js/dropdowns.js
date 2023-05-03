@@ -6,7 +6,7 @@ export class Dropdown {
   constructor(recipes, searchText = "") {
     this.recipes = recipes;
     this.searchText = searchText;
-
+  
     this.ingredient = [];
     this.appliance = [];
     this.ustensil = [];

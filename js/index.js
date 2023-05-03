@@ -108,24 +108,23 @@ searchButton.addEventListener("click", handleSearch);
 const advancedSearchInputs = Array.from(
   document.getElementsByClassName("form-control")
 );
-
-function searchHandler() {
+function advancedSearch() {
   const searchText = this.value.toLowerCase().trim();
   const dropdown = new Dropdown(recipes, searchText);
-  dropdown.searchObjectInDropdown();
-  const filterRecipes = dropdown.filterRecipes();
+  dropdown.searchObjectInDropdown(); // recherche d'un ingredient, appareil ou ustensil dans la recherche avancée
+
+  const filterRecipes = dropdown.filterRecipes(); // filtre les recettes quand on cherche dans la barre de recherche
   const updateFilters = dropdown.updateFilters();
-  
+
   section.innerHTML = "";
   
-  displayRecipes(filterRecipes,updateFilters);
+  displayRecipes(filterRecipes, updateFilters);
 }
 
-advancedSearchInputs.forEach((advancedSearch) => {
-  advancedSearch.addEventListener("input", searchHandler);
+advancedSearchInputs.forEach((advancedSearchInput) => {
+  advancedSearchInput.addEventListener("input", advancedSearch);
 });
 
 // Afficher toutes les recettes initialement
 new Dropdown(recipes);
-
 displayRecipes(recipes);
