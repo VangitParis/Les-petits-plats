@@ -5,17 +5,18 @@ export class Tags {
     this.uniqueIngredients = uniqueIngredients;
     this.sectionTag = document.getElementById("section-tag");
     this.displayTags();
+    
   }
 
   displayTags() {
-    // Tableau pour stocker les tags sélectionnés
-    const selectedTags = [];
+    // Tableau pour stocker les Tags
+    const selectedTags =[]
 
     // Ajouter un écouteur d'événement pour chaque lien de tag
     this.tagLinks.forEach((tagLink) => {
       tagLink.addEventListener("click", (e) => {
         e.preventDefault();
-
+        
         const currentTag = tagLink.innerText;
 
         // Vérifier si le tag existe déjà dans le DOM
@@ -26,7 +27,6 @@ export class Tags {
           const recipeList = Array.from(
             document.getElementsByClassName("list-group-item")
           );
-          
 
           // Trouver l'élément de la liste correspondant à l'élément de tag
           let matchingLink = null;
@@ -54,10 +54,13 @@ export class Tags {
         // Ajouter une classe au tag en fonction de son type
         if (tagLink.classList.contains("tag-ingredient")) {
           tag.classList.add("tag-ingredient");
+          
         } else if (tagLink.classList.contains("tag-appliance")) {
           tag.classList.add("tag-appliance");
+          
         } else if (tagLink.classList.contains("tag-ustensil")) {
           tag.classList.add("tag-ustensil");
+          
         }
 
         const spanTag = document.createElement("li");
@@ -82,7 +85,40 @@ export class Tags {
           // Ajouter le tag au tableau des tags sélectionnés
           selectedTags.push(currentTag);
         });
+       
       });
     });
+
+  }
+  filterTags() {
+    const filteredRecipes = [];
+  
+   
+  
+    for (let i = 0; i < this.recipes.length; i++) {
+      const recipe = this.recipes[i];
+      let recipeMatchesAllTags = true;
+  
+      // Vérifier que la recette contient tous les tags sélectionnés
+      this.tagLinks.forEach(tag => {
+        const tagIngredientMatch = recipe.ingredients.some(ingredient => ingredient.ingredient.toLowerCase().includes(tag));
+        const tagApplianceMatch = recipe.appliance.toLowerCase().includes(tag);
+        const tagUstensilMatch = recipe.ustensils.some(ustensil => ustensil.toLowerCase().includes(tag));
+  
+        if (!(tagIngredientMatch || tagApplianceMatch || tagUstensilMatch)) {
+          recipeMatchesAllTags = false;
+        }
+      });
+  
+      if (recipeMatchesAllTags) {
+        filteredRecipes.push(recipe);
+      }
+      
+    }
+  
+    return filteredRecipes;
   }
 }
+  
+  
+

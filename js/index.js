@@ -1,5 +1,6 @@
 import { recipes } from "./mock/recipes.js";
 import { Dropdown } from "./Dropdowns.js";
+import { Tags } from "./tags.js";
 
 const main = document.getElementById("main");
 const section = document.getElementById("cards");
@@ -71,16 +72,18 @@ function searchHandler() {
   const searchText = this.value.toLowerCase().trim();
   const dropdown = new Dropdown(recipes, searchText);
   dropdown.searchObjectInDropdown();
-  const filterRecipes = dropdown.filterRecipes();
+  const filterRecipesAtSearch = dropdown.filterRecipes();
   const updateFilters = dropdown.updateFilters();
   
   section.innerHTML = "";
-  displayRecipes(filterRecipes, updateFilters);
+  displayRecipes(filterRecipesAtSearch, updateFilters, filteredRecipesByTags);
 }
 
 advancedSearchInputs.forEach((advancedSearch) => {
   advancedSearch.addEventListener("input", searchHandler);
 });
+
+
 
 // Afficher toutes les recettes initialement
 new Dropdown(recipes);
