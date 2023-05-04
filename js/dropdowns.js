@@ -127,7 +127,7 @@ export class Dropdown {
     this.ingredientsList.innerHTML = "";
 
     // Mettre la première lettre de chaque ingrédient en majuscule
-    const capitalizedIngredients = uniqueIngredients.map((ingredient) => {
+    let capitalizedIngredients = uniqueIngredients.map((ingredient) => {
       return ingredient.charAt(0).toUpperCase() + ingredient.slice(1);
     });
 
@@ -145,8 +145,6 @@ export class Dropdown {
     );
     const addTags = new Tags(tagLinks, this.recipes);
     addTags.displayTags();
-   
-    
   }
 
   getAppliances() {
@@ -162,7 +160,7 @@ export class Dropdown {
     this.appliancesList.innerHTML = "";
 
     // Mettre la première lettre de chaque appareil en majuscule
-    const capitalizedAppliances = this.uniqueAppliances.map((appliance) => {
+    let capitalizedAppliances = this.uniqueAppliances.map((appliance) => {
       return appliance.charAt(0).toUpperCase() + appliance.slice(1);
     });
 
@@ -196,7 +194,7 @@ export class Dropdown {
     this.ustensilsList.innerHTML = "";
 
     // Mettre la première lettre de chaque ustensile en majuscule
-    const capitalizedUstensils = this.uniqueUstensils.map((ustensil) => {
+    let capitalizedUstensils = this.uniqueUstensils.map((ustensil) => {
       return ustensil.charAt(0).toUpperCase() + ustensil.slice(1);
     });
 
@@ -324,6 +322,7 @@ export class Dropdown {
   }
 
   searchObjectInDropdown() {
+    
     const ingredientFilter = this.updateFilteredList({
       list: this.ingredientsList,
       searchInput: this.searchIngredients,
