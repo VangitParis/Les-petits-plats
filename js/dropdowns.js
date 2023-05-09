@@ -1,6 +1,6 @@
 import { recipes } from "./mock/recipes.js";
 
-import { Tags } from "./tags.js";
+import { Tags } from "./Tags.js";
 import {
   removeDiacritics,
   createListItem,
