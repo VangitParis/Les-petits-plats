@@ -1,5 +1,4 @@
 import { recipes } from "./mock/recipes.js";
-
 import { Tags } from "./Tags.js";
 import {
   removeDiacritics,
@@ -59,8 +58,8 @@ export class Dropdown {
     this.searchIngredients = document.getElementById("inputSearchIngredients");
     this.searchAppliances = document.getElementById("inputSearchAppliances");
     this.searchUstensils = document.getElementById("inputSearchUstensils");
-      this.searchInput = document.getElementById("searchInput");
-      
+    this.searchInput = document.getElementById("searchInput");
+
     this.openDropdown();
     this.closeDropdown();
   }
@@ -236,7 +235,7 @@ export class Dropdown {
         filteredRecipes.push(recipe);
       }
     }
-  
+
     return filteredRecipes;
   }
 
@@ -249,6 +248,7 @@ export class Dropdown {
     if (searchTerm.length < 3) {
       return;
     }
+
     // créer un tableau vide pour stocker les éléments filtrés et les rendre unique
     let ArrayOfUniqueItem = [];
     // Recherche d'ingrédients avec ou sans accents
@@ -285,10 +285,7 @@ export class Dropdown {
           }
         });
       }
-      if (itemName.includes(searchTermWithoutPlural)) {
-        uniqueItems.add(itemName);
-      }
-
+      
       // Vider la liste existante
       list.list.innerHTML = "";
 
@@ -301,10 +298,9 @@ export class Dropdown {
         const capitalizedItem = item.charAt(0).toUpperCase() + item.slice(1);
         //créer la liste filtrée avec juste le terme recherché
         createListItem(list.list, capitalizedItem, list.tagClass);
+      });
     });
-        
-    });
-   
+
     return ArrayOfUniqueItem;
   }
   updateFiltersInDropdown() {
@@ -322,9 +318,9 @@ export class Dropdown {
       ...applianceFilters,
       ...ustensilFilters,
     ].map((filter) => filter.textContent.trim().toLowerCase());
-      console.log(searchTerms);
-     
-      return searchTerms;
+    console.log(searchTerms);
+
+    return searchTerms;
   }
   //utilisateur précise sa recherche dans la recherche avancée des dropdowns
   specifiesSearch() {
@@ -352,6 +348,7 @@ export class Dropdown {
       property: "ustensils",
       tagClass: "tag-ustensil",
     });
+    this.updateFiltersInDropdown()
   }
 
   addTagsInSectionTag() {
