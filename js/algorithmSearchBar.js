@@ -52,7 +52,7 @@ export class FilterRecipesWithLoop {
         const ingredientName = removeDiacritics(
           recipe.ingredients[j].ingredient
         ).toLowerCase();
-        
+
         const pluralIngredientName = ingredientName.endsWith("s");
         if (
           ingredientName.includes(searchResult) ||
@@ -72,7 +72,7 @@ export class FilterRecipesWithLoop {
         filteredRecipes.push(recipe);
         continue;
       }
-     // Vérifier si le terme de recherche est présent dans le nom d'un ustensil
+      // Vérifier si le terme de recherche est présent dans le nom d'un ustensil
       for (let utensil of recipe.ustensils) {
         const utensilName = removeDiacritics(utensil).toLowerCase();
         const pluralUtensilName = utensilName.endsWith("s");

@@ -1,5 +1,5 @@
 import { applyFilterByTags } from "./index.js";
-import { removeDiacritics } from "./utils.js";
+
 export class Tags {
   constructor(tagLinks, recipes) {
     this.tagLinks = tagLinks;
@@ -16,7 +16,7 @@ export class Tags {
         e.preventDefault();
 
         const currentTag = tagLink.innerText;
-        
+
         // Vérifier si le tag existe déjà dans le DOM
         const tagIsCreate = document.getElementById("tag-id-" + currentTag);
         if (tagIsCreate) {
@@ -50,10 +50,10 @@ export class Tags {
         }
 
         // Le tag n'existe pas encore, alors on le créé
-        
+
         const tag = document.createElement("ul");
         tag.classList.add("btn", "btn-sm", "d-flex", "mt-n1", "tag");
-        tag.id = `tag-id-${ currentTag }`;
+        tag.id = `tag-id-${currentTag}`;
 
         tagLink.dataset.tag = currentTag;
         // Ajouter une classe au tag en fonction de son type
@@ -97,15 +97,10 @@ export class Tags {
       });
     });
   }
-  
+
   addTagsWithEnterKey() {
     this.tagLinks.forEach((tagLink) => {
-     
       tagLink.addEventListener("Enter", this.addTags);
-     
-    })
+    });
   }
-  
- 
-  }
-  
+}

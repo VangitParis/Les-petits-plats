@@ -44,12 +44,6 @@ export const createListItem = (list, text, className) => {
   itemLinkToDisplayTag.tabIndex = "0";
   itemLinkToDisplayTag.classList.add("list-group-item", className);
   itemLinkToDisplayTag.innerText = text;
-  // Ajouter un événement de clic à chaque lien de tag pour filtrer les recettes
-  itemLinkToDisplayTag.addEventListener("click", (e) => {
-    e.preventDefault();
-    const dropdown = new Dropdown(recipes);
-    dropdown.filterRecipes(text);
-  });
   // Ajouter l'élément de liste à la liste de la dropdown
   list.appendChild(listItem);
   listItem.appendChild(itemLinkToDisplayTag);

@@ -1,6 +1,6 @@
 import { recipes } from "./mock/recipes.js";
 
-import { Tags } from "./tags.js";
+import { Tags } from "./Tags.js";
 import {
   removeDiacritics,
   createListItem,
@@ -59,8 +59,8 @@ export class Dropdown {
     this.searchIngredients = document.getElementById("inputSearchIngredients");
     this.searchAppliances = document.getElementById("inputSearchAppliances");
     this.searchUstensils = document.getElementById("inputSearchUstensils");
-      this.searchInput = document.getElementById("searchInput");
-      
+    this.searchInput = document.getElementById("searchInput");
+
     this.openDropdown();
     this.closeDropdown();
   }
@@ -159,7 +159,6 @@ export class Dropdown {
     const uniqueAppliances = removeDuplicates(allAppliances);
     const uniqueUstensils = removeDuplicates(allUstensils);
 
-
     capitalizedIngredients = capitalizeArray(uniqueIngredients);
     capitalizedAppliances = capitalizeArray(uniqueAppliances);
     capitalizedUstensils = capitalizeArray(uniqueUstensils);
@@ -172,7 +171,7 @@ export class Dropdown {
     filterArray(capitalizedIngredients);
     filterArray(capitalizedAppliances);
     filterArray(capitalizedUstensils);
-    
+
     // Créer un élément de liste pour chaque ingrédient
     capitalizedIngredients.forEach((capitalizedIngredient) => {
       createListItem(
@@ -191,7 +190,7 @@ export class Dropdown {
     capitalizedUstensils.forEach((capitalizedUstensil) => {
       createListItem(this.ustensilsList, capitalizedUstensil, "tag-ustensil");
     });
-    
+
     // Appelle la fonction de recherche
     this.specifiesSearch();
   }
@@ -242,7 +241,7 @@ export class Dropdown {
         filteredRecipes.push(recipe);
       }
     }
-  
+
     return filteredRecipes;
   }
 
@@ -308,10 +307,9 @@ export class Dropdown {
         const capitalizedItem = item.charAt(0).toUpperCase() + item.slice(1);
         //créer la liste filtrée avec juste le terme recherché
         createListItem(list.list, capitalizedItem, list.tagClass);
+      });
     });
-        
-    });
-   
+
     return ArrayOfUniqueItem;
   }
   updateFiltersInDropdown() {
@@ -329,9 +327,9 @@ export class Dropdown {
       ...applianceFilters,
       ...ustensilFilters,
     ].map((filter) => filter.textContent.trim().toLowerCase());
-      console.log(searchTerms);
-     
-      return searchTerms;
+    console.log(searchTerms);
+
+    return searchTerms;
   }
   //utilisateur précise sa recherche dans la recherche avancée des dropdowns
   specifiesSearch() {

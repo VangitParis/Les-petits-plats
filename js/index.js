@@ -62,14 +62,14 @@ function advancedSearch(event) {
   const searchTerm = event.target.value.toLowerCase().trim();
   const searchType = event.target.dataset.searchType;
 
-  const dropdown = new Dropdown(recipes,searchTerm);
+  const dropdown = new Dropdown(recipes, searchTerm);
   dropdown.specifiesSearch(searchTerm); // recherche d'un ingredient, appareil ou ustensil dans la recherche avancée
   dropdown.updateDropdownLists(recipes);
 
   const section = document.getElementById("cards");
   section.innerHTML = "";
   const filterRecipes = dropdown.filterRecipes(searchTerm);
-  
+
   displayRecipes(filterRecipes);
 }
 
@@ -89,10 +89,12 @@ export function applyFilterByTags() {
     // Vérifier si tous les tags sélectionnés sont présents dans les ingrédients, appareils et ustensiles de la recette
     let recipeTagFound = [
       ...recipe.ingredients.map((ingredient) =>
-       removeDiacritics( ingredient.ingredient).toLowerCase()
+        removeDiacritics(ingredient.ingredient).toLowerCase()
       ),
       removeDiacritics(recipe.appliance).toLowerCase(),
-      ...recipe.ustensils.map((ustensil) => removeDiacritics(ustensil).toLowerCase()),
+      ...recipe.ustensils.map((ustensil) =>
+        removeDiacritics(ustensil).toLowerCase()
+      ),
     ];
 
     const allSelectedTagsFound = selectedTags.every((tag) =>
