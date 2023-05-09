@@ -11,9 +11,9 @@ const advancedSearchInputs = Array.from(
 function searchHandler() {
   const searchText = this.value.toLowerCase().trim();
   const dropdown = new Dropdown(recipes, searchText);
-  dropdown.searchObjectInDropdown();
+  dropdown.specifiesSearch();
   const filterRecipesAtSearch = dropdown.filterRecipes();
-  const updateFilters = dropdown.updateFilters();
+  const updateFilters = dropdown.updateFiltersInDropdown();
   
   const section = document.getElementById("cards");
   section.innerHTML = "";

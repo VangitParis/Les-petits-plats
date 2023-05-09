@@ -1,4 +1,5 @@
-import { Dropdown } from "./dropdowns.js/index.js";
+import { Dropdown } from "./js/dropdowns.js";
+
 import { recipes } from "./mock/recipes.js";
 export const removeDiacritics = (element) => {
   if (typeof element !== "string") {
