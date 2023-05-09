@@ -62,7 +62,7 @@ function advancedSearch(event) {
   const searchType = event.target.dataset.searchType;
 
   const dropdown = new Dropdown(filterUniqueRecipes);
-  dropdown.specifiesSearch(searchType); // recherche d'un ingredient, appareil ou ustensil dans la recherche avancée
+  dropdown.updateFiltersInDropdown(searchType); // recherche d'un ingredient, appareil ou ustensil dans la recherche avancée
   dropdown.updateDropdownLists(searchTerm);
 
   const section = document.getElementById("cards");
@@ -83,13 +83,18 @@ export function applyFilterByTags() {
   ).map((tag) => tag.textContent.toLowerCase());
 
   // Filtrer les recettes qui correspondent aux tags sélectionnés
-  const filteredRecipes = recipes.filter((recipe) => {
-    let recipeTagFound = false;
+ const filteredRecipes = recipes.filter((recipe) => {
+      // Vérifier si tous les tags sélectionnés sont présents dans les ingrédients, appareils et ustensiles de la recette
+      let recipeTagFound = [...recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase()), recipe.appliance.toLowerCase(), ...recipe.ustensils.map(ustensil => ustensil.toLowerCase())];
+      
+      const allSelectedTagsFound = selectedTags.every(tag => recipeTagFound.includes(tag));
+      if(!allSelectedTagsFound) return false;
 
     // Vérifier si au moins un tag sélectionné est présent dans la recette
     selectedTags.some((tag) => {
       // Vérifier si le tag est présent dans les ingrédients, les appareils ou les ustensiles de la recette
       recipe.ingredients.forEach((ingredient) => {
+        
         if (ingredient.ingredient.toLowerCase().includes(tag)) {
           recipeTagFound = true;
         }
@@ -111,20 +116,15 @@ export function applyFilterByTags() {
   //Afficher les recettes filtrées
   const section = document.getElementById("cards");
   section.innerHTML = "";
-  
+
   if (filteredRecipes.length === 0) {
-    const divMessage = document.createElement("div");
-    const message = document.createElement("p");
-    message.textContent =
-      'Aucune recette ne correspond à votre critère... vous pouvez chercher "tarte aux pommes", "poisson", etc';
-    message.classList.add("error");
-    divMessage.appendChild(message);
-    section.appendChild(divMessage);
+    displayRecipes(recipes)
   } else {
     displayRecipes(filteredRecipes); // actualise l'interface
   }
-  displayRecipes(filteredRecipes);
 }
+
+
 
 // Afficher toutes les recettes initialement
 new Dropdown(recipes);

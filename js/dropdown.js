@@ -59,8 +59,8 @@ export class Dropdown {
     this.searchIngredients = document.getElementById("inputSearchIngredients");
     this.searchAppliances = document.getElementById("inputSearchAppliances");
     this.searchUstensils = document.getElementById("inputSearchUstensils");
-    this.searchInput = document.getElementById("searchInput");
-
+      this.searchInput = document.getElementById("searchInput");
+      
     this.openDropdown();
     this.closeDropdown();
   }
@@ -75,32 +75,29 @@ export class Dropdown {
       this.dropdownMenuUstensils.style.display =
         menu === "ustensils" ? "block" : "none";
     };
-       // Si on appui sur Tabindex 
-      const openMenuFocus = ()=>{
-          this.buttons.forEach((button, index) => {
-              button.addEventListener("Enter", () => {
-                  toggleMenus(["ingredients", "appliances", "ustensils"][index]);
-                  this.buttons.forEach((b) => b.classList.remove("active"));
-                  button.classList.add("active");
-              });
-          });
-      }
-      // Si on clique sur une autre dropdown, on enlève la classe "active" pour afficher seulement celle qui est cliquée
-    this.buttons.forEach((button, index) => {
-        button.addEventListener("click", () => {
+    // Si on appui sur touche Tab
+    const openMenuFocus = () => {
+      this.buttons.forEach((button, index) => {
+        button.addEventListener("Enter", () => {
           toggleMenus(["ingredients", "appliances", "ustensils"][index]);
           this.buttons.forEach((b) => b.classList.remove("active"));
           button.classList.add("active");
         });
-        openMenuFocus(button,index);
+      });
+    };
+    // Si on clique sur une autre dropdown, on enlève la classe "active" pour afficher seulement celle qui est cliquée
+    this.buttons.forEach((button, index) => {
+      button.addEventListener("click", () => {
+        toggleMenus(["ingredients", "appliances", "ustensils"][index]);
+        this.buttons.forEach((b) => b.classList.remove("active"));
+        button.classList.add("active");
+      });
+      openMenuFocus(button, index);
     });
-     
-    
+
     //affiche les elements de listes
     this.updateDropdownLists();
-   
-  } 
-  
+  }
 
   //ferme la dropdown si on clique n'importe où
   closeDropdown() {
@@ -114,7 +111,7 @@ export class Dropdown {
         ) {
           return;
         }
-  
+
         this.buttons.forEach((b) => b.classList.remove("active"));
         this.dropdownMenu.forEach((menu) => {
           if (menu.style.display === "block") {
@@ -123,7 +120,7 @@ export class Dropdown {
         });
       }
     });
-  
+    // ferme la dropdown au clavier
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         this.buttons.forEach((b) => b.classList.remove("active"));
@@ -135,7 +132,7 @@ export class Dropdown {
       }
     });
   }
-  
+
   // createListDropdown
   createListDropdown(
     capitalizedIngredients,
@@ -170,7 +167,6 @@ export class Dropdown {
     this.ingredientsList.innerHTML = "";
     this.appliancesList.innerHTML = "";
     this.ustensilsList.innerHTML = "";
-
     // Créer un élément de liste pour chaque ingrédient
     capitalizedIngredients.forEach((capitalizedIngredient) => {
       createListItem(
@@ -189,6 +185,7 @@ export class Dropdown {
     capitalizedUstensils.forEach((capitalizedUstensil) => {
       createListItem(this.ustensilsList, capitalizedUstensil, "tag-ustensil");
     });
+
     // Appelle la fonction de recherche
     this.specifiesSearch();
   }
@@ -202,7 +199,7 @@ export class Dropdown {
   }
 
   // Filtre les recettes
-  filterRecipes(selectedTags) {
+  filterRecipes() {
     const filteredRecipes = [];
 
     for (let i = 0; i < this.recipes.length; i++) {
@@ -239,19 +236,12 @@ export class Dropdown {
         filteredRecipes.push(recipe);
       }
     }
-    //Vérifier que tous les tags sont présents dans la recette
-    const tagsMatch = selectedTags;
-
-    // si tout correspond on affiche les recettes filtrées
-    if (tagsMatch) {
-      return;
-    }
+  
     return filteredRecipes;
   }
 
   // les résultats de recherche sont actualisés ainsi que les éléments disponibles dans les dropdowns
   filterList(list, searchTerm) {
-    
     // si on saisi une recherche dans les dropdowns
     searchTerm = list.searchCurrentInput.value.trim().toLowerCase();
 
@@ -278,6 +268,7 @@ export class Dropdown {
       if (list.property === "appliance") {
         itemName = removeDiacritics(recipe[list.property]).toLowerCase();
         itemName.endsWith("s") ? itemName.slice(0, -1) : itemName;
+
         if (itemName.includes(searchTermWithoutPlural)) {
           uniqueItems.add(itemName);
         }
@@ -297,9 +288,10 @@ export class Dropdown {
       if (itemName.includes(searchTermWithoutPlural)) {
         uniqueItems.add(itemName);
       }
-    
+
       // Vider la liste existante
       list.list.innerHTML = "";
+
       // Conversion de l'objet Set en tableau pour l'affichage
       ArrayOfUniqueItem = Array.from(uniqueItems);
 
@@ -309,13 +301,31 @@ export class Dropdown {
         const capitalizedItem = item.charAt(0).toUpperCase() + item.slice(1);
         //créer la liste filtrée avec juste le terme recherché
         createListItem(list.list, capitalizedItem, list.tagClass);
-      
-      });
     });
-
+        
+    });
+   
     return ArrayOfUniqueItem;
   }
-
+  updateFiltersInDropdown() {
+    const ingredientFilters = Array.from(
+      this.ingredientsList.getElementsByClassName("tag-ingredient")
+    );
+    const applianceFilters = Array.from(
+      this.appliancesList.getElementsByClassName("tag-appliance")
+    );
+    const ustensilFilters = Array.from(
+      this.ustensilsList.getElementsByClassName("tag-ustensil")
+    );
+    const searchTerms = [
+      ...ingredientFilters,
+      ...applianceFilters,
+      ...ustensilFilters,
+    ].map((filter) => filter.textContent.trim().toLowerCase());
+      console.log(searchTerms);
+     
+      return searchTerms;
+  }
   //utilisateur précise sa recherche dans la recherche avancée des dropdowns
   specifiesSearch() {
     // Mise à jour de la liste des ingrédients

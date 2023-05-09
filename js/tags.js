@@ -5,10 +5,8 @@ export class Tags {
     this.recipes = recipes;
     this.sectionTag = document.getElementById("section-tag");
     this.selectedTags = [];
-
     this.addTags();
-   
-    
+    this.addTagsWithEnterKey();
   }
 
   addTags() {
@@ -99,16 +97,14 @@ export class Tags {
     });
   }
   
-  addTagWithEnterKey(event) {
+  addTagsWithEnterKey() {
     this.tagLinks.forEach((tagLink) => {
-      tagLink.addEventListener("keydown", () => {
-        if (event.key === "Enter") {
-          this.addTags();
-        }
-      });
+     
+      tagLink.addEventListener("Enter", this.addTags);
+     
     })
+  }
   
  
   }
   
-}

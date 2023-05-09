@@ -36,7 +36,8 @@ export const capitalizeArray = (arr) => {
     // Ne pas afficher l'ingrédient de la liste si il est deja sélectionné dans les tags
     // Vérifier si l'ingrédient existe déjà dans les tags
     // Vérifier si l'élément existe déjà dans la liste
-    const existingTag = document.getElementById(`tag-id-${text}`);
+    const existingTag = document.getElementById(`tag-id-${ text }`);
+    
     if (existingTag) {
       return;
     }
