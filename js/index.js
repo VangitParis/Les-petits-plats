@@ -1,6 +1,6 @@
 import { recipes } from "./mock/recipes.js";
 import { displayRecipes } from "./recipe.js";
-import { Dropdown } from "./dropdowns.js/index.js";
+import { Dropdown } from "./Dropdowns.js";
 import { FilterRecipesWithLoop } from "./algorithmSearchBar.js";
 
 let filterUniqueRecipes = [];
