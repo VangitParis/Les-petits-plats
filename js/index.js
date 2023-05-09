@@ -1,5 +1,6 @@
 import { recipes } from "./mock/recipes.js";
 import { Dropdown } from "./Dropdowns.js";
+import { removeDiacritics } from "./utils.js";
 import { displayRecipes } from "./recipesCards.js";
 
 
@@ -12,12 +13,13 @@ function searchHandler() {
   const searchText = this.value.toLowerCase().trim();
   const dropdown = new Dropdown(recipes, searchText);
   dropdown.specifiesSearch(searchText);
-  const filterRecipesAtSearch = dropdown.filterRecipes();
-  const updateFilters = dropdown.updateFiltersInDropdown();
+ 
+  const updateFilters = dropdown.updateDropdownLists();
   
   const section = document.getElementById("cards");
   section.innerHTML = "";
-  displayRecipes(filterRecipesAtSearch, updateFilters);
+  const filterRecipesAtSearch = dropdown.filterRecipes();
+  displayRecipes(filterRecipesAtSearch);
 }
 
 advancedSearchInputs.forEach((advancedSearch) => {
