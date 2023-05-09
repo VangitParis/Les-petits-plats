@@ -279,7 +279,7 @@ export class Dropdown {
           uniqueItems.add(itemName);
         }
       } else {
-        recipe[list.property].forEach((item) => {
+        recipe[list.property].forEach((item, index) => {
           if (list.property === "ingredients") {
             itemName = removeDiacritics(item[list.object]).toLowerCase();
           } else {
