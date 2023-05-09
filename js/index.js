@@ -1,70 +1,11 @@
 import { recipes } from "./mock/recipes.js";
+import { displayRecipes } from "./recipe.js";
+import { Dropdown } from "./dropdown.js";
 import { FilterRecipesWithLoop } from "./algorithmSearchBar.js";
-import { Dropdown } from "./dropdowns.js";
 
-const main = document.getElementById("main");
-const section = document.getElementById("cards");
-
-// Fonction qui affiche toutes les recettes
-function displayRecipes(recipes) {
-  recipes.forEach((recipe) => {
-    const article = `
-        <article class="container col-sm-4 col-lg-4 card-group">
-            <figure class="figure">
-                <img class="card-img-top figure-img src="${
-                  recipe.image
-                }" alt="">
-                <figcaption class="figure-caption">
-                    <div class="card-title d-flex bd-highlight align-items-center ">
-                        <h3 class="me-auto p-2 flex-grow-1 bd-highlight text-truncate">${
-                          recipe.name
-                        }</h3>
-                        <div class="d-flex p-2 bd-highlight align-items-center">
-                            <img class="img-icon-card" src="../assets/clock.svg" alt=""></img> 
-                            <p class="mb-0">${recipe.time} min</p>
-                        </div>
-                    </div>
-                    <div class="d-flex card-text align-top mb-3 d-inline-block h-50">
-                        <ul "list-group">
-                            ${recipe.ingredients
-                              .map(
-                                (ingredient) => `
-                            <li class="list-group-item">
-                            <strong>${ingredient.ingredient}</strong>
-                            ${
-                              ingredient.quantity
-                                ? ` : ${ingredient.quantity}
-                            ${
-                              ingredient.unit === "grammes"
-                                ? "g"
-                                : ingredient.unit === "litres"
-                                ? "L"
-                                : ingredient.unit === "cuillères à soupe"
-                                ? "c. à soupe"
-                                : ingredient.unit
-                                ? ingredient.unit.replace(" ", "")
-                                : ""
-                            }`
-                                : ""
-                            }</li>`
-                              )
-                              .join("")}
-                        </ul>
-                        <p class="contain-content card-text-recipe">${
-                          recipe.description
-                        }</p>
-                    </div>
-                </figcaption>
-            </figure>
-        </article>
-        `;
-    section.innerHTML += `${article}`;
-    main.appendChild(section);
-  });
-}
+let filterUniqueRecipes = [];
 // Fonction qui gère la recherche et le filtre des recettes
-function handleSearch(event) {
-  event.preventDefault();
+function handleSearch() {
   const searchInput = document.getElementById("searchInput");
   const searchText = searchInput.value.toLowerCase().trim();
   const filterInSearchBar = new FilterRecipesWithLoop(recipes, searchText);
@@ -78,7 +19,7 @@ function handleSearch(event) {
   );
 
   // Fusionner les résultats des deux filtres en une seule liste de recettes uniques
-  const filterUniqueRecipes = [
+  filterUniqueRecipes = [
     ...new Set([...filteredRecipesByText, ...filteredRecipesByKeyword]),
   ];
 
@@ -94,36 +35,96 @@ function handleSearch(event) {
     divMessage.appendChild(message);
     section.appendChild(divMessage);
   } else {
-    new Dropdown(filterUniqueRecipes);
-    displayRecipes(filterUniqueRecipes);
+    displayRecipes(filterUniqueRecipes); // actualise l'interface
   }
 }
+
 // Ajouter un événement de saisie sur la barre de recherche
 const searchInput = document.getElementById("searchInput");
 const searchButton = document.getElementById("searchBtn");
 searchInput.addEventListener("input", handleSearch);
+searchInput.addEventListener("Enter", handleSearch);
 searchButton.addEventListener("click", handleSearch);
 
 //Ajouter un évènement de saisie sur la la recherche avancée
-const advancedSearchInputs = Array.from(
-  document.getElementsByClassName("form-control")
-);
-function advancedSearch() {
-  const searchText = this.value.toLowerCase().trim();
-  const dropdown = new Dropdown(recipes, searchText);
-  dropdown.searchObjectInDropdown(); // recherche d'un ingredient, appareil ou ustensil dans la recherche avancée
+const searchIngredients = document.getElementById("inputSearchIngredients");
+const searchAppliances = document.getElementById("inputSearchAppliances");
+const searchUstensils = document.getElementById("inputSearchUstensils");
+const advancedSearchInputs = [
+  searchIngredients,
+  searchAppliances,
+  searchUstensils,
+];
 
-  const filterRecipes = dropdown.filterRecipes(); // filtre les recettes quand on cherche dans la barre de recherche
-  const updateFilters = dropdown.updateFilters();
+// Filtre les recettes et met à jour les élément dans les dropdowns
+function advancedSearch(event) {
+  const searchTerm = event.target.value.toLowerCase().trim();
+  const searchType = event.target.dataset.searchType;
 
+  const dropdown = new Dropdown(filterUniqueRecipes);
+  dropdown.specifiesSearch(searchType); // recherche d'un ingredient, appareil ou ustensil dans la recherche avancée
+  dropdown.updateDropdownLists(searchTerm);
+
+  const section = document.getElementById("cards");
   section.innerHTML = "";
-  
-  displayRecipes(filterRecipes, updateFilters);
+
+  displayRecipes(recipes);
 }
 
 advancedSearchInputs.forEach((advancedSearchInput) => {
   advancedSearchInput.addEventListener("input", advancedSearch);
+  advancedSearchInput.addEventListener("Enter", advancedSearch);
 });
+
+export function applyFilterByTags() {
+  // Récupérer les tags sélectionnés
+  const selectedTags = Array.from(
+    document.getElementsByClassName("selected")
+  ).map((tag) => tag.textContent.toLowerCase());
+
+  // Filtrer les recettes qui correspondent aux tags sélectionnés
+  const filteredRecipes = recipes.filter((recipe) => {
+    let recipeTagFound = false;
+
+    // Vérifier si au moins un tag sélectionné est présent dans la recette
+    selectedTags.some((tag) => {
+      // Vérifier si le tag est présent dans les ingrédients, les appareils ou les ustensiles de la recette
+      recipe.ingredients.forEach((ingredient) => {
+        if (ingredient.ingredient.toLowerCase().includes(tag)) {
+          recipeTagFound = true;
+        }
+      });
+      if (recipe.appliance.toLowerCase().includes(tag)) {
+        recipeTagFound = true;
+      }
+      recipe.ustensils.forEach((ustensil) => {
+        if (ustensil.toLowerCase().includes(tag)) {
+          recipeTagFound = true;
+        }
+      });
+      return recipeTagFound;
+    });
+
+    return recipeTagFound ? recipe : null;
+  });
+
+  //Afficher les recettes filtrées
+  const section = document.getElementById("cards");
+  section.innerHTML = "";
+  
+  if (filteredRecipes.length === 0) {
+    const divMessage = document.createElement("div");
+    const message = document.createElement("p");
+    message.textContent =
+      'Aucune recette ne correspond à votre critère... vous pouvez chercher "tarte aux pommes", "poisson", etc';
+    message.classList.add("error");
+    divMessage.appendChild(message);
+    section.appendChild(divMessage);
+  } else {
+    displayRecipes(filteredRecipes); // actualise l'interface
+  }
+  displayRecipes(filteredRecipes);
+}
 
 // Afficher toutes les recettes initialement
 new Dropdown(recipes);
