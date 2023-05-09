@@ -1,6 +1,6 @@
 import { recipes } from "./mock/recipes.js";
 import { displayRecipes } from "./recipe.js";
-import { Dropdown } from "./dropdown.js";
+import { Dropdown } from "./dropdowns.js/index.js";
 import { FilterRecipesWithLoop } from "./algorithmSearchBar.js";
 
 let filterUniqueRecipes = [];
@@ -83,18 +83,25 @@ export function applyFilterByTags() {
   ).map((tag) => tag.textContent.toLowerCase());
 
   // Filtrer les recettes qui correspondent aux tags sélectionnés
- const filteredRecipes = recipes.filter((recipe) => {
-      // Vérifier si tous les tags sélectionnés sont présents dans les ingrédients, appareils et ustensiles de la recette
-      let recipeTagFound = [...recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase()), recipe.appliance.toLowerCase(), ...recipe.ustensils.map(ustensil => ustensil.toLowerCase())];
-      
-      const allSelectedTagsFound = selectedTags.every(tag => recipeTagFound.includes(tag));
-      if(!allSelectedTagsFound) return false;
+  const filteredRecipes = recipes.filter((recipe) => {
+    // Vérifier si tous les tags sélectionnés sont présents dans les ingrédients, appareils et ustensiles de la recette
+    let recipeTagFound = [
+      ...recipe.ingredients.map((ingredient) =>
+        ingredient.ingredient.toLowerCase()
+      ),
+      recipe.appliance.toLowerCase(),
+      ...recipe.ustensils.map((ustensil) => ustensil.toLowerCase()),
+    ];
+
+    const allSelectedTagsFound = selectedTags.every((tag) =>
+      recipeTagFound.includes(tag)
+    );
+    if (!allSelectedTagsFound) return false;
 
     // Vérifier si au moins un tag sélectionné est présent dans la recette
     selectedTags.some((tag) => {
       // Vérifier si le tag est présent dans les ingrédients, les appareils ou les ustensiles de la recette
       recipe.ingredients.forEach((ingredient) => {
-        
         if (ingredient.ingredient.toLowerCase().includes(tag)) {
           recipeTagFound = true;
         }
@@ -118,13 +125,11 @@ export function applyFilterByTags() {
   section.innerHTML = "";
 
   if (filteredRecipes.length === 0) {
-    displayRecipes(recipes)
+    displayRecipes(recipes);
   } else {
     displayRecipes(filteredRecipes); // actualise l'interface
   }
 }
-
-
 
 // Afficher toutes les recettes initialement
 new Dropdown(recipes);
