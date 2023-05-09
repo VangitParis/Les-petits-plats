@@ -11,7 +11,7 @@ const advancedSearchInputs = Array.from(
 function searchHandler() {
   const searchText = this.value.toLowerCase().trim();
   const dropdown = new Dropdown(recipes, searchText);
-  dropdown.specifiesSearch();
+  dropdown.specifiesSearch(searchText);
   const filterRecipesAtSearch = dropdown.filterRecipes();
   const updateFilters = dropdown.updateFiltersInDropdown();
   
@@ -30,16 +30,16 @@ export function applyFilterByTags() {
     document.getElementsByClassName("selected")
   ).map((tag) => tag.textContent.toLowerCase());
 
-  // Filtrer les recettes qui correspondent aux tags sélectionnés
-  const filteredRecipes = recipes.filter((recipe) => {
-    // Vérifier si tous les tags sélectionnés sont présents dans les ingrédients, appareils et ustensiles de la recette
-    let recipeTagFound = [
-      ...recipe.ingredients.map((ingredient) =>
-        ingredient.ingredient.toLowerCase()
-      ),
-      recipe.appliance.toLowerCase(),
-      ...recipe.ustensils.map((ustensil) => ustensil.toLowerCase()),
-    ];
+ // Filtrer les recettes qui correspondent aux tags sélectionnés
+ const filteredRecipes = recipes.filter((recipe) => {
+  // Vérifier si tous les tags sélectionnés sont présents dans les ingrédients, appareils et ustensiles de la recette
+  let recipeTagFound = [
+    ...recipe.ingredients.map((ingredient) =>
+     removeDiacritics( ingredient.ingredient).toLowerCase()
+    ),
+    removeDiacritics(recipe.appliance).toLowerCase(),
+    ...recipe.ustensils.map((ustensil) => removeDiacritics(ustensil).toLowerCase()),
+  ];
 
     const allSelectedTagsFound = selectedTags.every((tag) =>
       recipeTagFound.includes(tag)
