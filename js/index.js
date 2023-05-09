@@ -1,6 +1,7 @@
 import { recipes } from "./mock/recipes.js";
 import { displayRecipes } from "./recipe.js";
 import { Dropdown } from "./Dropdowns.js";
+import { removeDiacritics } from "./utils.js";
 import { FilterRecipesWithLoop } from "./algorithmSearchBar.js";
 
 let filterUniqueRecipes = [];
@@ -61,14 +62,15 @@ function advancedSearch(event) {
   const searchTerm = event.target.value.toLowerCase().trim();
   const searchType = event.target.dataset.searchType;
 
-  const dropdown = new Dropdown(filterUniqueRecipes);
-  dropdown.updateFiltersInDropdown(searchType); // recherche d'un ingredient, appareil ou ustensil dans la recherche avancée
-  dropdown.updateDropdownLists(searchTerm);
+  const dropdown = new Dropdown(recipes,searchTerm);
+  dropdown.specifiesSearch(searchTerm); // recherche d'un ingredient, appareil ou ustensil dans la recherche avancée
+  dropdown.updateDropdownLists(recipes);
 
   const section = document.getElementById("cards");
   section.innerHTML = "";
-
-  displayRecipes(recipes);
+  const filterRecipes = dropdown.filterRecipes(searchTerm);
+  
+  displayRecipes(filterRecipes);
 }
 
 advancedSearchInputs.forEach((advancedSearchInput) => {
@@ -87,14 +89,14 @@ export function applyFilterByTags() {
     // Vérifier si tous les tags sélectionnés sont présents dans les ingrédients, appareils et ustensiles de la recette
     let recipeTagFound = [
       ...recipe.ingredients.map((ingredient) =>
-        ingredient.ingredient.toLowerCase()
+       removeDiacritics( ingredient.ingredient).toLowerCase()
       ),
-      recipe.appliance.toLowerCase(),
-      ...recipe.ustensils.map((ustensil) => ustensil.toLowerCase()),
+      removeDiacritics(recipe.appliance).toLowerCase(),
+      ...recipe.ustensils.map((ustensil) => removeDiacritics(ustensil).toLowerCase()),
     ];
 
     const allSelectedTagsFound = selectedTags.every((tag) =>
-      recipeTagFound.includes(tag)
+      recipeTagFound.includes(tag.toLowerCase())
     );
     if (!allSelectedTagsFound) return false;
 
@@ -102,22 +104,22 @@ export function applyFilterByTags() {
     selectedTags.some((tag) => {
       // Vérifier si le tag est présent dans les ingrédients, les appareils ou les ustensiles de la recette
       recipe.ingredients.forEach((ingredient) => {
-        if (ingredient.ingredient.toLowerCase().includes(tag)) {
+        if (ingredient.ingredient.toLowerCase().includes(tag.toLowerCase())) {
           recipeTagFound = true;
         }
       });
-      if (recipe.appliance.toLowerCase().includes(tag)) {
+      if (recipe.appliance.toLowerCase().includes(tag.toLowerCase())) {
         recipeTagFound = true;
       }
       recipe.ustensils.forEach((ustensil) => {
-        if (ustensil.toLowerCase().includes(tag)) {
+        if (ustensil.toLowerCase().includes(tag.toLowerCase())) {
           recipeTagFound = true;
         }
       });
       return recipeTagFound;
     });
 
-    return recipeTagFound ? recipe : null;
+    return allSelectedTagsFound ? recipe : null;
   });
 
   //Afficher les recettes filtrées
@@ -125,7 +127,13 @@ export function applyFilterByTags() {
   section.innerHTML = "";
 
   if (filteredRecipes.length === 0) {
-    displayRecipes(recipes);
+    const divMessage = document.createElement("div");
+    const message = document.createElement("p");
+    message.textContent =
+      'Aucune recette ne correspond à votre critère... vous pouvez chercher "tarte aux pommes", "poisson", etc';
+    message.classList.add("error");
+    divMessage.appendChild(message);
+    section.appendChild(divMessage);
   } else {
     displayRecipes(filteredRecipes); // actualise l'interface
   }

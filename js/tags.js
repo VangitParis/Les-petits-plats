@@ -1,4 +1,5 @@
 import { applyFilterByTags } from "./index.js";
+import { removeDiacritics } from "./utils.js";
 export class Tags {
   constructor(tagLinks, recipes) {
     this.tagLinks = tagLinks;
@@ -15,7 +16,7 @@ export class Tags {
         e.preventDefault();
 
         const currentTag = tagLink.innerText;
-
+        
         // Vérifier si le tag existe déjà dans le DOM
         const tagIsCreate = document.getElementById("tag-id-" + currentTag);
         if (tagIsCreate) {

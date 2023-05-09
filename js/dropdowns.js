@@ -159,6 +159,7 @@ export class Dropdown {
     const uniqueAppliances = removeDuplicates(allAppliances);
     const uniqueUstensils = removeDuplicates(allUstensils);
 
+
     capitalizedIngredients = capitalizeArray(uniqueIngredients);
     capitalizedAppliances = capitalizeArray(uniqueAppliances);
     capitalizedUstensils = capitalizeArray(uniqueUstensils);
@@ -167,6 +168,11 @@ export class Dropdown {
     this.ingredientsList.innerHTML = "";
     this.appliancesList.innerHTML = "";
     this.ustensilsList.innerHTML = "";
+
+    filterArray(capitalizedIngredients);
+    filterArray(capitalizedAppliances);
+    filterArray(capitalizedUstensils);
+    
     // Créer un élément de liste pour chaque ingrédient
     capitalizedIngredients.forEach((capitalizedIngredient) => {
       createListItem(
@@ -185,7 +191,7 @@ export class Dropdown {
     capitalizedUstensils.forEach((capitalizedUstensil) => {
       createListItem(this.ustensilsList, capitalizedUstensil, "tag-ustensil");
     });
-
+    
     // Appelle la fonction de recherche
     this.specifiesSearch();
   }
@@ -253,6 +259,7 @@ export class Dropdown {
     let ArrayOfUniqueItem = [];
     // Recherche d'ingrédients avec ou sans accents
     const normalizedSearchTerm = removeDiacritics(searchTerm);
+    console.log();
 
     // Attention particulière à la saisie des pluriels
     const pluralSearchTerm = normalizedSearchTerm.endsWith("s");
