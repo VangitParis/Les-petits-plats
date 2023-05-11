@@ -10,11 +10,11 @@ import {
 } from "./utils.js";
 
 export class Dropdown {
-  constructor(recipes, searchTerm = "") {
+  constructor(recipes, searchTerm = "", filterUniqueRecipes) {
     this.recipes = recipes;
     this.searchTerm = searchTerm;
 
-    // this.filterUniqueRecipes = filterUniqueRecipes;
+    this.filterUniqueRecipes = filterUniqueRecipes;
     if (typeof searchTerm !== "string") {
       throw new Error("searchTerm doit être une string");
     }
@@ -60,6 +60,12 @@ export class Dropdown {
     this.searchAppliances = document.getElementById("inputSearchAppliances");
     this.searchUstensils = document.getElementById("inputSearchUstensils");
     this.searchInput = document.getElementById("searchInput");
+    this.searchInputs = [
+      this.searchIngredients,
+      this.searchAppliances,
+      this.searchUstensils,
+      this.searchInput,
+    ];
 
     this.openDropdown();
     this.closeDropdown();
@@ -96,7 +102,7 @@ export class Dropdown {
     });
 
     //affiche les elements de listes
-    this.updateDropdownLists();
+    this.createListDropdown();
   }
 
   //ferme la dropdown si on clique n'importe où
@@ -133,7 +139,7 @@ export class Dropdown {
     });
   }
 
-  // createListDropdown
+  // Création des listes originales sans filtres à l'ouverture des dropdowns
   createListDropdown(
     capitalizedIngredients,
     capitalizedAppliances,
@@ -164,13 +170,9 @@ export class Dropdown {
     capitalizedUstensils = capitalizeArray(uniqueUstensils);
 
     // Vider les listes existantes
-    this.ingredientsList.innerHTML = "";
-    this.appliancesList.innerHTML = "";
-    this.ustensilsList.innerHTML = "";
-
-    filterArray(capitalizedIngredients);
-    filterArray(capitalizedAppliances);
-    filterArray(capitalizedUstensils);
+    this.ingredientsList.innerHTML = " ";
+    this.appliancesList.innerHTML = " ";
+    this.ustensilsList.innerHTML = " ";
 
     // Créer un élément de liste pour chaque ingrédient
     capitalizedIngredients.forEach((capitalizedIngredient) => {
@@ -190,15 +192,10 @@ export class Dropdown {
     capitalizedUstensils.forEach((capitalizedUstensil) => {
       createListItem(this.ustensilsList, capitalizedUstensil, "tag-ustensil");
     });
+    // capitalizedUstensils.forEach((capitalizedUstensil, index) => {
+    //   console.log(`Element qui a l'index ${index}: ${capitalizedUstensil}`);
+    // });
 
-    // Appelle la fonction de recherche
-    this.specifiesSearch();
-  }
-
-  //actualise les éléments restant après le recherche
-  updateDropdownLists() {
-    //Appelle la fonction qui créé les éléments des liste dans les dropdowns
-    this.createListDropdown();
     //Appelle la fonction qui ajoute les tags à la section
     this.addTagsInSectionTag();
   }
@@ -241,98 +238,11 @@ export class Dropdown {
         filteredRecipes.push(recipe);
       }
     }
-
+    //Mettre à jour la liste des recettes filtrées
     return filteredRecipes;
   }
-
-  // les résultats de recherche sont actualisés ainsi que les éléments disponibles dans les dropdowns
-  filterList(list, searchTerm) {
-    // si on saisi une recherche dans les dropdowns
-    searchTerm = list.searchCurrentInput.value.trim().toLowerCase();
-
-    // on vide la liste dès 3 caractères saisis dans le champ
-    if (searchTerm.length < 3) {
-      return;
-    }
-    // créer un tableau vide pour stocker les éléments filtrés et les rendre unique
-    let ArrayOfUniqueItem = [];
-    // Recherche d'ingrédients avec ou sans accents
-    const normalizedSearchTerm = removeDiacritics(searchTerm);
-    console.log();
-
-    // Attention particulière à la saisie des pluriels
-    const pluralSearchTerm = normalizedSearchTerm.endsWith("s");
-    const searchTermWithoutPlural = pluralSearchTerm
-      ? normalizedSearchTerm.slice(0, -1)
-      : normalizedSearchTerm;
-
-    // Stockage des éléments filtrés uniques dans un objet Set
-    const uniqueItems = new Set();
-
-    recipes.forEach((recipe) => {
-      let itemName;
-      if (list.property === "appliance") {
-        itemName = removeDiacritics(recipe[list.property]).toLowerCase();
-        itemName.endsWith("s") ? itemName.slice(0, -1) : itemName;
-
-        if (itemName.includes(searchTermWithoutPlural)) {
-          uniqueItems.add(itemName);
-        }
-      } else {
-        recipe[list.property].forEach((item, index) => {
-          if (list.property === "ingredients") {
-            itemName = removeDiacritics(item[list.object]).toLowerCase();
-          } else {
-            itemName = removeDiacritics(item).toLowerCase();
-          }
-          itemName.endsWith("s") ? itemName.slice(0, -1) : itemName;
-          if (itemName.includes(searchTermWithoutPlural)) {
-            uniqueItems.add(itemName);
-          }
-        });
-      }
-      if (itemName.includes(searchTermWithoutPlural)) {
-        uniqueItems.add(itemName);
-      }
-
-      // Vider la liste existante
-      list.list.innerHTML = "";
-
-      // Conversion de l'objet Set en tableau pour l'affichage
-      ArrayOfUniqueItem = Array.from(uniqueItems);
-
-      // Créer les éléments HTML pour chaque élément filtré
-      ArrayOfUniqueItem.forEach((item) => {
-        // mettre la première lettre en Maj
-        const capitalizedItem = item.charAt(0).toUpperCase() + item.slice(1);
-        //créer la liste filtrée avec juste le terme recherché
-        createListItem(list.list, capitalizedItem, list.tagClass);
-      });
-    });
-
-    return ArrayOfUniqueItem;
-  }
-  updateFiltersInDropdown() {
-    const ingredientFilters = Array.from(
-      this.ingredientsList.getElementsByClassName("tag-ingredient")
-    );
-    const applianceFilters = Array.from(
-      this.appliancesList.getElementsByClassName("tag-appliance")
-    );
-    const ustensilFilters = Array.from(
-      this.ustensilsList.getElementsByClassName("tag-ustensil")
-    );
-    const searchTerms = [
-      ...ingredientFilters,
-      ...applianceFilters,
-      ...ustensilFilters,
-    ].map((filter) => filter.textContent.trim().toLowerCase());
-    console.log(searchTerms);
-
-    return searchTerms;
-  }
   //utilisateur précise sa recherche dans la recherche avancée des dropdowns
-  specifiesSearch() {
+  specifiesSearch(searchTerm) {
     // Mise à jour de la liste des ingrédients
     this.filterList({
       list: this.ingredientsList,
@@ -357,6 +267,91 @@ export class Dropdown {
       property: "ustensils",
       tagClass: "tag-ustensil",
     });
+  }
+  // les résultats de recherche sont actualisés ainsi que les éléments disponibles dans les dropdowns
+  filterList(list, searchTerm) {
+    // si on saisi une recherche dans les dropdowns
+    searchTerm = list.searchCurrentInput.value.trim().toLowerCase();
+    let ingredientsList = [];
+    let appliancesList = [];
+    let ustensilsList = [];
+    // on vide la liste dès 3 caractères saisis dans le champ
+    if (searchTerm.length < 3) {
+      return;
+    }
+
+    // créer un tableau vide pour stocker les éléments filtrés et les rendre unique
+    let arrayWithFilteredElements = [];
+    // Recherche d'ingrédients avec ou sans accents
+    const normalizedSearchTerm = removeDiacritics(searchTerm);
+
+    // Attention particulière à la saisie des pluriels
+    const pluralSearchTerm = normalizedSearchTerm.endsWith("s");
+    const searchTermWithoutPlural = pluralSearchTerm
+      ? normalizedSearchTerm.slice(0, -1)
+      : normalizedSearchTerm;
+
+    // Stockage des éléments filtrés uniques dans un objet Set
+    const uniqueItems = new Set();
+    recipes.forEach((recipe, index) => {
+      let itemName;
+      if (list.property === "appliance") {
+        itemName = recipe[list.property];
+        const normalizedItemName = removeDiacritics(itemName).toLowerCase();
+        itemName.endsWith("s") ? itemName.slice(0, -1) : itemName;
+    
+        if (normalizedItemName.includes(searchTermWithoutPlural)) {
+          uniqueItems.add(itemName.toLowerCase());
+         
+        }
+      } else {
+        recipe[list.property].forEach((item) => {
+          if (list.property === "ingredients") {
+            itemName = item[list.object];
+          } else {
+            itemName = item;
+          }
+          const normalizedItemName = removeDiacritics(itemName).toLowerCase();
+          itemName.endsWith("s") ? itemName.slice(0, -1) : itemName;
+          if (normalizedItemName.includes(searchTermWithoutPlural)) {
+            uniqueItems.add(itemName.toLowerCase());
+         
+          }
+        });
+      }
+    });
+    
+    // Vider la liste existante
+    list.list.innerHTML = '';
+ 
+    // Créer les éléments HTML pour chaque élément filtré
+    uniqueItems.forEach((item) => {
+      const capitalizeItem = item.charAt(0).toUpperCase() + item.slice(1);
+      // créer la liste filtrée avec juste le terme recherché
+      createListItem(list.list, capitalizeItem, list.tagClass);
+      this.addTagsInSectionTag();
+    });
+    
+  }
+  updateFiltersInDropdown() {
+    const ingredientFilters = Array.from(
+      this.ingredientsList.getElementsByClassName("tag-ingredient")
+    );
+    const applianceFilters = Array.from(
+      this.appliancesList.getElementsByClassName("tag-appliance")
+    );
+    const ustensilFilters = Array.from(
+      this.ustensilsList.getElementsByClassName("tag-ustensil")
+    );
+    const searchTerms = [
+      ...ingredientFilters,
+      ...applianceFilters,
+      ...ustensilFilters,
+    ].map((filter) => filter.textContent.trim());
+
+    console.info(searchTerms);
+
+    return searchTerms;
   }
 
   addTagsInSectionTag() {

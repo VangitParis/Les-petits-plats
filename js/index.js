@@ -1,10 +1,10 @@
 import { recipes } from "./mock/recipes.js";
-import { displayRecipes } from "./recipeCards.js";
+import { FilterRecipesWithLoop } from "./algorithmSearchBar.js";
 import { Dropdown } from "./Dropdowns.js";
 import { removeDiacritics } from "./utils.js";
-import { FilterRecipesWithLoop } from "./algorithmSearchBar.js";
-
+import { displayRecipes } from "./recipeCards.js";
 let filterUniqueRecipes = [];
+
 // Fonction qui gère la recherche et le filtre des recettes
 function handleSearch() {
   const searchInput = document.getElementById("searchInput");
@@ -36,6 +36,10 @@ function handleSearch() {
     divMessage.appendChild(message);
     section.appendChild(divMessage);
   } else {
+    const dropdown = new Dropdown(recipes);
+    dropdown.specifiesSearch(searchText);
+
+    console.info(dropdown);
     displayRecipes(filterUniqueRecipes); // actualise l'interface
   }
 }
@@ -64,7 +68,7 @@ function advancedSearch(event) {
 
   const dropdown = new Dropdown(recipes, searchTerm);
   dropdown.specifiesSearch(searchTerm); // recherche d'un ingredient, appareil ou ustensil dans la recherche avancée
-  dropdown.updateDropdownLists(searchType);
+  dropdown.updateFiltersInDropdown(searchType);
 
   const section = document.getElementById("cards");
   section.innerHTML = "";
@@ -123,10 +127,8 @@ export function applyFilterByTags() {
           recipeTagFound = true;
         }
       });
-
       return recipeTagFound;
     });
-
     return recipeTagFound ? recipe : null;
   });
 

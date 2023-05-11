@@ -10,8 +10,8 @@ export const removeDiacritics = (element) => {
 };
 
 // Supprimer les doublons
-export const removeDuplicates = (arr) => {
-  return arr.filter((item, index, array) => array.indexOf(item) === index);
+export const removeDuplicates = (array) => {
+  return [...new Set(array)];
 };
 
 // Fonction pour filtrer en fonction de la recherche
@@ -47,4 +47,5 @@ export const createListItem = (list, text, className) => {
   // Ajouter l'élément de liste à la liste de la dropdown
   list.appendChild(listItem);
   listItem.appendChild(itemLinkToDisplayTag);
+  
 };
