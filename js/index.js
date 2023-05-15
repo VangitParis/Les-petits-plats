@@ -1,9 +1,8 @@
 import { recipes } from "./mock/recipes.js";
-import { FilterRecipesWithLoop } from "./algorithmSearchBar.js";
-import { Dropdown } from "./Dropdowns.js";
+import { FilterRecipesWithLoop } from "./algorithm/algorithmSearchBar.js";
+import { Dropdown } from "./Classes/Dropdowns.js";
 import { removeDiacritics } from "./utils.js";
-import { displayRecipes } from "./recipeCards.js";
-
+import { displayRecipes } from "./template/recipeCards.js";
 
 // Fonction qui gère la recherche et le filtre des recettes
 function handleSearch() {
@@ -61,12 +60,12 @@ const advancedSearchInputs = [
 
 // Filtre les recettes et met à jour les élément dans les dropdowns
 function advancedSearch(text) {
-   // Vérifier si l'élément existe déjà dans la liste
-   const existingTag = document.getElementById(`tag-id-${text}`);
+  // Vérifier si l'élément existe déjà dans la liste
+  const existingTag = document.getElementById(`tag-id-${text}`);
 
-   if (existingTag) {
-     return;
-   }
+  if (existingTag) {
+    return;
+  }
 
   const dropdown = new Dropdown(recipes);
   dropdown.specifiesSearch();
@@ -84,7 +83,6 @@ advancedSearchInputs.forEach((advancedSearchInput) => {
 });
 
 export function applyFilterByTags(text) {
-  
   // Récupérer les tags sélectionnés
   const selectedTags = Array.from(
     document.getElementsByClassName("selected")

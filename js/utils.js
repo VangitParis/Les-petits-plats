@@ -1,4 +1,4 @@
-import { Dropdown } from "./Dropdowns.js";
+import { Dropdown } from "./Classes/Dropdowns.js";
 import { recipes } from "./mock/recipes.js";
 export const removeDiacritics = (element) => {
   if (typeof element !== "string") {
@@ -31,13 +31,13 @@ export const capitalizeArray = (arr) => {
 // Fonction pour créer la liste des éléments
 export const createListItem = (list, text, className) => {
   // Ne pas afficher l'ingrédient de la liste si il est deja sélectionné dans les tags
-  
+
   // Vérifier si l'élément existe déjà dans la liste
   const existingTag = document.getElementById(`tag-id-${text}`);
   if (existingTag) {
     return;
   }
-  
+
   const listItem = document.createElement("li");
   listItem.classList.add("list-item");
   const itemLinkToDisplayTag = document.createElement("a");
@@ -47,5 +47,4 @@ export const createListItem = (list, text, className) => {
   // Ajouter l'élément de liste à la liste de la dropdown
   list.appendChild(listItem);
   listItem.appendChild(itemLinkToDisplayTag);
-  
 };

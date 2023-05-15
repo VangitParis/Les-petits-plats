@@ -1,4 +1,4 @@
-import { removeDiacritics } from "./utils.js";
+import { removeDiacritics } from "../utils.js";
 
 export class FilterRecipesWithLoop {
   constructor(recipes, searchText, keyword, tagsLinks) {

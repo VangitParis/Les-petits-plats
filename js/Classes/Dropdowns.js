@@ -1,4 +1,4 @@
-import { recipes } from "./mock/recipes.js";
+import { recipes } from "../mock/recipes.js";
 
 import { Tags } from "./Tags.js";
 import {
@@ -7,7 +7,7 @@ import {
   capitalizeArray,
   removeDuplicates,
   filterArray,
-} from "./utils.js";
+} from "../utils.js";
 
 export class Dropdown {
   constructor(recipes, searchTerm = "", filterUniqueRecipes) {

@@ -1,4 +1,4 @@
-import { applyFilterByTags } from "./index.js";
+import { applyFilterByTags } from "../index.js";
 
 export class Tags {
   constructor(tagLinks, recipes) {
