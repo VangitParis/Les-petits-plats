@@ -3,7 +3,7 @@ import { FilterRecipesWithLoop } from "./algorithmSearchBar.js";
 import { Dropdown } from "./Dropdowns.js";
 import { removeDiacritics } from "./utils.js";
 import { displayRecipes } from "./recipeCards.js";
-// let filterUniqueRecipes = [];
+
 
 // Fonction qui gère la recherche et le filtre des recettes
 function handleSearch() {
