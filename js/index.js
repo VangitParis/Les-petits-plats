@@ -4,47 +4,69 @@ import { removeDiacritics } from "./utils.js";
 import { displayRecipes } from "./recipesCards.js";
 
 
-//Ajouter un évènement de saisie sur la la recherche avancée
-const advancedSearchInputs = Array.from(
-  document.getElementsByClassName("form-control")
-);
 
-function searchHandler() {
-  const searchText = this.value.toLowerCase().trim();
-  const dropdown = new Dropdown(recipes, searchText);
-  dropdown.specifiesSearch(searchText);
-   
+//Ajouter un évènement de saisie sur la la recherche avancée
+const searchIngredients = document.getElementById("inputSearchIngredients");
+const searchAppliances = document.getElementById("inputSearchAppliances");
+const searchUstensils = document.getElementById("inputSearchUstensils");
+const advancedSearchInputs = [
+  searchIngredients,
+  searchAppliances,
+  searchUstensils,
+];
+
+// Filtre les recettes et met à jour les élément dans les dropdowns
+function advancedSearch(text) {
+   // Vérifier si l'élément existe déjà dans la liste
+   const existingTag = document.getElementById(`tag-id-${text}`);
+
+   if (existingTag) {
+     return;
+   }
+
+  const dropdown = new Dropdown(recipes);
+  dropdown.specifiesSearch();
+  const filteredRecipes = dropdown.filterRecipes();
+  //Afficher les recettes filtrées
   const section = document.getElementById("cards");
   section.innerHTML = "";
 
-  const filterRecipesAtSearch = dropdown.filterRecipes();
-  displayRecipes(filterRecipesAtSearch);
+  displayRecipes(filteredRecipes); // actualise l'interface
 }
 
-advancedSearchInputs.forEach((advancedSearch) => {
-  advancedSearch.addEventListener("input", searchHandler);
+advancedSearchInputs.forEach((advancedSearchInput) => {
+  advancedSearchInput.addEventListener("input", advancedSearch);
+  advancedSearchInput.addEventListener("Enter", advancedSearch);
 });
 
-export function applyFilterByTags() {
+export function applyFilterByTags(text) {
+  
   // Récupérer les tags sélectionnés
   const selectedTags = Array.from(
     document.getElementsByClassName("selected")
-  ).map((tag) => tag.textContent.toLowerCase());
+  ).map((tag) => removeDiacritics(tag.textContent).toLowerCase());
 
- // Filtrer les recettes qui correspondent aux tags sélectionnés
- const filteredRecipes = recipes.filter((recipe) => {
-  // Vérifier si tous les tags sélectionnés sont présents dans les ingrédients, appareils et ustensiles de la recette
-  let recipeTagFound = [
-    ...recipe.ingredients.map((ingredient) =>
-     removeDiacritics(ingredient.ingredient).toLowerCase()
-    ),
-    removeDiacritics(recipe.appliance).toLowerCase(),
-    ...recipe.ustensils.map((ustensil) => removeDiacritics(ustensil).toLowerCase()),
-  ];
+  // Filtrer les recettes qui correspondent aux tags sélectionnés
+  const filteredRecipes = recipes.filter((recipe) => {
+    // Vérifier si tous les tags sélectionnés sont présents dans les ingrédients, appareils et ustensiles de la recette
+    const ingredientsRecipes = recipe.ingredients.map((ingredient) =>
+      removeDiacritics(ingredient.ingredient).toLowerCase()
+    );
+    const applianceRecipe = removeDiacritics(recipe.appliance).toLowerCase();
+    const ustensilsRecipes = recipe.ustensils.map((ustensil) =>
+      removeDiacritics(ustensil).toLowerCase()
+    );
+
+    let recipeTagFound = [
+      applianceRecipe,
+      ...ingredientsRecipes,
+      ...ustensilsRecipes,
+    ];
 
     const allSelectedTagsFound = selectedTags.every((tag) =>
       recipeTagFound.includes(tag)
     );
+
     if (!allSelectedTagsFound) return false;
 
     // Vérifier si au moins un tag sélectionné est présent dans la recette
@@ -65,7 +87,6 @@ export function applyFilterByTags() {
       });
       return recipeTagFound;
     });
-
     return recipeTagFound ? recipe : null;
   });
 
@@ -74,13 +95,19 @@ export function applyFilterByTags() {
   section.innerHTML = "";
 
   if (filteredRecipes.length === 0) {
-    displayRecipes(recipes);
+    const divMessage = document.createElement("div");
+    const message = document.createElement("p");
+    message.textContent =
+      'Aucune recette ne correspond à votre critère... vous pouvez chercher "tarte aux pommes", "poisson", etc';
+    message.classList.add("error");
+    divMessage.appendChild(message);
+    section.appendChild(divMessage);
   } else {
+    new Dropdown(filteredRecipes);
     displayRecipes(filteredRecipes); // actualise l'interface
   }
 }
 
 // Afficher toutes les recettes initialement
 new Dropdown(recipes);
-
 displayRecipes(recipes);
