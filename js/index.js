@@ -3,12 +3,12 @@ import { FilterRecipesWithLoop } from "./algorithmSearchBar.js";
 import { Dropdown } from "./Dropdowns.js";
 import { removeDiacritics } from "./utils.js";
 import { displayRecipes } from "./recipeCards.js";
-let filterUniqueRecipes = [];
+// let filterUniqueRecipes = [];
 
 // Fonction qui gère la recherche et le filtre des recettes
 function handleSearch() {
   const searchInput = document.getElementById("searchInput");
-  const searchText = searchInput.value.toLowerCase().trim();
+  const searchText = searchInput.value.trim().toLowerCase();
   const filterInSearchBar = new FilterRecipesWithLoop(recipes, searchText);
   const filteredRecipesByText = filterInSearchBar.filterRecipesByText(
     recipes,
@@ -20,7 +20,7 @@ function handleSearch() {
   );
 
   // Fusionner les résultats des deux filtres en une seule liste de recettes uniques
-  filterUniqueRecipes = [
+  const filterUniqueRecipes = [
     ...new Set([...filteredRecipesByText, ...filteredRecipesByKeyword]),
   ];
 
@@ -36,10 +36,8 @@ function handleSearch() {
     divMessage.appendChild(message);
     section.appendChild(divMessage);
   } else {
-    const dropdown = new Dropdown(recipes);
-    dropdown.specifiesSearch(searchText);
+    new Dropdown(filterUniqueRecipes);
 
-    console.info(dropdown);
     displayRecipes(filterUniqueRecipes); // actualise l'interface
   }
 }
@@ -62,19 +60,22 @@ const advancedSearchInputs = [
 ];
 
 // Filtre les recettes et met à jour les élément dans les dropdowns
-function advancedSearch(event) {
-  const searchTerm = event.target.value.toLowerCase().trim();
-  const searchType = event.target.dataset.searchType;
+function advancedSearch(text) {
+   // Vérifier si l'élément existe déjà dans la liste
+   const existingTag = document.getElementById(`tag-id-${text}`);
 
-  const dropdown = new Dropdown(recipes, searchTerm);
-  dropdown.specifiesSearch(searchTerm); // recherche d'un ingredient, appareil ou ustensil dans la recherche avancée
-  dropdown.updateFiltersInDropdown(searchType);
+   if (existingTag) {
+     return;
+   }
 
+  const dropdown = new Dropdown(recipes);
+  dropdown.specifiesSearch();
+  const filteredRecipes = dropdown.filterRecipes();
+  //Afficher les recettes filtrées
   const section = document.getElementById("cards");
   section.innerHTML = "";
-  const filterRecipes = dropdown.filterRecipes(searchTerm);
 
-  displayRecipes(filterRecipes);
+  displayRecipes(filteredRecipes); // actualise l'interface
 }
 
 advancedSearchInputs.forEach((advancedSearchInput) => {
@@ -82,7 +83,8 @@ advancedSearchInputs.forEach((advancedSearchInput) => {
   advancedSearchInput.addEventListener("Enter", advancedSearch);
 });
 
-export function applyFilterByTags() {
+export function applyFilterByTags(text) {
+  
   // Récupérer les tags sélectionnés
   const selectedTags = Array.from(
     document.getElementsByClassName("selected")
@@ -145,6 +147,7 @@ export function applyFilterByTags() {
     divMessage.appendChild(message);
     section.appendChild(divMessage);
   } else {
+    new Dropdown(filteredRecipes);
     displayRecipes(filteredRecipes); // actualise l'interface
   }
 }

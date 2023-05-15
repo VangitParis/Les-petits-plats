@@ -102,7 +102,7 @@ export class Dropdown {
     });
 
     //affiche les elements de listes
-    this.createListDropdown();
+    this.updateDropdownLists();
   }
 
   //ferme la dropdown si on clique n'importe où
@@ -140,23 +140,24 @@ export class Dropdown {
   }
 
   // Création des listes originales sans filtres à l'ouverture des dropdowns
-  createListDropdown(
+  updateDropdownLists(
     capitalizedIngredients,
     capitalizedAppliances,
-    capitalizedUstensils
+    capitalizedUstensils,
+    filteredRecipes
   ) {
-    const allIngredients = recipes.reduce((acc, recipe) => {
+    const allIngredients = this.recipes.reduce((acc, recipe) => {
       let recipeIngredients = recipe.ingredients.map((item) =>
         item.ingredient.toLowerCase()
       );
       return acc.concat(recipeIngredients);
     }, []);
 
-    const allAppliances = recipes.reduce((acc, recipe) => {
+    const allAppliances = this.recipes.reduce((acc, recipe) => {
       return acc.concat(recipe.appliance.toLowerCase());
     }, []);
 
-    const allUstensils = recipes.reduce((acc, recipe) => {
+    const allUstensils = this.recipes.reduce((acc, recipe) => {
       let recipeUstensils = recipe.ustensils.map((item) => item.toLowerCase());
       return acc.concat(recipeUstensils);
     }, []);
@@ -174,30 +175,35 @@ export class Dropdown {
     this.appliancesList.innerHTML = " ";
     this.ustensilsList.innerHTML = " ";
 
-    // Créer un élément de liste pour chaque ingrédient
-    capitalizedIngredients.forEach((capitalizedIngredient) => {
-      createListItem(
-        this.ingredientsList,
-        capitalizedIngredient,
-        "tag-ingredient"
-      );
-    });
-    capitalizedAppliances.forEach((capitalizedAppliance) => {
-      createListItem(
-        this.appliancesList,
-        capitalizedAppliance,
-        "tag-appliance"
-      );
-    });
-    capitalizedUstensils.forEach((capitalizedUstensil) => {
-      createListItem(this.ustensilsList, capitalizedUstensil, "tag-ustensil");
-    });
-    // capitalizedUstensils.forEach((capitalizedUstensil, index) => {
-    //   console.log(`Element qui a l'index ${index}: ${capitalizedUstensil}`);
-    // });
+    // Mettre à jour les listes des dropdowns avec les éléments filtrés
+    this.updateDropdownList(
+      this.ingredientsList,
+      capitalizedIngredients,
+      "tag-ingredient"
+    );
+    this.updateDropdownList(
+      this.appliancesList,
+      capitalizedAppliances,
+      "tag-appliance"
+    );
+    this.updateDropdownList(
+      this.ustensilsList,
+      capitalizedUstensils,
+      "tag-ustensil"
+    );
 
-    //Appelle la fonction qui ajoute les tags à la section
+    // Mettre à jour les tags dans la section de recherche avancée
     this.addTagsInSectionTag();
+  }
+
+  updateDropdownList(list, items, tagClass) {
+    // Vider la liste existante
+    list.innerHTML = "";
+
+    // Créer les éléments HTML pour chaque élément filtré
+    items.forEach((item) => {
+      createListItem(list, item, tagClass);
+    });
   }
 
   // Filtre les recettes
@@ -211,26 +217,19 @@ export class Dropdown {
       const ingredientMatch = recipe.ingredients.some((ingredient) =>
         ingredient.ingredient
           .toLowerCase()
-          .includes(
-            this.searchIngredients.value.toLowerCase() ||
-              this.searchInput.value.toLowerCase()
-          )
+          .includes(this.searchIngredients.value.trim().toLowerCase())
       );
 
       //Vérifier qu'un appareil match avec la saisie de recherche
-      const applianceMatch =
-        recipe.appliance
-          .toLowerCase()
-          .includes(this.searchAppliances.value.toLowerCase()) ||
-        this.searchInput.value.toLowerCase();
+      const applianceMatch = recipe.appliance
+        .toLowerCase()
+        .includes(this.searchAppliances.value.trim().toLowerCase());
 
       //Vérifier qu'un ustensile match avec la saisie de recherche
-      const ustensilMatch = recipe.ustensils.some(
-        (ustensil) =>
-          ustensil
-            .toLowerCase()
-            .includes(this.searchUstensils.value.toLowerCase()) ||
-          this.searchInput.value.toLowerCase()
+      const ustensilMatch = recipe.ustensils.some((ustensil) =>
+        ustensil
+          .toLowerCase()
+          .includes(this.searchUstensils.value.trim().toLowerCase())
       );
 
       // si tout correspond on affiche les recettes filtrées
@@ -241,10 +240,11 @@ export class Dropdown {
     //Mettre à jour la liste des recettes filtrées
     return filteredRecipes;
   }
-  //utilisateur précise sa recherche dans la recherche avancée des dropdowns
-  specifiesSearch(searchTerm) {
+
+  //L' utilisateur précise sa recherche dans la recherche avancée des dropdowns
+  specifiesSearch() {
     // Mise à jour de la liste des ingrédients
-    this.filterList({
+    const ingredientsSearch = this.filterList({
       list: this.ingredientsList,
       searchCurrentInput: this.searchIngredients,
       property: "ingredients",
@@ -253,7 +253,7 @@ export class Dropdown {
     });
 
     // Mise à jour de la liste des appareils
-    this.filterList({
+    const applianceSearch = this.filterList({
       list: this.appliancesList,
       searchCurrentInput: this.searchAppliances,
       property: "appliance",
@@ -261,7 +261,7 @@ export class Dropdown {
     });
 
     // Mise à jour de la liste des ustensiles
-    this.filterList({
+    const ustensilSearch = this.filterList({
       list: this.ustensilsList,
       searchCurrentInput: this.searchUstensils,
       property: "ustensils",
@@ -270,18 +270,14 @@ export class Dropdown {
   }
   // les résultats de recherche sont actualisés ainsi que les éléments disponibles dans les dropdowns
   filterList(list, searchTerm) {
-    // si on saisi une recherche dans les dropdowns
     searchTerm = list.searchCurrentInput.value.trim().toLowerCase();
-    let ingredientsList = [];
-    let appliancesList = [];
-    let ustensilsList = [];
+    // console.log(searchTerm); //coco
+
     // on vide la liste dès 3 caractères saisis dans le champ
     if (searchTerm.length < 3) {
       return;
     }
 
-    // créer un tableau vide pour stocker les éléments filtrés et les rendre unique
-    let arrayWithFilteredElements = [];
     // Recherche d'ingrédients avec ou sans accents
     const normalizedSearchTerm = removeDiacritics(searchTerm);
 
@@ -293,16 +289,15 @@ export class Dropdown {
 
     // Stockage des éléments filtrés uniques dans un objet Set
     const uniqueItems = new Set();
-    recipes.forEach((recipe, index) => {
+    this.recipes.forEach((recipe, index) => {
       let itemName;
       if (list.property === "appliance") {
         itemName = recipe[list.property];
         const normalizedItemName = removeDiacritics(itemName).toLowerCase();
         itemName.endsWith("s") ? itemName.slice(0, -1) : itemName;
-    
+
         if (normalizedItemName.includes(searchTermWithoutPlural)) {
           uniqueItems.add(itemName.toLowerCase());
-         
         }
       } else {
         recipe[list.property].forEach((item) => {
@@ -315,15 +310,14 @@ export class Dropdown {
           itemName.endsWith("s") ? itemName.slice(0, -1) : itemName;
           if (normalizedItemName.includes(searchTermWithoutPlural)) {
             uniqueItems.add(itemName.toLowerCase());
-         
           }
         });
       }
     });
-    
+
     // Vider la liste existante
-    list.list.innerHTML = '';
- 
+    list.list.innerHTML = "";
+
     // Créer les éléments HTML pour chaque élément filtré
     uniqueItems.forEach((item) => {
       const capitalizeItem = item.charAt(0).toUpperCase() + item.slice(1);
@@ -331,8 +325,8 @@ export class Dropdown {
       createListItem(list.list, capitalizeItem, list.tagClass);
       this.addTagsInSectionTag();
     });
-    
   }
+  // Met à jour les listes en fonctions des sélections dans les autres listes
   updateFiltersInDropdown() {
     const ingredientFilters = Array.from(
       this.ingredientsList.getElementsByClassName("tag-ingredient")
@@ -347,11 +341,12 @@ export class Dropdown {
       ...ingredientFilters,
       ...applianceFilters,
       ...ustensilFilters,
-    ].map((filter) => filter.textContent.trim());
+    ].map((filter) => filter.textContent.trim().toLowerCase());
+    console.log(searchTerms);
 
-    console.info(searchTerms);
-
-    return searchTerms;
+    const filteredRecipes = this.filterRecipes(searchTerms);
+    // Mettre à jour les listes des dropdowns en fonction des recettes filtrées
+    this.updateDropdownLists(filteredRecipes);
   }
 
   addTagsInSectionTag() {
