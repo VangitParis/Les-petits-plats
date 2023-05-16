@@ -1,5 +1,3 @@
-import { recipes } from "../mock/recipes.js";
-
 import { Tags } from "./Tags.js";
 import {
   removeDiacritics,
@@ -171,9 +169,9 @@ export class Dropdown {
     capitalizedUstensils = capitalizeArray(uniqueUstensils);
 
     // Vider les listes existantes
-    this.ingredientsList.innerHTML = " ";
-    this.appliancesList.innerHTML = " ";
-    this.ustensilsList.innerHTML = " ";
+    this.ingredientsList.innerHTML = "";
+    this.appliancesList.innerHTML = "";
+    this.ustensilsList.innerHTML = "";
 
     // Mettre à jour les listes des dropdowns avec les éléments filtrés
     this.updateDropdownList(

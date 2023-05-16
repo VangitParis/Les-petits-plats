@@ -5,7 +5,7 @@ import { removeDiacritics } from "./utils.js";
 import { displayRecipes } from "./template/recipeCards.js";
 
 // Fonction qui gère la recherche et le filtre des recettes
-function handleSearch() {
+function handleSearch(text) {
   const searchInput = document.getElementById("searchInput");
   const searchText = searchInput.value.trim().toLowerCase();
   const filterInSearchBar = new FilterRecipesWithLoop(recipes, searchText);
@@ -36,7 +36,7 @@ function handleSearch() {
     section.appendChild(divMessage);
   } else {
     new Dropdown(filterUniqueRecipes);
-
+    
     displayRecipes(filterUniqueRecipes); // actualise l'interface
   }
 }
@@ -70,6 +70,7 @@ function advancedSearch(text) {
   const dropdown = new Dropdown(recipes);
   dropdown.specifiesSearch();
   const filteredRecipes = dropdown.filterRecipes();
+  
   //Afficher les recettes filtrées
   const section = document.getElementById("cards");
   section.innerHTML = "";
@@ -82,7 +83,7 @@ advancedSearchInputs.forEach((advancedSearchInput) => {
   advancedSearchInput.addEventListener("Enter", advancedSearch);
 });
 
-export function applyFilterByTags(text) {
+export function applyFilterByTags() {
   // Récupérer les tags sélectionnés
   const selectedTags = Array.from(
     document.getElementsByClassName("selected")
@@ -152,4 +153,5 @@ export function applyFilterByTags(text) {
 
 // Afficher toutes les recettes initialement
 new Dropdown(recipes);
+
 displayRecipes(recipes);

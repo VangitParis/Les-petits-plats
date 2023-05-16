@@ -232,9 +232,7 @@ a.list-group-item {
     white-space: break-spaces;
     cursor: pointer;
 }
-a.list-group-item:focus{
-    outline: 1px solid blue;
-}
+
 .dropdown-menu input[type="text"]::placeholder {
     color: #fff;
     font-size: 18px;
