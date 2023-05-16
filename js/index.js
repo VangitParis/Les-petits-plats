@@ -4,8 +4,11 @@ import { Dropdown } from "./Classes/Dropdowns.js";
 import { removeDiacritics } from "./utils.js";
 import { displayRecipes } from "./template/recipeCards.js";
 
+
+
+let filterUniqueRecipes = [];
 // Fonction qui gère la recherche et le filtre des recettes
-function handleSearch(text) {
+function handleSearch() {
   const searchInput = document.getElementById("searchInput");
   const searchText = searchInput.value.trim().toLowerCase();
   const filterInSearchBar = new FilterRecipesWithLoop(recipes, searchText);
@@ -19,9 +22,7 @@ function handleSearch(text) {
   );
 
   // Fusionner les résultats des deux filtres en une seule liste de recettes uniques
-  const filterUniqueRecipes = [
-    ...new Set([...filteredRecipesByText, ...filteredRecipesByKeyword]),
-  ];
+  filterUniqueRecipes = [...new Set([...filteredRecipesByText, ...filteredRecipesByKeyword])];
 
   const section = document.getElementById("cards");
   section.innerHTML = "";
@@ -67,7 +68,7 @@ function advancedSearch(text) {
     return;
   }
 
-  const dropdown = new Dropdown(recipes);
+  const dropdown = new Dropdown(filterUniqueRecipes);
   dropdown.specifiesSearch();
   const filteredRecipes = dropdown.filterRecipes();
   
@@ -84,13 +85,14 @@ advancedSearchInputs.forEach((advancedSearchInput) => {
 });
 
 export function applyFilterByTags() {
+  console.log(filterUniqueRecipes);
   // Récupérer les tags sélectionnés
   const selectedTags = Array.from(
     document.getElementsByClassName("selected")
   ).map((tag) => removeDiacritics(tag.textContent).toLowerCase());
 
   // Filtrer les recettes qui correspondent aux tags sélectionnés
-  const filteredRecipes = recipes.filter((recipe) => {
+  const filteredRecipes = filterUniqueRecipes.filter((recipe) => {
     // Vérifier si tous les tags sélectionnés sont présents dans les ingrédients, appareils et ustensiles de la recette
     const ingredientsRecipes = recipe.ingredients.map((ingredient) =>
       removeDiacritics(ingredient.ingredient).toLowerCase()
@@ -137,7 +139,7 @@ export function applyFilterByTags() {
   const section = document.getElementById("cards");
   section.innerHTML = "";
 
-  if (filteredRecipes.length === 0) {
+  if (filterUniqueRecipes.length === 0) {
     const divMessage = document.createElement("div");
     const message = document.createElement("p");
     message.textContent =
@@ -150,6 +152,7 @@ export function applyFilterByTags() {
     displayRecipes(filteredRecipes); // actualise l'interface
   }
 }
+
 
 // Afficher toutes les recettes initialement
 new Dropdown(recipes);

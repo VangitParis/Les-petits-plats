@@ -7,11 +7,9 @@ import {
 } from "../utils.js";
 
 export class Dropdown {
-  constructor(recipes, searchTerm = "", filterUniqueRecipes) {
+  constructor(recipes, searchTerm = "") {
     this.recipes = recipes;
     this.searchTerm = searchTerm;
-
-    this.filterUniqueRecipes = filterUniqueRecipes;
     if (typeof searchTerm !== "string") {
       throw new Error("searchTerm doit être une string");
     }
