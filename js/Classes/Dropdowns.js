@@ -138,12 +138,7 @@ export class Dropdown {
   }
 
   // Création des listes originales sans filtres à l'ouverture des dropdowns
-  updateDropdownLists(
-    capitalizedIngredients,
-    capitalizedAppliances,
-    capitalizedUstensils,
-    filteredRecipes
-  ) {
+  updateDropdownLists(capitalizedIngredients, capitalizedAppliances,capitalizedUstensils) {
     const allIngredients = this.recipes.reduce((acc, recipe) => {
       let recipeIngredients = recipe.ingredients.map((item) =>
         item.ingredient.toLowerCase()
@@ -201,6 +196,7 @@ export class Dropdown {
     // Créer les éléments HTML pour chaque élément filtré
     items.forEach((item) => {
       createListItem(list, item, tagClass);
+      
     });
   }
 

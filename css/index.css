@@ -17,15 +17,14 @@ form#searchForm {
     justify-content : end;
     align-items :center
 }
+
 .mb-5{
     margin-bottom: -1.75rem!important;
 }
 .search-input{
     height: 69px;
-    
     border-radius: 5px;
     font-family: var(--font-family-primary);
-  
     background-color: var(--background-primary);
     border: none;
     font-size: 18px;
