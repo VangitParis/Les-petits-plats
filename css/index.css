@@ -15,7 +15,25 @@ nav img{
 form#searchForm {
     width: 96.5%;
     justify-content : end;
-    align-items :center
+    align-items :center   
+}
+@media (max-width: 575.98px) {
+    #main{
+        width: 100%;
+        padding-right: var(--bs-gutter-x,0rem);
+        padding-left: var(--bs-gutter-x,1.5rem);
+    }
+    form#searchForm {
+        width: 100%
+    }
+    nav img{
+        top: 21px;
+    }
+}
+@media (min-width: 768px) { 
+    #main{
+        width: 100%;
+ }
 }
 .mb-5{
     margin-bottom: -1.75rem!important;

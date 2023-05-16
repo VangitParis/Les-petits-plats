@@ -177,6 +177,7 @@ button span{
     flex-wrap: nowrap;
 }
 
+
 .dropdown-menu {
     appearance: none;
     position: absolute;
@@ -253,4 +254,27 @@ input#inputButton:focus-visible {
 
 input#inputButton[type="text"]::placeholder {
     color: #fff;
+}
+
+/* MEDIA QUERIES */
+
+@media (max-width: 575.98px) {
+    
+    .btn-group{
+        margin-bottom: 10px;
+    }
+    .btn-primary{
+        padding: 6% 72% 5% 2%;
+        text-align: left;
+        width: 385px;
+    }
+    .arrow-down{
+        left: 91%;
+    }
+    .dropdown{
+        width: 100%;
+        flex-wrap: wrap; 
+        
+    }
+
 }

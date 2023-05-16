@@ -9,7 +9,7 @@
     --font-family-primary: "Lato", sans-serif;
     --font-family-secondary: "Roboto", sans-serif;
     --font-size : 36px;
-  
+   
 
 
 }
@@ -65,3 +65,4 @@ main{
 .max-height-364 {
     max-height: 364px;
 }
+
