@@ -4,37 +4,20 @@
 nav img{
     position: relative;
     top: 42px;
-    font-weight: 700;
-    line-height: 47px;
-    text-align: center;
     width: 268px;
     left: 0px;
     object-fit: cover;
 }
-
+nav a{
+    text-align: center;
+}
 form#searchForm {
     width: 96.5%;
     justify-content : end;
     align-items :center   
 }
-@media (max-width: 575.98px) {
-    #main{
-        width: 100%;
-        padding-right: var(--bs-gutter-x,0rem);
-        padding-left: var(--bs-gutter-x,1.5rem);
-    }
-    form#searchForm {
-        width: 100%
-    }
-    nav img{
-        top: 21px;
-    }
-}
-@media (min-width: 768px) { 
-    #main{
-        width: 100%;
- }
-}
+
+
 .mb-5{
     margin-bottom: -1.75rem!important;
 }
@@ -141,4 +124,46 @@ li{
 .contain-content{
     contain: content;
     white-space: break-spaces;
+}
+@media (max-width: 575.98px) {
+
+    #main{
+        width: 410px;
+        padding-right: var(--bs-gutter-x,1.5rem);
+        padding-left: var(--bs-gutter-x,1.5rem);
+    }
+    header.container{
+        width: 410px;
+        height: 50px;
+    }
+    nav img{
+        width: 50%;
+        left: 0;
+    }
+    form#searchForm {
+        width: auto;
+    }
+    .search-input {
+        height: 59px;
+        font-size: 16px;
+    }
+    .button-search-img {
+        width: 19px;
+        height: 19px;
+        right: 1.6rem;
+        top: -2.5rem;
+    }
+    nav img{
+        top: 21px;
+    }
+    article{
+        margin-bottom: 5%;
+    }
+   
+}
+
+@media (min-width: 768px) { 
+    #main{
+        width: 100%;
+ }
 }

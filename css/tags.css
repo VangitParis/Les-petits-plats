@@ -26,6 +26,23 @@
     color: white;
                     
 }
+@media (max-width: 575.98px) {
+    
+    #section-tag{
+        width: 390px;
+    }
+    .btn-sm{
+        width: 31%;
+        padding: 0.25rem 0.7rem;
+    }
+    #section-tag{
+        gap: 10px;
+    }
+    .icon-close-tag {
+        width: 16px;
+        height: 16px;
+    }
+}
 .tag-ingredient{
     background-color: var(--background-btn-blue);
 }
