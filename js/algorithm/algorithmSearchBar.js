@@ -1,4 +1,4 @@
-import { removeDiacritics } from "../utils.js";
+import { removeDiacritics } from "../utils/utils.js";
 export class FilterRecipesWithFilter {
   constructor(recipes, searchText, keyword) {
     this.recipes = recipes;

@@ -4,7 +4,7 @@ import {
   createListItem,
   capitalizeArray,
   removeDuplicates,
-} from "../utils.js";
+} from "../utils/utils.js";
 
 export class Dropdown {
   constructor(recipes, searchTerm = "") {
