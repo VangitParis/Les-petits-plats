@@ -53,7 +53,7 @@ export class Tags {
 
         const tag = document.createElement("ul");
         tag.classList.add("btn", "btn-sm", "d-flex", "mt-n1", "tag");
-        tag.id = `tag-id-${ currentTag }`;
+        tag.id = `tag-id-${currentTag}`;
 
         tagLink.dataset.tag = currentTag;
 
@@ -70,7 +70,7 @@ export class Tags {
         const tagElement = document.createElement("li");
         tagElement.textContent = currentTag;
         tagElement.classList.add("selected");
-        
+
         const iconCloseTag = document.createElement("img");
         iconCloseTag.setAttribute("src", "../assets/iconCloseTag.svg");
         iconCloseTag.classList.add("icon-close-tag");
@@ -110,9 +110,7 @@ export class Tags {
           tagLink.click();
         }
       });
-    })
+    });
   }
-  closeTagWithEscKey() {
-    
-  }
+  closeTagWithEscKey() {}
 }

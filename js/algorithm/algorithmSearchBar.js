@@ -16,17 +16,21 @@ export class FilterRecipesWithFilter {
     }
 
     // Utiliser la méthode filter pour filtrer les recettes en fonction du texte de recherche
-    const filteredRecipes = recipes.filter(
-      (recipe) =>
-        recipe.name.includes(searchResult)
-        ||
+    const filteredRecipes = recipes.filter((recipe) => {
+      const name = removeDiacritics(recipe.name.toLowerCase().trim());
+      const description = removeDiacritics(
+        recipe.description.toLowerCase().trim()
+      );
+      const searchResult = searchText.toLowerCase();
+      const termRegExp = new RegExp("\\b" + searchText + "\\b", "i");
+      return (
+        termRegExp.test(name) ||
         recipe.ingredients.some((ingredient) =>
-          ingredient.ingredient.includes(searchResult)
+          termRegExp.test(removeDiacritics(ingredient.ingredient.toLowerCase()))
         ) ||
-        recipe.description.includes(searchResult)
-    );
-
-    
+        termRegExp.test(description)
+      );
+    });
 
     // Retourner la liste de recettes filtrées
     return filteredRecipes;
