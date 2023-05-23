@@ -8,7 +8,7 @@
     top: 0px;
     border-radius: 5px;
     border-color: transparent;
-    padding: 23px 72px 24px 22px;
+    padding: 23px 80px 24px 10px;
     justify-content: space-between;
 
 }
@@ -49,6 +49,7 @@
 
 .ingredients-tags:hover,
 .ingredients-tags:focus {
+    outline: 1px solid blue;
     background-color: var(--background-btn-blue);
 }
 
@@ -59,6 +60,7 @@
 
 .appliances-tags:hover,
 .appliances-tags:focus {
+    outline: 1px solid blue;
     background-color: var(--background-btn-green);
 
 }
@@ -70,6 +72,7 @@
 
 .ustensils-tags:hover,
 .ustensils-tags:focus {
+    outline: 1px solid blue;
     background-color: var(--background-btn-red);
 
 }
@@ -112,7 +115,7 @@
 button span{
     font-size: 18px;
     font-weight: 700;
-    line-height: 22px;
+   
 }
 .arrow-down {
     height: 9.880000114440955px;
@@ -177,12 +180,16 @@ button span{
     flex-wrap: nowrap;
 }
 
+
 .dropdown-menu {
     appearance: none;
     position: absolute;
     top: 0%;
     color: white;
    
+}
+.dropdown-menu:focus{
+    outline: 1px solid blue;
 }
 .dropdown-sm-size{
     height: 97px;
@@ -225,8 +232,11 @@ a.list-group-item {
     text-overflow: ellipsis;
     white-space: break-spaces;
     cursor: pointer;
+    width: 100%;
 }
-
+a.list-group-item.tag-appliance{
+    line-height: 2.2rem;
+}
 .dropdown-menu input[type="text"]::placeholder {
     color: #fff;
     font-size: 18px;
@@ -253,4 +263,76 @@ input#inputButton:focus-visible {
 
 input#inputButton[type="text"]::placeholder {
     color: #fff;
+}
+
+/* MEDIA QUERIES */
+
+@media (max-width: 575.98px) {
+    .dropdown{
+        width: 410px;
+        flex-wrap: wrap; 
+        
+    }
+    .btn-group{
+        margin-bottom: 20px;
+    }
+    button span {
+        font-size: 16px;
+        line-height: 55px;
+    }
+    .btn-primary{
+        padding: 0 70% 0 3%;
+        text-align: left;
+        width: 100%;
+        height: 59px;
+    }
+    .arrow-down{
+        left: 91%;
+    }
+   
+    .form-control{
+        font-size: 16px;
+    }
+    .list-group{
+        width: 99%;
+        height: 320px;
+    }
+    a.list-group-item{
+        font-size: 16px;
+    }
+    .btn-group{
+        width: 100%;
+    }
+    .btn-group.ingredients.active+.btn-group
+    {
+    margin-top: 20.5rem;
+    margin-left: 0;
+    }
+    .btn-group.appliances.active+.btn-group
+    {
+    margin-top: 20rem;
+    margin-left: 0;
+    }
+    .btn-group.active +.btn-group {
+    margin-bottom: 20px;
+    }
+    .dropdown-menu{
+    width: 95%;
+    }
+    a.list-group-item{
+        line-height: 1.7rem;
+       
+    }
+    a.list-group-item.tag-appliance{
+        line-height: 1.7rem;
+    }
+    a.list-group-item.tag-ustensil{
+        width: 96%;
+    }
+    #cards{
+        width: 410px;
+    }
+    .figure{
+        width: 100%;
+    }
 }

@@ -31,7 +31,7 @@
       </a>
     </nav>
   </header>
-  <main id="main" class="container gap-3">
+  <main id="main" class="container sm gap-3">
     <form class="row container mt-5 mb-5 p-2 d-flex" action="#" method="GET" id="searchForm">
       <input type="text" placeholder="Rechercher une recette" name="search" id="searchInput" class="search-input"
         value="">
@@ -42,16 +42,16 @@
     <div id="section-tag" class="container row p-2 mb-0 mt-1"></div>
     <section class="container dropdown row p-2 mt-1">
       <div class="btn-group ingredients">
-        <button class="btn btn-primary dropdown-toggle ingredients-tags d-flex" id="dropdownButtonIngredients"
-          type="button" data-toggle="dropdown" aria-expanded="false">
+        <button class="btn btn-primary dropdown-toggle ingredients-tags d-flex" id="dropdownButtonIngredients" tabindex="0"
+          type="button" data-toggle="dropdown" aria-expanded="false" >
           <span>Ingrédients</span>
           <img src="../assets/arrowbtn.svg" alt="" class="arrow-down">
         </button>
-        <div class="dropdown-menu dropdown-ingredients">
+        <div class="dropdown-menu dropdown-ingredients" tabindex="0">
           <form class="form-group mx-sm-1 mb-2" action="#" method="GET" id="formIngredient">
             <label for="inputSearchIngredients"></label>
             <input placeholder="Rechercher un ingrédient" class="form-control" type="text" value=""
-              aria-label="Rechercher un ingrédient" id="inputSearchIngredients" name="search">
+              aria-label="Rechercher un ingrédient" id="inputSearchIngredients" name="search" data-type="ingredients">
             <img src="../assets/arrowbtn.svg" class="arrow-up" alt="">
           </form>
           <div class="ingredients-list mx-sm-1">
@@ -61,18 +61,18 @@
         </div>
       </div>
       <div class="btn-group appliances">
-        <button class="btn btn-primary dropdown-toggle appliances-tags" id="dropdownButtonAppliances" type="button"
+        <button class="btn btn-primary dropdown-toggle appliances-tags" id="dropdownButtonAppliances"  tabindex="0" type="button"
           data-toggle="dropdown" aria-expanded="false">
           <span>Appareils</span>
           <img src="../assets/arrowbtn.svg" alt="" class="arrow-down">
         </button>
-        <div class="dropdown-menu dropdown-appliances">
-          <div class="form-group mx-sm-3 mb-2">
+        <div class="dropdown-menu dropdown-appliances" tabindex="0">
+          <form class="form-group mx-sm-3 mb-2">
             <label for="inputSearchAppliances"></label>
             <input placeholder="Rechercher un appareil" class="form-control" type="text"
-              aria-label="Rechercher un appareil" id="inputSearchAppliances">
+              aria-label="Rechercher un appareil" id="inputSearchAppliances" data-type="appliances">
             <img src="../assets/arrowbtn.svg" class="arrow-up" alt="">
-          </div>
+          </form>
           <div class="appliances-list mx-sm-1">
             <ul id="appliancesList" class="list-group list-appliances p-1" aria-labelledby="dropdownButtonAppliances">
             </ul>
@@ -80,21 +80,20 @@
         </div>
       </div>
       <div class="btn-group ustensils">
-        <button class="btn btn-primary dropdown-toggle ustensils-tags" id="dropdownButtonUstensils" type="button"
+        <button class="btn btn-primary dropdown-toggle ustensils-tags" id="dropdownButtonUstensils" tabindex="0" type="button"
           data-toggle="dropdown" aria-expanded="false">
           <span>Ustensiles</span>
           <img src="../assets/arrowbtn.svg" alt="" class="arrow-down">
         </button>
-        <div class="dropdown-menu dropdown-ustensils">
-          <div class="form-group mx-sm-3 mb-2">
+        <div class="dropdown-menu dropdown-ustensils" tabindex="0">
+          <form class="form-group mx-sm-3 mb-2">
             <label for="inputSearchUstensils"></label>
             <input placeholder="Rechercher un ustensile" class="form-control" type="text"
-              aria-label="Rechercher un ustensile" id="inputSearchUstensils">
+              aria-label="Rechercher un ustensile" id="inputSearchUstensils" data-type="ustensils">
             <img src="../assets/arrowbtn.svg" class="arrow-up" alt="">
-          </div>
+          </form>
           <div class="ustensils-list mx-sm-1">
-            <ul id="ustensilsList" class="list-group list-ustensils p-1" aria-labelledby="dropdownButtonUstensils">
-            </ul>
+            <ul id="ustensilsList" class="list-group list-ustensils p-1" aria-labelledby="dropdownButtonUstensils"></ul>
           </div>
         </div>
       </div>
@@ -102,7 +101,7 @@
     </section>
     <section id="cards" class="container row p-2 mt-2"></section>
   </main>
-  <!-- Bootstrap JS bundle →-->
+  <!-- Bootstrap JS bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
