@@ -265,7 +265,7 @@ export class Dropdown {
   // les résultats de recherche sont actualisés ainsi que les éléments disponibles dans les dropdowns
   filterList(list, searchTerm) {
     searchTerm = list.searchCurrentInput.value.trim().toLowerCase();
-    // console.log(searchTerm); //coco
+    
 
     // on vide la liste dès 3 caractères saisis dans le champ
     if (searchTerm.length < 3) {
@@ -336,7 +336,7 @@ export class Dropdown {
       ...applianceFilters,
       ...ustensilFilters,
     ].map((filter) => filter.textContent.trim().toLowerCase());
-    console.log(searchTerms);
+    
 
     const filteredRecipes = this.filterRecipes(searchTerms);
     // Mettre à jour les listes des dropdowns en fonction des recettes filtrées

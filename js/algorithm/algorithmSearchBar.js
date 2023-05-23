@@ -28,29 +28,6 @@ export class FilterRecipesWithLoop {
 
     // Parcourir toutes les recettes
     for (let i = 0; i < recipes.length; i++) {
-      // const recipe = recipes[i];
-      // const name = removeDiacritics(recipe.name.toLowerCase());
-      // const description = removeDiacritics(recipe.description.toLowerCase());
-
-      // // Recherche avec un seul terme
-      // if (searchText.indexOf(" ") === -1) {
-      //   const termRegExp = new RegExp("\\b" + searchText + "\\b", "i");
-      //   if (termRegExp.test(name) || termRegExp.test(description)) {
-      //     filteredRecipes.push(recipe);
-      //   }
-      // }
-      // // Recherche avec plusieurs termes
-      // else {
-      //   const searchTerms = searchText.split(" ");
-      //   const allTermsFound = searchTerms.every((term) => {
-      //     const termRegExp = new RegExp("\\b" + term + "\\b", "i");
-      //     return termRegExp.test(name) || termRegExp.test(description);
-      //   });
-      //   if (allTermsFound) {
-      //     filteredRecipes.push(recipe);
-      //     continue;
-      //   }
-      // }
       const recipe = recipes[i];
       // Vérifier si le terme de recherche est présent dans le nom de la recette ou dans la description
       const name = removeDiacritics(recipe.name.toLowerCase().trim());
