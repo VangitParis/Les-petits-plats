@@ -74,7 +74,7 @@ function advancedSearch(text) {
   }
   const dropdown = new Dropdown(recipes); // on appelle le tableau filtré en paramètre
   dropdown.specifiesSearch();
-  const filteredRecipes = dropdown.filterRecipes(); // on filtre les éléments en réduisant à la recherche du terme (coco par ex = lait coco, crème coco)
+  // const filteredRecipes = dropdown.filterRecipes(); // on filtre les éléments en réduisant à la recherche du terme (coco par ex = lait coco, crème coco)
   //Afficher les recettes filtrées
   section.innerHTML = "";
 
