@@ -25,13 +25,12 @@ function handleSearch(text) {
     ...new Set([...filteredRecipesByText, ...filteredRecipesByKeyword]),
   ];
 
-  
   section.innerHTML = "";
-     // si un tag est déjà sélectionné 
-     const selectedTags = Array.from(
-      document.getElementsByClassName("selected")
-     ).map((tag) => removeDiacritics(tag.textContent).toLowerCase());
-  
+  // si un tag est déjà sélectionné
+  const selectedTags = Array.from(
+    document.getElementsByClassName("selected")
+  ).map((tag) => removeDiacritics(tag.textContent).toLowerCase());
+
   if (filterUniqueRecipes.length === 0) {
     const divMessage = document.createElement("div");
     const message = document.createElement("p");
@@ -40,24 +39,13 @@ function handleSearch(text) {
     message.classList.add("error");
     divMessage.appendChild(message);
     section.appendChild(divMessage);
-  }
-  else if (selectedTags) {
-   
+  } else if (selectedTags) {
     applyFilterByTags(selectedTags);
-    
-    
-    
-  }
-  else {
+  } else {
     new Dropdown(filterUniqueRecipes);
 
     displayRecipes(filterUniqueRecipes); // actualise l'interface
-    
   }
-  
- 
- 
- 
 }
 
 // Ajouter un événement de saisie sur la barre de recherche
@@ -87,7 +75,6 @@ function advancedSearch(text) {
   }
   const dropdown = new Dropdown(recipes); // on appelle le tableau filtré en paramètre
   dropdown.specifiesSearch();
-  const filteredRecipes = dropdown.filterRecipes(); // on filtre les éléments en réduisant à la recherche du terme (coco par ex = lait coco, crème coco)
   //Afficher les recettes filtrées
   section.innerHTML = "";
 
@@ -173,10 +160,10 @@ export function applyFilterByTags() {
     return recipeTagFound ? recipe : null;
   });
 
-  //vider la section 
+  //vider la section
   section.innerHTML = "";
 
-  //Afficher message d'erreur si recettes ne correspondent pas 
+  //Afficher message d'erreur si recettes ne correspondent pas
   if (filteredRecipes.length === 0) {
     const divMessage = document.createElement("div");
     const message = document.createElement("p");
@@ -186,10 +173,9 @@ export function applyFilterByTags() {
     divMessage.appendChild(message);
     section.appendChild(divMessage);
   }
-  
+
   //afficher les recettes filtrées
   else {
-    
     new Dropdown(filteredRecipes);
     displayRecipes(filteredRecipes); // actualise l'interface
   }
