@@ -3,7 +3,7 @@ import {
   removeDiacritics,
   createListItem,
   capitalizeArray,
-  removeDuplicates
+  removeDuplicates,
 } from "../utils.js";
 
 export class Dropdown {

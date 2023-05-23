@@ -11,11 +11,12 @@ export class FilterRecipesWithLoop {
       this.searchText
     );
     this.filterRecipesByKeywords();
+    
   }
   //Filtrage par Texte libre à partir de 3 caractères saisis
   filterRecipesByText(recipes, searchText) {
     const filteredRecipes = [];
-
+   
     // on déclare le résultat de la recherche après avoir supprimé les diacritics
     const searchResult = removeDiacritics(searchText);
     if (searchResult.length < 3) {
@@ -27,23 +28,51 @@ export class FilterRecipesWithLoop {
 
     // Parcourir toutes les recettes
     for (let i = 0; i < recipes.length; i++) {
+      // const recipe = recipes[i];
+      // const name = removeDiacritics(recipe.name.toLowerCase());
+      // const description = removeDiacritics(recipe.description.toLowerCase());
+
+      // // Recherche avec un seul terme
+      // if (searchText.indexOf(" ") === -1) {
+      //   const termRegExp = new RegExp("\\b" + searchText + "\\b", "i");
+      //   if (termRegExp.test(name) || termRegExp.test(description)) {
+      //     filteredRecipes.push(recipe);
+      //   }
+      // }
+      // // Recherche avec plusieurs termes
+      // else {
+      //   const searchTerms = searchText.split(" ");
+      //   const allTermsFound = searchTerms.every((term) => {
+      //     const termRegExp = new RegExp("\\b" + term + "\\b", "i");
+      //     return termRegExp.test(name) || termRegExp.test(description);
+      //   });
+      //   if (allTermsFound) {
+      //     filteredRecipes.push(recipe);
+      //     continue;
+      //   }
+      // }
       const recipe = recipes[i];
       // Vérifier si le terme de recherche est présent dans le nom de la recette ou dans la description
-      const name = removeDiacritics(recipe.name).toLowerCase().split(" ");
+      const name = removeDiacritics(recipe.name.toLowerCase().trim());
 
-      const description = removeDiacritics(recipe.description)
-        .toLowerCase()
-        .split(" ");
-
+      const description = removeDiacritics(
+        recipe.description.toLowerCase().trim())
+      ;
       // Vérifier si le terme de recherche est présent dans le nom de la recette
       if (name.includes(searchResult)) {
-        filteredRecipes.push(recipe);
+        const termRegExp = new RegExp("\\b" + searchText + "\\b", "i");
+        if (termRegExp.test(name)) {
+          filteredRecipes.push(recipe);
+        }
         continue;
       }
 
       // Vérifier si le terme de recherche est présent dans la description de la recette
-      if (description.includes(searchResult)) {
-        filteredRecipes.push(recipe);
+        if (description.includes(searchResult)) {
+          const termRegExp = new RegExp("\\b" + searchText + "\\b", "i");
+          if (termRegExp.test(description)) {
+            filteredRecipes.push(recipe);
+          }
         continue;
       }
 

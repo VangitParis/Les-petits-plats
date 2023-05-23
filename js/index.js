@@ -4,11 +4,10 @@ import { Dropdown } from "./Classes/Dropdowns.js";
 import { removeDiacritics } from "./utils.js";
 import { displayRecipes } from "./template/recipeCards.js";
 
-
-
 let filterUniqueRecipes = [];
+const section = document.getElementById("cards");
 // Fonction qui gère la recherche et le filtre des recettes
-function handleSearch() {
+function handleSearch(text) {
   const searchInput = document.getElementById("searchInput");
   const searchText = searchInput.value.trim().toLowerCase();
   const filterInSearchBar = new FilterRecipesWithLoop(recipes, searchText);
@@ -22,11 +21,17 @@ function handleSearch() {
   );
 
   // Fusionner les résultats des deux filtres en une seule liste de recettes uniques
-  filterUniqueRecipes = [...new Set([...filteredRecipesByText, ...filteredRecipesByKeyword])];
+  filterUniqueRecipes = [
+    ...new Set([...filteredRecipesByText, ...filteredRecipesByKeyword]),
+  ];
 
-  const section = document.getElementById("cards");
+  
   section.innerHTML = "";
-
+     // si un tag est déjà sélectionné 
+     const selectedTags = Array.from(
+      document.getElementsByClassName("selected")
+     ).map((tag) => removeDiacritics(tag.textContent).toLowerCase());
+  
   if (filterUniqueRecipes.length === 0) {
     const divMessage = document.createElement("div");
     const message = document.createElement("p");
@@ -35,11 +40,24 @@ function handleSearch() {
     message.classList.add("error");
     divMessage.appendChild(message);
     section.appendChild(divMessage);
-  } else {
-    new Dropdown(filterUniqueRecipes);
-    
-    displayRecipes(filterUniqueRecipes); // actualise l'interface
   }
+  else if (selectedTags) {
+   
+    applyFilterByTags(selectedTags);
+    
+    
+    
+  }
+  else {
+    new Dropdown(filterUniqueRecipes);
+
+    displayRecipes(filterUniqueRecipes); // actualise l'interface
+    
+  }
+  
+ 
+ 
+ 
 }
 
 // Ajouter un événement de saisie sur la barre de recherche
@@ -67,39 +85,59 @@ function advancedSearch(text) {
   if (existingTag) {
     return;
   }
-
-  const dropdown = new Dropdown(filterUniqueRecipes);
+  const dropdown = new Dropdown(recipes); // on appelle le tableau filtré en paramètre
   dropdown.specifiesSearch();
-  const filteredRecipes = dropdown.filterRecipes();
-  
+  const filteredRecipes = dropdown.filterRecipes(); // on filtre les éléments en réduisant à la recherche du terme (coco par ex = lait coco, crème coco)
   //Afficher les recettes filtrées
-  const section = document.getElementById("cards");
   section.innerHTML = "";
 
-  displayRecipes(filteredRecipes); // actualise l'interface
+  // Vérifier si les recettes sont déjà filtrées
+  if (filterUniqueRecipes.length > 0) {
+    const dropdown = new Dropdown(filterUniqueRecipes);
+    dropdown.specifiesSearch();
+    const newFilteredRecipes = dropdown.filterRecipes();
+    if (newFilteredRecipes.length === 0) {
+      const divMessage = document.createElement("div");
+      const message = document.createElement("p");
+      message.textContent =
+        'Aucune recette ne correspond à votre critère... vous pouvez chercher "tarte aux pommes", "poisson", etc';
+      message.classList.add("error");
+      divMessage.appendChild(message);
+      section.appendChild(divMessage);
+    }
+    displayRecipes(newFilteredRecipes); // actualise l'interface avec les nouvelles recettes filtrées
+    return;
+  }
 }
 
 advancedSearchInputs.forEach((advancedSearchInput) => {
-  advancedSearchInput.addEventListener("input", advancedSearch);
-  advancedSearchInput.addEventListener("Enter", advancedSearch);
+  advancedSearchInput.addEventListener("input", function () {
+    advancedSearch(advancedSearchInput.value);
+  });
+  advancedSearchInput.addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+      advancedSearch(advancedSearchInput.value);
+    }
+  });
 });
 
 export function applyFilterByTags() {
-  console.log(filterUniqueRecipes);
   // Récupérer les tags sélectionnés
   const selectedTags = Array.from(
     document.getElementsByClassName("selected")
   ).map((tag) => removeDiacritics(tag.textContent).toLowerCase());
+  let recipesToFilter =
+    filterUniqueRecipes.length === 0 ? recipes : filterUniqueRecipes;
 
-  // Filtrer les recettes qui correspondent aux tags sélectionnés
-  const filteredRecipes = filterUniqueRecipes.filter((recipe) => {
+  // Filtrer les recettes qui correspondent aux tags sélectionnés après filtrage
+  const filteredRecipes = recipesToFilter.filter((recipe) => {
     // Vérifier si tous les tags sélectionnés sont présents dans les ingrédients, appareils et ustensiles de la recette
     const ingredientsRecipes = recipe.ingredients.map((ingredient) =>
-      removeDiacritics(ingredient.ingredient).toLowerCase()
+      removeDiacritics(ingredient.ingredient.toLowerCase())
     );
-    const applianceRecipe = removeDiacritics(recipe.appliance).toLowerCase();
+    const applianceRecipe = removeDiacritics(recipe.appliance.toLowerCase());
     const ustensilsRecipes = recipe.ustensils.map((ustensil) =>
-      removeDiacritics(ustensil).toLowerCase()
+      removeDiacritics(ustensil.toLowerCase())
     );
 
     let recipeTagFound = [
@@ -135,11 +173,11 @@ export function applyFilterByTags() {
     return recipeTagFound ? recipe : null;
   });
 
-  //Afficher les recettes filtrées
-  const section = document.getElementById("cards");
+  //vider la section 
   section.innerHTML = "";
 
-  if (filterUniqueRecipes.length === 0) {
+  //Afficher message d'erreur si recettes ne correspondent pas 
+  if (filteredRecipes.length === 0) {
     const divMessage = document.createElement("div");
     const message = document.createElement("p");
     message.textContent =
@@ -147,12 +185,15 @@ export function applyFilterByTags() {
     message.classList.add("error");
     divMessage.appendChild(message);
     section.appendChild(divMessage);
-  } else {
+  }
+  
+  //afficher les recettes filtrées
+  else {
+    
     new Dropdown(filteredRecipes);
     displayRecipes(filteredRecipes); // actualise l'interface
   }
 }
-
 
 // Afficher toutes les recettes initialement
 new Dropdown(recipes);
