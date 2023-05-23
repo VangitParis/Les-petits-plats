@@ -68,7 +68,7 @@ section.row{
     position: relative;
 }
 .figure{
-    width: 380px;
+    width: 100%;
 }
 
 .figure-caption{
@@ -111,7 +111,7 @@ li{
 .card-text-recipe{
     font-family: var(--font-family-secondary);
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 6;
     -webkit-box-orient: vertical;
     overflow: hidden;
     height: fit-content;
@@ -124,6 +124,22 @@ li{
 .contain-content{
     contain: content;
     white-space: break-spaces;
+}
+
+@media(max-width: 992px) { 
+    #main{
+        width: 960px;
+    }
+   
+}
+@media (max-width: 768px) { 
+    #main{
+        width: 720px;
+        padding-right: var(--bs-gutter-x,1rem);
+        padding-left: var(--bs-gutter-x,3rem);
+ }
+
+   
 }
 @media (max-width: 575.98px) {
 
@@ -160,10 +176,4 @@ li{
         margin-bottom: 5%;
     }
    
-}
-
-@media (min-width: 768px) { 
-    #main{
-        width: 100%;
- }
 }
