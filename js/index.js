@@ -1,7 +1,7 @@
 import { recipes } from "./mock/recipes.js";
 import { FilterRecipesWithLoop } from "./algorithm/algorithmSearchBar.js";
 import { Dropdown } from "./Classes/Dropdowns.js";
-import { removeDiacritics } from "./utils.js";
+import { removeDiacritics } from "./utils/utils.js";
 import { displayRecipes } from "./template/recipeCards.js";
 
 let filterUniqueRecipes = [];

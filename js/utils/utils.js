@@ -1,5 +1,5 @@
-import { Dropdown } from "./Classes/Dropdowns.js";
-import { recipes } from "./mock/recipes.js";
+import { Dropdown } from "../Classes/Dropdowns.js";
+import { recipes } from "../mock/recipes.js";
 export const removeDiacritics = (element) => {
   if (typeof element !== "string") {
     throw new TypeError("il faut une string");

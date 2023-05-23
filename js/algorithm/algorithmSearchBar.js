@@ -1,4 +1,4 @@
-import { removeDiacritics } from "../utils.js";
+import { removeDiacritics } from "../utils/utils.js";
 
 export class FilterRecipesWithLoop {
   constructor(recipes, searchText, keyword, tagsLinks) {
@@ -11,12 +11,11 @@ export class FilterRecipesWithLoop {
       this.searchText
     );
     this.filterRecipesByKeywords();
-    
   }
   //Filtrage par Texte libre à partir de 3 caractères saisis
   filterRecipesByText(recipes, searchText) {
     const filteredRecipes = [];
-   
+
     // on déclare le résultat de la recherche après avoir supprimé les diacritics
     const searchResult = removeDiacritics(searchText);
     if (searchResult.length < 3) {
@@ -33,8 +32,8 @@ export class FilterRecipesWithLoop {
       const name = removeDiacritics(recipe.name.toLowerCase().trim());
 
       const description = removeDiacritics(
-        recipe.description.toLowerCase().trim())
-      ;
+        recipe.description.toLowerCase().trim()
+      );
       // Vérifier si le terme de recherche est présent dans le nom de la recette
       if (name.includes(searchResult)) {
         const termRegExp = new RegExp("\\b" + searchText + "\\b", "i");
@@ -45,11 +44,11 @@ export class FilterRecipesWithLoop {
       }
 
       // Vérifier si le terme de recherche est présent dans la description de la recette
-        if (description.includes(searchResult)) {
-          const termRegExp = new RegExp("\\b" + searchText + "\\b", "i");
-          if (termRegExp.test(description)) {
-            filteredRecipes.push(recipe);
-          }
+      if (description.includes(searchResult)) {
+        const termRegExp = new RegExp("\\b" + searchText + "\\b", "i");
+        if (termRegExp.test(description)) {
+          filteredRecipes.push(recipe);
+        }
         continue;
       }
 
