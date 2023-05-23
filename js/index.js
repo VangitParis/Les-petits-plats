@@ -1,58 +1,10 @@
 import { recipes } from "./mock/recipes.js";
-import { FilterRecipesWithFilter } from "./algorithm/algorithmSearchBar.js";
 import { Dropdown } from "./Classes/Dropdowns.js";
 import { removeDiacritics } from "./utils/utils.js";
 import { displayRecipes } from "./template/recipeCards.js";
 
 let filterUniqueRecipes = [];
 const section = document.getElementById("cards");
-// Fonction qui gère la recherche et le filtre des recettes
-function handleSearch(text) {
-  const searchInput = document.getElementById("searchInput");
-  const searchText = searchInput.value.trim().toLowerCase();
-  const filterInSearchBar = new FilterRecipesWithFilter(recipes, searchText);
-  const filteredRecipesByText = filterInSearchBar.filterRecipesByText(
-    recipes,
-    searchText
-  );
-  const filteredRecipesByKeyword = filterInSearchBar.filterRecipesByKeywords(
-    recipes,
-    searchText
-  );
-
-  // Fusionner les résultats des deux filtres en une seule liste de recettes uniques
-  filterUniqueRecipes = [
-    ...new Set([...filteredRecipesByText, ...filteredRecipesByKeyword]),
-  ];
-
-  section.innerHTML = "";
-  // si un tag est déjà sélectionné
-  const selectedTags = Array.from(
-    document.getElementsByClassName("selected")
-  ).map((tag) => removeDiacritics(tag.textContent).toLowerCase());
-
-  if (filterUniqueRecipes.length === 0) {
-    const divMessage = document.createElement("div");
-    const message = document.createElement("p");
-    message.textContent =
-      'Aucune recette ne correspond à votre critère... vous pouvez chercher "tarte aux pommes", "poisson", etc';
-    message.classList.add("error");
-    divMessage.appendChild(message);
-    section.appendChild(divMessage);
-  } else if (selectedTags) {
-    applyFilterByTags(selectedTags);
-  } else {
-    new Dropdown(filterUniqueRecipes);
-    displayRecipes(filterUniqueRecipes); // actualise l'interface
-  }
-}
-
-// Ajouter un événement de saisie sur la barre de recherche
-const searchInput = document.getElementById("searchInput");
-const searchButton = document.getElementById("searchBtn");
-searchInput.addEventListener("input", handleSearch);
-searchInput.addEventListener("Enter", handleSearch);
-searchButton.addEventListener("click", handleSearch);
 
 //Ajouter un évènement de saisie sur la la recherche avancée
 const searchIngredients = document.getElementById("inputSearchIngredients");
