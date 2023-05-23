@@ -197,5 +197,4 @@ export function applyFilterByTags() {
 
 // Afficher toutes les recettes initialement
 new Dropdown(recipes);
-
 displayRecipes(recipes);

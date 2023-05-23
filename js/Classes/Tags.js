@@ -57,6 +57,7 @@ export class Tags {
 
         tagLink.dataset.tag = currentTag;
 
+        tagLink.dataset.tag = currentTag;
         // Ajouter une classe au tag en fonction de son type
         if (tagLink.classList.contains("tag-ingredient")) {
           tag.classList.add("tag-ingredient");
