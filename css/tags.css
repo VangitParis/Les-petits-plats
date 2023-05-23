@@ -52,3 +52,6 @@
 .tag-ustensil{
     background-color: var(--background-btn-red);
 }
+.selected:focus{
+    outline: none;
+}

@@ -1,4 +1,4 @@
-import { applyFilterByTags } from "./index.js";
+import { applyFilterByTags } from "../index.js";
 
 export class Tags {
   constructor(tagLinks, recipes) {
@@ -7,7 +7,7 @@ export class Tags {
     this.sectionTag = document.getElementById("section-tag");
     this.selectedTags = [];
     this.addTags();
- 
+    this.addTagsWithEnterKey();
   }
 
   addTags() {
@@ -50,10 +50,12 @@ export class Tags {
         }
 
         // Le tag n'existe pas encore, alors on le créé
-        
+
         const tag = document.createElement("ul");
         tag.classList.add("btn", "btn-sm", "d-flex", "mt-n1", "tag");
-        tag.id = `tag-id-${ currentTag }`;
+        tag.id = `tag-id-${currentTag}`;
+
+        tagLink.dataset.tag = currentTag;
 
         tagLink.dataset.tag = currentTag;
         // Ajouter une classe au tag en fonction de son type
@@ -68,9 +70,11 @@ export class Tags {
         const tagElement = document.createElement("li");
         tagElement.textContent = currentTag;
         tagElement.classList.add("selected");
+
         const iconCloseTag = document.createElement("img");
         iconCloseTag.setAttribute("src", "../assets/iconCloseTag.svg");
         iconCloseTag.classList.add("icon-close-tag");
+        iconCloseTag.tabIndex = "0";
 
         this.sectionTag.appendChild(tag);
         tag.appendChild(tagElement);
@@ -97,9 +101,16 @@ export class Tags {
       });
     });
   }
-  
- 
-  
- 
+
+  addTagsWithEnterKey() {
+    this.tagLinks.forEach((tagLink) => {
+      tagLink.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          tagLink.click();
+        }
+      });
+    });
   }
-  
+  closeTagWithEscKey() {}
+}

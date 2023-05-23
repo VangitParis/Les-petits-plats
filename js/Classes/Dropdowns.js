@@ -1,20 +1,15 @@
-import { recipes } from "./mock/recipes.js";
-
 import { Tags } from "./Tags.js";
 import {
   removeDiacritics,
   createListItem,
   capitalizeArray,
   removeDuplicates,
-  filterArray,
-} from "./utils.js";
+} from "../utils/utils.js";
 
 export class Dropdown {
-  constructor(recipes, searchTerm = "", filterUniqueRecipes) {
+  constructor(recipes, searchTerm = "") {
     this.recipes = recipes;
     this.searchTerm = searchTerm;
-
-    this.filterUniqueRecipes = filterUniqueRecipes;
     if (typeof searchTerm !== "string") {
       throw new Error("searchTerm doit être une string");
     }
@@ -143,8 +138,7 @@ export class Dropdown {
   updateDropdownLists(
     capitalizedIngredients,
     capitalizedAppliances,
-    capitalizedUstensils,
-    filteredRecipes
+    capitalizedUstensils
   ) {
     const allIngredients = this.recipes.reduce((acc, recipe) => {
       let recipeIngredients = recipe.ingredients.map((item) =>
@@ -171,9 +165,9 @@ export class Dropdown {
     capitalizedUstensils = capitalizeArray(uniqueUstensils);
 
     // Vider les listes existantes
-    this.ingredientsList.innerHTML = " ";
-    this.appliancesList.innerHTML = " ";
-    this.ustensilsList.innerHTML = " ";
+    this.ingredientsList.innerHTML = "";
+    this.appliancesList.innerHTML = "";
+    this.ustensilsList.innerHTML = "";
 
     // Mettre à jour les listes des dropdowns avec les éléments filtrés
     this.updateDropdownList(
@@ -271,7 +265,6 @@ export class Dropdown {
   // les résultats de recherche sont actualisés ainsi que les éléments disponibles dans les dropdowns
   filterList(list, searchTerm) {
     searchTerm = list.searchCurrentInput.value.trim().toLowerCase();
-    // console.log(searchTerm); //coco
 
     // on vide la liste dès 3 caractères saisis dans le champ
     if (searchTerm.length < 3) {
@@ -342,7 +335,6 @@ export class Dropdown {
       ...applianceFilters,
       ...ustensilFilters,
     ].map((filter) => filter.textContent.trim().toLowerCase());
-    console.log(searchTerms);
 
     const filteredRecipes = this.filterRecipes(searchTerms);
     // Mettre à jour les listes des dropdowns en fonction des recettes filtrées

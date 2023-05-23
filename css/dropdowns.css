@@ -49,6 +49,7 @@
 
 .ingredients-tags:hover,
 .ingredients-tags:focus {
+    outline: 1px solid blue;
     background-color: var(--background-btn-blue);
 }
 
@@ -59,6 +60,7 @@
 
 .appliances-tags:hover,
 .appliances-tags:focus {
+    outline: 1px solid blue;
     background-color: var(--background-btn-green);
 
 }
@@ -70,6 +72,7 @@
 
 .ustensils-tags:hover,
 .ustensils-tags:focus {
+    outline: 1px solid blue;
     background-color: var(--background-btn-red);
 
 }
@@ -184,6 +187,9 @@ button span{
     top: 0%;
     color: white;
    
+}
+.dropdown-menu:focus{
+    outline: 1px solid blue;
 }
 .dropdown-sm-size{
     height: 97px;

@@ -5,7 +5,7 @@ const section = document.getElementById("cards");
 export function displayRecipes(recipes) {
   recipes.forEach((recipe) => {
     const article = `
-        <article class="container col-sm-6 col-lg-4 card-group">
+        <article class="container col-sm-4 col-lg-4 card-group">
             <figure class="figure">
                 <img class="card-img-top figure-img src="${
                   recipe.image
