@@ -1,3 +1,4 @@
+
 const main = document.getElementById("main");
 const section = document.getElementById("cards");
 
@@ -7,9 +8,8 @@ export function displayRecipes(recipes) {
     const article = `
         <article class="container col-sm-4 col-lg-4 card-group">
             <figure class="figure">
-                <img class="card-img-top figure-img src="${
-                  recipe.image
-                }" alt="">
+                <img class="card-img-top figure-img" src="/assets/pexels-sarah-chai-7262911.jpg"
+   alt="">
                 <figcaption class="figure-caption">
                     <div class="card-title d-flex bd-highlight align-items-center ">
                         <h3 class="me-auto p-2 flex-grow-1 bd-highlight text-truncate">${

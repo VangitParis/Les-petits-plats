@@ -62,6 +62,8 @@ form#searchForm {
     background-color: var(--background-img);
     object-fit: cover;
     margin-bottom: 0;
+    object-position: 8% 81%;
+
 }
 section.row{
     margin-left: calc(var(--bs-gutter-x) * -1);

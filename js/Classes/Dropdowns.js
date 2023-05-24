@@ -67,6 +67,7 @@ export class Dropdown {
   }
 
   //ajoute des EventsListeners pour ouvrir la dropdown sélectionnée au clic sur le bouton
+
   openDropdown() {
     const toggleMenus = (menu) => {
       this.dropdownMenuIngredients.style.display =
