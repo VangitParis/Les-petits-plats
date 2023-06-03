@@ -7,7 +7,7 @@ export class Tags {
     this.sectionTag = document.getElementById("section-tag");
     this.selectedTags = [];
     this.addTags();
-    this.addTagsWithEnterKey();
+    
   }
 
   addTags() {

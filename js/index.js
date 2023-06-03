@@ -1,18 +1,10 @@
-import { recipes } from "./mock/recipes.js";
-import { Dropdown } from "./Classes/Dropdowns.js";
-import { removeDiacritics } from "./utils.js";
-import { displayRecipes } from "./template/recipeCards.js";
+import { recipes } from "./mocks/recipes.js";
+import { Dropdown } from "./classes/Dropdowns.js";
+import { removeDiacritics } from "./utils/utils.js";
+import { displayRecipes } from "./templates/recipeCards.js";
 
 let filterUniqueRecipes = [];
 const section = document.getElementById("cards");
-
-
-// Ajouter un événement de saisie sur la barre de recherche
-const searchInput = document.getElementById("searchInput");
-const searchButton = document.getElementById("searchBtn");
-searchInput.addEventListener("input", handleSearch);
-searchInput.addEventListener("Enter", handleSearch);
-searchButton.addEventListener("click", handleSearch);
 
 //Ajouter un évènement de saisie sur la la recherche avancée
 const searchIngredients = document.getElementById("inputSearchIngredients");
@@ -34,7 +26,6 @@ function advancedSearch(text) {
   }
   const dropdown = new Dropdown(recipes); // on appelle le tableau filtré en paramètre
   dropdown.specifiesSearch();
-  const filteredRecipes = dropdown.filterRecipes(); // on filtre les éléments en réduisant à la recherche du terme (coco par ex = lait coco, crème coco)
   //Afficher les recettes filtrées
   section.innerHTML = "";
 
@@ -120,10 +111,11 @@ export function applyFilterByTags() {
     return recipeTagFound ? recipe : null;
   });
 
-  //vider la section 
-  section.innerHTML = "";
+  //Afficher les recettes filtrées
+  const sectionDiv = document.getElementById("cardsContainer");
+  sectionDiv.innerHTML = "";
 
-  //Afficher message d'erreur si recettes ne correspondent pas 
+  //Afficher message d'erreur si recettes ne correspondent pas
   if (filteredRecipes.length === 0) {
     const divMessage = document.createElement("div");
     const message = document.createElement("p");
@@ -131,12 +123,8 @@ export function applyFilterByTags() {
       'Aucune recette ne correspond à votre critère... vous pouvez chercher "tarte aux pommes", "poisson", etc';
     message.classList.add("error");
     divMessage.appendChild(message);
-    section.appendChild(divMessage);
-  }
-  
-  //afficher les recettes filtrées
-  else {
-    
+    sectionDiv.appendChild(divMessage);
+  } else {
     new Dropdown(filteredRecipes);
     displayRecipes(filteredRecipes); // actualise l'interface
   }
@@ -144,5 +132,4 @@ export function applyFilterByTags() {
 
 // Afficher toutes les recettes initialement
 new Dropdown(recipes);
-
 displayRecipes(recipes);
