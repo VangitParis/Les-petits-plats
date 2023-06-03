@@ -1,8 +1,8 @@
-import { recipes } from "./mock/recipes.js";
-import { FilterRecipesWithFilter } from "./algorithm/algorithmSearchBar.js";
+import { recipes } from "./mocks/recipes.js";
+import { FilterRecipesWithFilter } from "./algorithms/algorithmSearchBar.js";
 import { Dropdown } from "./Classes/Dropdowns.js";
 import { removeDiacritics } from "./utils/utils.js";
-import { displayRecipes } from "./template/recipeCards.js";
+import { displayRecipes } from "./templates/recipeCards.js";
 
 let filterUniqueRecipes = [];
 const section = document.getElementById("cards");
