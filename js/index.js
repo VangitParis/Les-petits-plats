@@ -1,6 +1,6 @@
-import { recipes } from "./mock/recipes.js";
-import { FilterRecipesWithLoop } from "./algorithm/algorithmSearchBar.js";
-import { Dropdown } from "./Classes/Dropdowns.js";
+import { recipes } from "./mocks/recipes.js";
+import { FilterRecipesWithLoop } from "./algorithms/algorithmSearchBar.js";
+import { Dropdown } from "./classes/Dropdowns.js";
 import { removeDiacritics } from "./utils/utils.js";
 import { displayRecipes } from "./template/recipeCards.js";
 
