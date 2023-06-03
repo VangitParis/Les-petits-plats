@@ -91,8 +91,8 @@ export function applyFilterByTags(text) {
   });
 
   //Afficher les recettes filtrées
-  const section = document.getElementById("cards");
-  section.innerHTML = "";
+  const sectionDiv = document.getElementById("cardsContainer");
+  sectionDiv.innerHTML = "";
 
   if (filteredRecipes.length === 0) {
     const divMessage = document.createElement("div");
@@ -101,7 +101,7 @@ export function applyFilterByTags(text) {
       'Aucune recette ne correspond à votre critère... vous pouvez chercher "tarte aux pommes", "poisson", etc';
     message.classList.add("error");
     divMessage.appendChild(message);
-    section.appendChild(divMessage);
+    sectionDiv.appendChild(divMessage);
   } else {
     new Dropdown(filteredRecipes);
     displayRecipes(filteredRecipes); // actualise l'interface

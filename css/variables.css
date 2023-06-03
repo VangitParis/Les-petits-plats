@@ -63,3 +63,71 @@ main{
 .max-height-364 {
     max-height: 364px;
 }
+:root{
+    --color-primary : #D04F4F;
+    --color-dark:#000000;
+    --background-primary:#E7E7E7;
+    --background-img: #C7BEBE;
+    --background-btn-blue: #3282F7;
+    --background-btn-green : #68D9A4;
+    --background-btn-red:#ED6454;
+    --font-family-primary: "Lato", sans-serif;
+    --font-family-secondary: "Roboto", sans-serif;
+    --font-size : 36px;
+ 
+
+
+}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: var(--font-family-primary);
+    margin: 0 auto;
+}
+html,
+body {
+    height: 100%;
+}
+main{
+    margin: 0 100px;
+    width: 88%;
+    height: 100%;
+}
+
+.flex-column-center{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.flex-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.flex-between{
+    display: flex;
+    justify-content: space-between;
+    
+}
+.flex-around{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.flex-end{
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+.max-width-380 {
+    max-width: 380px;
+}
+
+.max-height-364 {
+    max-height: 364px;
+}
+
