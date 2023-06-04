@@ -1,8 +1,8 @@
 # Les petits plats
 
-<div style="text-align: center;">
-  ![Logo du site Les petits plats](/assets/logo.png)
-</div>
+<p align="center">
+<img src= "/assets/logo.png" alt="Logo du site Les petits plats">
+</p>
 
 Ce projet présente différentes méthodes de filtrage des recettes dans une barre de recherche.
 
