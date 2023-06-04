@@ -7,6 +7,8 @@ export class Tags {
     this.sectionTag = document.getElementById("section-tag");
     this.selectedTags = [];
     this.addTags();
+    this.addTagsWithEnterKey();
+    this.handleTagKeydown();
   }
 
   addTags() {
@@ -101,5 +103,37 @@ export class Tags {
     });
   }
 
-  closeTagWithEscKey() {}
+  addTagsWithEnterKey() {
+    this.tagLinks.forEach((tagLink) => {
+      tagLink.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          tagLink.click();
+        }
+      });
+    });
+  }
+  handleTagKeydown() {
+    const iconCloseTag = Array.from(
+      document.getElementsByClassName("icon-close-tag")
+    );
+
+    iconCloseTag.forEach((closeTag) => {
+      closeTag.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          const tag = closeTag.closest(".tag");
+          const tagElement = closeTag.closest(".selected");
+          tag.remove();
+
+          const currentTag = this.tagLinks.innerText;
+
+          const index = this.selectedTags.indexOf(currentTag);
+          if (index > -1) {
+            this.selectedTags.splice(index, 1);
+          }
+        }
+        applyFilterByTags();
+      });
+    });
+  }
 }
