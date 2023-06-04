@@ -64,7 +64,6 @@ export class Dropdown {
 
     this.openDropdown();
     this.closeDropdown();
-    
   }
 
   //ajoute des EventsListeners pour ouvrir la dropdown sélectionnée au clic sur le bouton
@@ -355,16 +354,12 @@ export class Dropdown {
       document.getElementsByClassName("list-group")
     );
     containerListDropdown.forEach((container) => {
-      
-
-     
-        // Vérifier si le contenu dépasse la largeur du conteneur
-          if (!container.scrollWidth > container.clientWidth) {
-            container.classList.remove("hide-scrollbar"); // Afficher la barre de défilement
-          } else {
-            container.classList.add("hide-scrollbar"); // Cacher la barre de défilement
-          }
-      });
-    
+      // Vérifier si le contenu dépasse la largeur du conteneur
+      if (!container.scrollWidth > container.clientWidth) {
+        container.classList.remove("hide-scrollbar"); // Afficher la barre de défilement
+      } else {
+        container.classList.add("hide-scrollbar"); // Cacher la barre de défilement
+      }
+    });
   }
 }

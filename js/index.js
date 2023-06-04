@@ -1,6 +1,6 @@
 import { recipes } from "./mocks/recipes.js";
 import { FilterRecipesWithFilter } from "./algorithms/algorithmSearchBar.js";
-import { Dropdown } from "./Classes/Dropdowns.js";
+import { Dropdown } from "./classes/Dropdowns.js";
 import { removeDiacritics } from "./utils/utils.js";
 import { displayRecipes } from "./template/recipeCards.js";
 
@@ -30,8 +30,6 @@ function handleSearch(text) {
   const selectedTags = Array.from(
     document.getElementsByClassName("selected")
   ).map((tag) => removeDiacritics(tag.textContent).toLowerCase());
-
-
 
   if (filterUniqueRecipes.length === 0) {
     const divMessage = document.createElement("div");
@@ -80,7 +78,6 @@ function advancedSearch(text) {
   const sectionDiv = document.getElementById("cardsContainer");
   sectionDiv.innerHTML = "";
 
-
   // Vérifier si les recettes sont déjà filtrées
   if (filterUniqueRecipes.length > 0) {
     const dropdown = new Dropdown(filterUniqueRecipes);
@@ -98,7 +95,6 @@ function advancedSearch(text) {
     displayRecipes(newFilteredRecipes); // actualise l'interface avec les nouvelles recettes filtrées
     return;
   }
-  
 }
 
 advancedSearchInputs.forEach((advancedSearchInput) => {
@@ -167,7 +163,6 @@ export function applyFilterByTags() {
   //Afficher les recettes filtrées
   const sectionDiv = document.getElementById("cardsContainer");
   sectionDiv.innerHTML = "";
-
 
   //Afficher message d'erreur si recettes ne correspondent pas
   if (filteredRecipes.length === 0) {
