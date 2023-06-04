@@ -1,9 +1,13 @@
 # Les petits plats
-![Logo du site Les petits plats](/assets/logo.png)
+
+<div style="text-align: center;">
+  ![Logo du site Les petits plats](/assets/logo.png)
+</div>
 
 Ce projet présente différentes méthodes de filtrage des recettes dans une barre de recherche.
 
 Objectif du cheffe de projet : `Ce que l’on veut avant tout c’est quelque chose de performant car nos utilisateurs veulent une recherche rapide, presque instantanée !`
+
 ## Branches
 
 Le projet contient les branches suivantes :
@@ -31,5 +35,3 @@ Si vous souhaitez contribuer à ce projet, vous pouvez suivre ces étapes :
 2. Créez une nouvelle branche pour vos modifications.
 3. Effectuez vos modifications et testez-les.
 4. Soumettez une demande d'extraction avec une description détaillée des modifications apportées.
-
-
