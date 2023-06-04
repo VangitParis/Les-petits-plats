@@ -91,7 +91,7 @@
 
 .list-group{
     position: relative;
-    width: 667px;
+    width: 640px;
     height: 397px;
     left: 0px;
     top: 0px;
@@ -189,6 +189,7 @@ button span{
     position: absolute;
     top: 0%;
     color: white;
+    width: 667px;
    
 }
 .dropdown-menu:focus{
@@ -276,13 +277,7 @@ input#inputButton[type="text"]::placeholder {
   ::-webkit-scrollbar-thumb {
     background: #888; /* Couleur de la poignée de défilement */
   }
-  ::-webkit-scrollbar-button:start:decrement {
-    content: "\25C0"; 
-  }
-  
-  ::-webkit-scrollbar-button:end:increment {
-    content: "\25B6"; 
-  }
+
   
 /* MEDIA QUERIES */
 @media (max-width : 1439px){
@@ -297,7 +292,7 @@ input#inputButton[type="text"]::placeholder {
         margin-left: 14rem;
     }
     .list-group{
-        width: 398px;
+        width: 380px;
         height: 330px;
     }
     .list-item {
@@ -320,7 +315,7 @@ input#inputButton[type="text"]::placeholder {
         margin-left: 6rem;
     }
     .list-group{
-        width:  15.5rem;
+        width:  15rem;
         height: 330px;
     }
     .list-item {
@@ -356,7 +351,7 @@ width: 28%;
     top: 11%;
 }
 .list-group {
-    width: 7rem;
+    width: 8.5rem;
     height: 243px;
 }
 .list-item {
