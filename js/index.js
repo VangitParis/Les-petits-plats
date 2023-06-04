@@ -2,10 +2,10 @@ import { recipes } from "./mocks/recipes.js";
 import { FilterRecipesWithFilter } from "./algorithms/algorithmSearchBar.js";
 import { Dropdown } from "./Classes/Dropdowns.js";
 import { removeDiacritics } from "./utils/utils.js";
-import { displayRecipes } from "./templates/recipeCards.js";
+import { displayRecipes } from "./template/recipeCards.js";
 
 let filterUniqueRecipes = [];
-const section = document.getElementById("cards");
+
 // Fonction qui gère la recherche et le filtre des recettes
 function handleSearch(text) {
   const searchInput = document.getElementById("searchInput");
@@ -24,12 +24,14 @@ function handleSearch(text) {
   filterUniqueRecipes = [
     ...new Set([...filteredRecipesByText, ...filteredRecipesByKeyword]),
   ];
-
-  section.innerHTML = "";
+  const sectionDiv = document.getElementById("cardsContainer");
+  sectionDiv.innerHTML = "";
   // si un tag est déjà sélectionné
   const selectedTags = Array.from(
     document.getElementsByClassName("selected")
   ).map((tag) => removeDiacritics(tag.textContent).toLowerCase());
+
+
 
   if (filterUniqueRecipes.length === 0) {
     const divMessage = document.createElement("div");
@@ -38,7 +40,7 @@ function handleSearch(text) {
       'Aucune recette ne correspond à votre critère... vous pouvez chercher "tarte aux pommes", "poisson", etc';
     message.classList.add("error");
     divMessage.appendChild(message);
-    section.appendChild(divMessage);
+    sectionDiv.appendChild(divMessage);
   } else if (selectedTags) {
     applyFilterByTags(selectedTags);
   } else {
@@ -75,7 +77,9 @@ function advancedSearch(text) {
   const dropdown = new Dropdown(recipes); // on appelle le tableau filtré en paramètre
   dropdown.specifiesSearch();
   //Afficher les recettes filtrées
-  section.innerHTML = "";
+  const sectionDiv = document.getElementById("cardsContainer");
+  sectionDiv.innerHTML = "";
+
 
   // Vérifier si les recettes sont déjà filtrées
   if (filterUniqueRecipes.length > 0) {
@@ -89,11 +93,12 @@ function advancedSearch(text) {
         'Aucune recette ne correspond à votre critère... vous pouvez chercher "tarte aux pommes", "poisson", etc';
       message.classList.add("error");
       divMessage.appendChild(message);
-      section.appendChild(divMessage);
+      sectionDiv.appendChild(divMessage);
     }
     displayRecipes(newFilteredRecipes); // actualise l'interface avec les nouvelles recettes filtrées
     return;
   }
+  
 }
 
 advancedSearchInputs.forEach((advancedSearchInput) => {
@@ -159,8 +164,10 @@ export function applyFilterByTags() {
     return recipeTagFound ? recipe : null;
   });
 
-  //vider la section
-  section.innerHTML = "";
+  //Afficher les recettes filtrées
+  const sectionDiv = document.getElementById("cardsContainer");
+  sectionDiv.innerHTML = "";
+
 
   //Afficher message d'erreur si recettes ne correspondent pas
   if (filteredRecipes.length === 0) {
@@ -170,11 +177,8 @@ export function applyFilterByTags() {
       'Aucune recette ne correspond à votre critère... vous pouvez chercher "tarte aux pommes", "poisson", etc';
     message.classList.add("error");
     divMessage.appendChild(message);
-    section.appendChild(divMessage);
-  }
-
-  //afficher les recettes filtrées
-  else {
+    sectionDiv.appendChild(divMessage);
+  } else {
     new Dropdown(filteredRecipes);
     displayRecipes(filteredRecipes); // actualise l'interface
   }
