@@ -124,9 +124,8 @@ export class Tags {
           const tag = closeTag.closest(".tag");
           const tagElement = closeTag.closest(".selected");
           tag.remove();
-
+          
           const currentTag = this.tagLinks.innerText;
-
           const index = this.selectedTags.indexOf(currentTag);
           if (index > -1) {
             this.selectedTags.splice(index, 1);

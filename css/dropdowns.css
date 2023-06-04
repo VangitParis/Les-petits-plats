@@ -267,7 +267,7 @@ input#inputButton:focus-visible {
 input#inputButton[type="text"]::placeholder {
     color: #fff;
 }
-::-webkit-scrollbar {
+.list-group::-webkit-scrollbar {
     width: 3rem; 
   }
 ::-webkit-scrollbar-track {

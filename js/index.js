@@ -27,7 +27,8 @@ function advancedSearch(text) {
   const dropdown = new Dropdown(recipes); // on appelle le tableau filtré en paramètre
   dropdown.specifiesSearch();
   //Afficher les recettes filtrées
-  section.innerHTML = "";
+  const sectionDiv = document.getElementById("cardsContainer");
+  sectionDiv.innerHTML = "";
 
   // Vérifier si les recettes sont déjà filtrées
   if (filterUniqueRecipes.length > 0) {
@@ -41,7 +42,7 @@ function advancedSearch(text) {
         'Aucune recette ne correspond à votre critère... vous pouvez chercher "tarte aux pommes", "poisson", etc';
       message.classList.add("error");
       divMessage.appendChild(message);
-      section.appendChild(divMessage);
+      sectionDiv.appendChild(divMessage);
     }
     displayRecipes(newFilteredRecipes); // actualise l'interface avec les nouvelles recettes filtrées
     return;
