@@ -1,4 +1,5 @@
-import { Tags } from "./Tags.js";
+import { Tags } from "./Tags.js"
+
 import {
   removeDiacritics,
   createListItem,
