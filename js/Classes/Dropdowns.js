@@ -355,7 +355,7 @@ export class Dropdown {
       document.getElementsByClassName("list-group")
     );
     containerListDropdown.forEach((container) => {
-      console.log(container);
+      
 
      
         // Vérifier si le contenu dépasse la largeur du conteneur
