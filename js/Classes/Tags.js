@@ -8,6 +8,7 @@ export class Tags {
     this.selectedTags = [];
     this.addTags();
     this.addTagsWithEnterKey();
+    this.handleTagKeydown();
   }
 
   addTags() {
@@ -112,5 +113,27 @@ export class Tags {
       });
     });
   }
-  closeTagWithEscKey() {}
+  handleTagKeydown() {
+    const iconCloseTag = Array.from(
+      document.getElementsByClassName("icon-close-tag")
+    );
+
+    iconCloseTag.forEach((closeTag) => {
+      closeTag.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+          const tag = closeTag.closest(".tag");
+          const tagElement = closeTag.closest(".selected");
+          tag.remove();
+
+          const currentTag = this.tagLinks.innerText;
+
+          const index = this.selectedTags.indexOf(currentTag);
+          if (index > -1) {
+            this.selectedTags.splice(index, 1);
+          }
+        }
+        applyFilterByTags();
+      });
+    });
+  }
 }

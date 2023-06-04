@@ -27,6 +27,9 @@
     color: white;
                     
 }
+.icon-close-tag:focus{
+    outline: 3px solid orange
+}
 /* MEDIA QUERIES */
 @media (max-width : 1439px){
     #section-tag{
