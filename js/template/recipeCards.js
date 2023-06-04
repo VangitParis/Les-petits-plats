@@ -2,22 +2,30 @@ const main = document.getElementById("main");
 const section = document.getElementById("cards");
 const sectionDiv = document.createElement("div");
 sectionDiv.id = "cardsContainer";
-sectionDiv.classList.add( "col-sm-12", "col-lg-12", "col-md-12", "card-group", "justify-content-start", "align-items-start");
+sectionDiv.classList.add(
+  "col-sm-12",
+  "col-lg-12",
+  "col-md-12",
+  "card-group",
+  "justify-content-start",
+  "align-items-start"
+);
 // Fonction qui affiche toutes les recettes
 export function displayRecipes(recipes) {
   recipes.forEach((recipe) => {
-
     const article = `
         <article class="card">
             <figure class="figure">
-                <img class="card-img-top figure-img" src="/assets/photos/${recipe.image}" alt="">
+                <img class="card-img-top figure-img" src="/assets/photos/${
+                  recipe.image
+                }" alt="image de la recette : ${recipe.name}">
                 <figcaption class="figure-caption">
                     <div class="card-title-time d-flex bd-highlight align-items-center">
                         <h3 class="me-auto p-2 flex-grow-1 bd-highlight text-truncate card-title">${
                           recipe.name
                         }</h3>
                         <div class="d-flex p-2 bd-highlight align-items-center card-time">
-                            <img class="img-icon-card" src="../assets/clock.svg" alt=""></img> 
+                            <img class="img-icon-card" src="/assets/clock.svg" alt=""></img> 
                             <p class="mb-0">${recipe.time} min</p>
                         </div>
                     </div>
@@ -55,7 +63,7 @@ export function displayRecipes(recipes) {
             </figure>
         </article>
         `;
-    sectionDiv.innerHTML += `${ article }`;
+    sectionDiv.innerHTML += `${article}`;
     section.appendChild(sectionDiv);
     main.appendChild(section);
   });

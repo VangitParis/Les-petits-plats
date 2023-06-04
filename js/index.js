@@ -1,7 +1,7 @@
 import { recipes } from "./mocks/recipes.js";
 import { Dropdown } from "./classes/Dropdowns.js";
 import { removeDiacritics } from "./utils/utils.js";
-import { displayRecipes } from "./templates/recipeCards.js";
+import { displayRecipes } from "./template/recipeCards.js";
 
 let filterUniqueRecipes = [];
 const section = document.getElementById("cards");

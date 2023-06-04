@@ -7,7 +7,6 @@ export class Tags {
     this.sectionTag = document.getElementById("section-tag");
     this.selectedTags = [];
     this.addTags();
-    
   }
 
   addTags() {
@@ -101,7 +100,6 @@ export class Tags {
       });
     });
   }
- 
-  
+
   closeTagWithEscKey() {}
 }
