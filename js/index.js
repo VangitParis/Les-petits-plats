@@ -4,9 +4,6 @@ import { Dropdown } from "./classes/Dropdowns.js";
 import { removeDiacritics } from "./utils/utils.js";
 import { displayRecipes } from "./template/recipeCards.js";
 
-
-
-
 let filterUniqueRecipes = [];
 
 // Fonction qui gère la recherche et le filtre des recettes
@@ -28,7 +25,7 @@ function handleSearch() {
     ...new Set([...filteredRecipesByText, ...filteredRecipesByKeyword]),
   ];
   const sectionDiv = document.getElementById("cardsContainer");
-  
+
   sectionDiv.innerHTML = "";
   // si un tag est déjà sélectionné
   const selectedTags = Array.from(
@@ -59,7 +56,6 @@ searchInput.addEventListener("input", handleSearch);
 searchInput.addEventListener("Enter", handleSearch);
 searchButton.addEventListener("click", handleSearch);
 
-
 //Ajouter un évènement de saisie sur la la recherche avancée
 const searchIngredients = document.getElementById("inputSearchIngredients");
 const searchAppliances = document.getElementById("inputSearchAppliances");
@@ -85,7 +81,6 @@ function advancedSearch(text) {
   //Afficher les recettes filtrées
   sectionDiv.innerHTML = "";
 
-
   // Vérifier si les recettes sont déjà filtrées
   if (filterUniqueRecipes.length > 0) {
     const dropdown = new Dropdown(filterUniqueRecipes);
@@ -103,7 +98,6 @@ function advancedSearch(text) {
     displayRecipes(newFilteredRecipes); // actualise l'interface avec les nouvelles recettes filtrées
     return;
   }
-
 }
 
 advancedSearchInputs.forEach((advancedSearchInput) => {
@@ -174,9 +168,7 @@ export function applyFilterByTags() {
 
   sectionDiv.innerHTML = "";
 
-
   //Afficher message d'erreur si recettes ne correspondent pas
-
 
   if (filteredRecipes.length === 0) {
     const divMessage = document.createElement("div");
