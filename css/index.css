@@ -47,6 +47,8 @@ form#searchForm {
 }
 .button-search-img svg{
     height: 100%;
+    right: 0.5rem;
+    position: relative;
 }
 
 #cards{

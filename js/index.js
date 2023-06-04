@@ -48,9 +48,14 @@ function handleSearch(text) {
 }
 
 // Ajouter un événement de saisie sur la barre de recherche
+const searchForm = document.getElementById("searchForm");
 const searchInput = document.getElementById("searchInput");
 const searchButton = document.getElementById("searchBtn");
 searchInput.addEventListener("input", handleSearch);
+searchForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  handleSearch();
+});
 searchInput.addEventListener("Enter", handleSearch);
 searchButton.addEventListener("click", handleSearch);
 
