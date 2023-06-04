@@ -7,7 +7,7 @@ export class Tags {
     this.sectionTag = document.getElementById("section-tag");
     this.selectedTags = [];
     this.addTags();
-    this.addTagsWithEnterKey();
+   
   }
 
   addTags() {
@@ -101,17 +101,8 @@ export class Tags {
       });
     });
   }
-
-  addTagsWithEnterKey() {
-    this.tagLinks.forEach((tagLink) => {
-      tagLink.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-          e.preventDefault();
-          tagLink.click();
-        }
-      });
-    })
-  }
+ 
+  
   closeTagWithEscKey() {
     
   }

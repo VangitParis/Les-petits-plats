@@ -6,8 +6,9 @@
     display: flex;
     flex-wrap: wrap;
     max-height: 300px;
-    width: 96%;
+    width: 100%;
     gap: 10px;
+    left: 2%;
 }
 .icon-close-tag{
     width: 20px;
@@ -26,13 +27,42 @@
     color: white;
                     
 }
+/* MEDIA QUERIES */
+@media (max-width : 1439px){
+    #section-tag{
+        left: 2.5%;
+    }
+    .btn-sm{
+        width: 15%;
+    }
+} 
+@media (max-width : 992px){
+    #section-tag{
+        left: 3%;
+        max-width: 960px;
+    }
+    .btn-sm{
+        width: 20%;
+    }
+}
+@media (max-width: 767px){
+    #section-tag {
+    left: 4%;
+    max-width: 720px;
+}
+    .btn-sm{
+        width: 25%;
+    }
+}
+
 @media (max-width: 575.98px) {
     
     #section-tag{
         width: 390px;
+        left: 0;
     }
     .btn-sm{
-        width: 31%;
+        width: 48%;
         padding: 0.25rem 0.7rem;
     }
     #section-tag{
