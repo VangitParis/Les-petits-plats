@@ -17,7 +17,7 @@ export class FilterRecipesWithLoop {
     const filteredRecipes = [];
 
     // on déclare le résultat de la recherche après avoir supprimé les diacritics
-    const searchResult = removeDiacritics(this.searchText);
+    const searchResult = removeDiacritics(searchText);
     if (searchResult.length < 3) {
       return this.recipes;
     }
@@ -29,34 +29,43 @@ export class FilterRecipesWithLoop {
     for (let i = 0; i < this.recipes.length; i++) {
       const recipe = this.recipes[i];
       // Vérifier si le terme de recherche est présent dans le nom de la recette ou dans la description
-      const name = removeDiacritics(recipe.name).toLowerCase().trim().split(" ");
+      const name = removeDiacritics(recipe.name)
+        .toLowerCase()
+        .trim()
+        .split(" ");
 
       const description = removeDiacritics(recipe.description)
         .toLowerCase()
         .trim()
         .split(" ");
 
-     // Vérifier si le terme de recherche est présent dans le nom de la recette
-     if (name.join(" ").includes(searchResult)) {
+      // Vérifier si le terme de recherche est présent dans le nom de la recette
+      if (name.join(" ").includes(searchResult)) {
         filteredRecipes.push(recipe);
-      continue;
-    }
+        continue;
+      }
 
       // Vérifier si le terme de recherche est présent dans la description de la recette
-      if (description.includes(searchResult)) {
-        const termRegExp = new RegExp("\\b" + searchResult + "\\b", "i");
-        if (termRegExp.test(description)) {
+      if (description.join(" ").includes(searchResult)) {
+        if (searchResult.trim().endsWith(" ")) {
+          const termRegExp = new RegExp("\\b" + searchResult.trim(), "i");
+          const joinedDescription = description.join(" ");
+          if (termRegExp.test(joinedDescription)) {
+            filteredRecipes.push(recipe);
+            continue;
+          }
+        } else {
           filteredRecipes.push(recipe);
+          continue;
         }
-      continue;
-    }
+      }
 
       // Vérifier si le terme de recherche est présent dans le nom d'un ingrédient
       for (let j = 0; j < recipe.ingredients.length; j++) {
         const ingredientName = removeDiacritics(
           recipe.ingredients[j].ingredient
         ).toLowerCase();
-        
+
         const pluralIngredientName = ingredientName.endsWith("s");
         if (
           ingredientName.includes(searchResult) ||
@@ -76,7 +85,7 @@ export class FilterRecipesWithLoop {
         filteredRecipes.push(recipe);
         continue;
       }
-     // Vérifier si le terme de recherche est présent dans le nom d'un ustensil
+      // Vérifier si le terme de recherche est présent dans le nom d'un ustensil
       for (let utensil of recipe.ustensils) {
         const utensilName = removeDiacritics(utensil).toLowerCase();
         const pluralUtensilName = utensilName.endsWith("s");
@@ -108,7 +117,10 @@ export class FilterRecipesWithLoop {
       return this.recipes;
     }
     // Diviser la chaîne de caractères des mots clés en un tableau de mots
-    const keywordsArray = keyword.toLowerCase().trim().split(" ");
+    const keywordsArray = removeDiacritics(keyword)
+      .toLowerCase()
+      .trim()
+      .split(" ");
 
     for (let i = 0; i < this.recipes.length; i++) {
       const recipe = this.recipes[i];
