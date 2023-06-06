@@ -9,8 +9,8 @@ let filterUniqueRecipes = [];
 // Fonction qui gère la recherche et le filtre des recettes
 function handleSearch() {
   const searchInput = document.getElementById("searchInput");
-  const searchTextByUser = searchInput.value.trim().toLowerCase();
-  const searchText = encodeURIComponent(searchTextByUser);
+  const searchText = searchInput.value.trim().toLowerCase();
+  
 
   const filterInSearchBar = new FilterRecipesWithLoop(recipes, searchText);
   const filteredRecipesByText = filterInSearchBar.filterRecipesByText(
