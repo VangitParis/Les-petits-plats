@@ -43,9 +43,12 @@ export class FilterRecipesWithLoop {
 
       // Vérifier si le terme de recherche est présent dans la description de la recette
       if (description.includes(searchResult)) {
-        filteredRecipes.push(recipe);
-        continue;
-      }
+        const termRegExp = new RegExp("\\b" + searchResult + "\\b", "i");
+        if (termRegExp.test(description)) {
+          filteredRecipes.push(recipe);
+        }
+      continue;
+    }
 
       // Vérifier si le terme de recherche est présent dans le nom d'un ingrédient
       for (let j = 0; j < recipe.ingredients.length; j++) {
@@ -117,6 +120,8 @@ export class FilterRecipesWithLoop {
       if (
         ingredientName &&
         this.checkKeywordsInText(ingredientName, keywordsArray) &&
+        recipe.name &&
+        this.checkKeywordsInText(recipe.name, keywordsArray) &&
         recipe.description &&
         this.checkKeywordsInText(recipe.description, keywordsArray) &&
         recipe.ustensils &&
