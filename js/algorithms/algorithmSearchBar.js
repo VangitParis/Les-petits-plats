@@ -17,7 +17,7 @@ export class FilterRecipesWithLoop {
     const filteredRecipes = [];
 
     // on déclare le résultat de la recherche après avoir supprimé les diacritics
-    const searchResult = removeDiacritics(searchText);
+    const searchResult = removeDiacritics(this.searchText);
     if (searchResult.length < 3) {
       return this.recipes;
     }
@@ -33,13 +33,14 @@ export class FilterRecipesWithLoop {
 
       const description = removeDiacritics(recipe.description)
         .toLowerCase()
+        .trim()
         .split(" ");
 
-      // Vérifier si le terme de recherche est présent dans le nom de la recette
-      if (name.includes(searchResult)) {
+     // Vérifier si le terme de recherche est présent dans le nom de la recette
+     if (name.join(" ").includes(searchResult)) {
         filteredRecipes.push(recipe);
-        continue;
-      }
+      continue;
+    }
 
       // Vérifier si le terme de recherche est présent dans la description de la recette
       if (description.includes(searchResult)) {
@@ -112,7 +113,7 @@ export class FilterRecipesWithLoop {
     for (let i = 0; i < this.recipes.length; i++) {
       const recipe = this.recipes[i];
 
-      const ingredientName = recipe.ingredients.map(
+      const ingredientName = recipe.ingredients.some(
         (ingredient) => ingredient.ingredient
       );
 
