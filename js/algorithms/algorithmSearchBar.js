@@ -20,11 +20,11 @@ export class FilterRecipesWithLoop {
       searchText.trim().toLowerCase()
     );
     if (searchTextWithoutDiacritics.length < 3) {
-      return recipes;
+      return this.recipes;
     } 
       // Parcourir toutes les recettes
-      for (let i = 0; i < recipes.length; i++) {
-        const recipe = recipes[i];
+      for (let i = 0; i < this.recipes.length; i++) {
+        const recipe = this.recipes[i];
         // Vérifier si le terme de recherche est présent dans le nom de la recette ou dans la description
         const name = removeDiacritics(recipe.name.toLowerCase().trim());
         const description = removeDiacritics(
