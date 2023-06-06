@@ -11,7 +11,6 @@ function handleSearch() {
   const searchInput = document.getElementById("searchInput");
   const searchText = searchInput.value.trim().toLowerCase();
   
-
   const filterInSearchBar = new FilterRecipesWithLoop(recipes, searchText);
   const filteredRecipesByText = filterInSearchBar.filterRecipesByText(
     recipes,
@@ -60,6 +59,7 @@ searchForm.addEventListener("submit", (e) => {
   e.preventDefault();
   handleSearch();
 });
+searchButton.addEventListener("Enter", handleSearch);
 
 //Ajouter un évènement de saisie sur la la recherche avancée
 const searchIngredients = document.getElementById("inputSearchIngredients");
