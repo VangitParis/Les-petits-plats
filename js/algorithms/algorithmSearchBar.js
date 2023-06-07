@@ -19,7 +19,7 @@ export class FilterRecipesWithFilter {
 
     // Utiliser la méthode filter pour filtrer les recettes en fonction du texte de recherche
     const filteredRecipes = this.recipes.filter((recipe) => {
-      const name = removeDiacritics(recipe.name.toLowerCase().trim());
+      const name = removeDiacritics(recipe.name.toLowerCase().trim()).split(" ").join(" ");
       const description = removeDiacritics(
         recipe.description.toLowerCase().trim()
       );
@@ -41,6 +41,11 @@ export class FilterRecipesWithFilter {
   filterRecipesByKeywords(recipes, keyword) {
     //Utiliser la méthode filter pour filtrer les recettes en fonction des mots clés de recherche
     const filteredRecipes = this.recipes.filter((recipe) => {
+      // Vérifier si le nom de la recette contient le mot clé
+    const nameContainsKeyword = removeDiacritics(recipe.name.toLowerCase()).includes(keyword);
+
+    // Vérifier si la description de la recette contient le mot clé
+    const descriptionContainsKeyword = removeDiacritics(recipe.description.toLowerCase()).includes(keyword);
       // Vérifier si l'ingrédient contient le mot clé
       const ingredientContainsKeyword = recipe.ingredients.some((ingredient) =>
         removeDiacritics(ingredient.ingredient.toLowerCase()).includes(keyword)
@@ -53,7 +58,7 @@ export class FilterRecipesWithFilter {
       );
   
       // Retourner true si le mot clé correspond à l'ingrédient, à l'appareil ou aux ustensiles
-      return ingredientContainsKeyword || keywordMatchesAppliance || keywordMatchesUtensils;
+      return nameContainsKeyword || descriptionContainsKeyword || ingredientContainsKeyword || keywordMatchesAppliance || keywordMatchesUtensils;
     });
     // Stocker les recettes filtrées dans la propriété filteredRecipesByKeywords
     this.filteredRecipesByKeywords = filteredRecipes;
